@@ -14,6 +14,7 @@ import {
   Star
 } from 'lucide-react';
 import QuoteModal from '@/components/QuoteModal';
+import { EligibilityModal } from '@/components/EligibilityModal';
 
 const Home = () => {
   return (
@@ -39,12 +40,12 @@ const Home = () => {
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </QuoteModal>
-                <QuoteModal>
+                <EligibilityModal>
                   <Button variant="professional" size="xl" className="group">
                     <CheckCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                     Check Eligibility
                   </Button>
-                </QuoteModal>
+                </EligibilityModal>
                 <Button asChild variant="ghost" size="xl" className="text-primary-foreground hover:text-primary-foreground/80">
                   <Link to="/services">Learn More</Link>
                 </Button>
