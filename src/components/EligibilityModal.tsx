@@ -40,7 +40,31 @@ export function EligibilityModal({ children }: EligibilityModalProps) {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const isStepValid = () => {
+    switch (currentStep) {
+      case 1:
+        return formData.firstName && formData.lastName && formData.email && formData.phone;
+      case 2:
+        return formData.loanAmount && formData.loanPurpose;
+      case 3:
+        return formData.businessName && formData.timeInBusiness;
+      case 4:
+        return true;
+      default:
+        return false;
+    }
+  };
+
   const handleNext = () => {
+    if (!isStepValid()) {
+      toast({
+        title: "Please fill in all required fields",
+        description: "All fields are mandatory to proceed to the next step.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (currentStep < 4) {
       setCurrentStep(prev => prev + 1);
     } else {
@@ -81,39 +105,43 @@ export function EligibilityModal({ children }: EligibilityModalProps) {
             <h3 className="text-xl font-semibold text-foreground">Personal Details</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="firstName">First Name *</Label>
                 <Input
                   id="firstName"
+                  required
                   placeholder="Enter your first name"
                   value={formData.firstName}
                   onChange={(e) => handleInputChange("firstName", e.target.value)}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="lastName">Last Name *</Label>
                 <Input
                   id="lastName"
                   placeholder="Enter your last name"
+                  required
                   value={formData.lastName}
                   onChange={(e) => handleInputChange("lastName", e.target.value)}
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
+              <Label htmlFor="email">Email Address *</Label>
               <Input
                 id="email"
                 type="email"
+                required
                 placeholder="Enter your email address"
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
+              <Label htmlFor="phone">Phone Number *</Label>
               <Input
                 id="phone"
                 placeholder="Enter your phone number"
+                required
                 value={formData.phone}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
               />
@@ -126,19 +154,21 @@ export function EligibilityModal({ children }: EligibilityModalProps) {
           <div className="space-y-6">
             <h3 className="text-xl font-semibold text-foreground">Loan Details</h3>
             <div className="space-y-2">
-              <Label htmlFor="loanAmount">Loan Amount</Label>
+              <Label htmlFor="loanAmount">Loan Amount *</Label>
               <Input
                 id="loanAmount"
                 placeholder="Enter desired loan amount"
+                required
                 value={formData.loanAmount}
                 onChange={(e) => handleInputChange("loanAmount", e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="loanPurpose">Loan Purpose</Label>
+              <Label htmlFor="loanPurpose">Loan Purpose *</Label>
               <Input
                 id="loanPurpose"
                 placeholder="What will you use the loan for?"
+                required
                 value={formData.loanPurpose}
                 onChange={(e) => handleInputChange("loanPurpose", e.target.value)}
               />
@@ -151,19 +181,21 @@ export function EligibilityModal({ children }: EligibilityModalProps) {
           <div className="space-y-6">
             <h3 className="text-xl font-semibold text-foreground">Business Information</h3>
             <div className="space-y-2">
-              <Label htmlFor="businessName">Business Name</Label>
+              <Label htmlFor="businessName">Business Name *</Label>
               <Input
                 id="businessName"
                 placeholder="Enter your business name"
+                required
                 value={formData.businessName}
                 onChange={(e) => handleInputChange("businessName", e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="timeInBusiness">Time in Business</Label>
+              <Label htmlFor="timeInBusiness">Time in Business *</Label>
               <Input
                 id="timeInBusiness"
                 placeholder="How long have you been in business?"
+                required
                 value={formData.timeInBusiness}
                 onChange={(e) => handleInputChange("timeInBusiness", e.target.value)}
               />
@@ -279,6 +311,7 @@ export function EligibilityModal({ children }: EligibilityModalProps) {
             <Button
               onClick={handleNext}
               className="flex items-center gap-2"
+              disabled={!isStepValid()}
             >
               {currentStep === 4 ? 'Submit' : 'Next'}
               {currentStep < 4 && <ArrowRight className="w-4 h-4" />}
