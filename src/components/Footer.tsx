@@ -10,8 +10,8 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary-foreground/10 rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold">PB</span>
+              <div className="w-8 h-8 flex items-center justify-center">
+                <img src="/lovable-uploads/3c9c587e-aeec-4682-834d-62d407a4045f.png" alt="Partnership Bridge" className="w-8 h-8 object-contain invert" />
               </div>
               <div>
                 <span className="text-lg font-bold">Partnership Bridge</span>
