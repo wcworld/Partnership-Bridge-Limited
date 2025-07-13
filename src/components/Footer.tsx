@@ -112,15 +112,15 @@ const Footer = () => {
               © {new Date().getFullYear()} Partnership Bridge Limited. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm">
+              <Link to="/privacy-policy" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm">
                 Privacy Policy
-              </a>
-              <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm">
+              </Link>
+              <Link to="/terms-of-service" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm">
                 Terms of Service
-              </a>
-              <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm">
+              </Link>
+              <Link to="/cookie-policy" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm">
                 Cookie Policy
-              </a>
+              </Link>
             </div>
           </div>
         </div>
