@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Phone, Mail } from 'lucide-react';
+import QuoteModal from '@/components/QuoteModal';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,9 +75,11 @@ const Navigation = () => {
                 <span>info@partnershipbridge.co.uk</span>
               </div>
             </div>
-            <Button variant="professional" size="sm">
-              Get Quote
-            </Button>
+            <QuoteModal>
+              <Button variant="professional" size="sm">
+                Get Quote
+              </Button>
+            </QuoteModal>
           </div>
 
           {/* Mobile Menu Button */}
@@ -130,9 +133,11 @@ const Navigation = () => {
                 Contact
               </Link>
               <div className="pt-4">
-                <Button variant="professional" size="sm" className="w-full">
-                  Get Quote
-                </Button>
+                <QuoteModal>
+                  <Button variant="professional" size="sm" className="w-full">
+                    Get Quote
+                  </Button>
+                </QuoteModal>
               </div>
             </nav>
           </div>
