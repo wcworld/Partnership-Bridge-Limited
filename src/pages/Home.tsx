@@ -77,7 +77,7 @@ const Home = () => {
               <div className="text-muted-foreground">Happy Clients</div>
             </div>
             <div className="animate-fade-in">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">£50M+</div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">£680M+</div>
               <div className="text-muted-foreground">Loans Arranged</div>
             </div>
             <div className="animate-fade-in">
