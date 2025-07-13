@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Phone, Mail } from 'lucide-react';
+import { Menu, X, Phone, Mail, LogOut } from 'lucide-react';
 import QuoteModal from '@/components/QuoteModal';
+import { useAuth } from '@/hooks/useAuth';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -75,11 +77,31 @@ const Navigation = () => {
                 <span>info@partnershipbridge.co.uk</span>
               </div>
             </div>
-            <QuoteModal>
-              <Button variant="professional" size="sm">
-                Get Quote
-              </Button>
-            </QuoteModal>
+            <div className="flex items-center space-x-2">
+              <QuoteModal>
+                <Button variant="professional" size="sm">
+                  Get Quote
+                </Button>
+              </QuoteModal>
+              {user ? (
+                <div className="flex items-center space-x-2">
+                  <Link to="/dashboard">
+                    <Button variant="outline" size="sm">
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <Button variant="ghost" size="sm" onClick={signOut}>
+                    <LogOut className="w-4 h-4" />
+                  </Button>
+                </div>
+              ) : (
+                <Link to="/auth">
+                  <Button variant="outline" size="sm">
+                    Login
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -132,12 +154,34 @@ const Navigation = () => {
               >
                 Contact
               </Link>
-              <div className="pt-4">
+              <div className="pt-4 space-y-2">
                 <QuoteModal>
                   <Button variant="professional" size="sm" className="w-full">
                     Get Quote
                   </Button>
                 </QuoteModal>
+                {user ? (
+                  <div className="space-y-2">
+                    <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Dashboard
+                      </Button>
+                    </Link>
+                    <Button variant="ghost" size="sm" className="w-full" onClick={() => {
+                      signOut();
+                      setIsMenuOpen(false);
+                    }}>
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
+                  <Link to="/auth" onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Login
+                    </Button>
+                  </Link>
+                )}
               </div>
             </nav>
           </div>
