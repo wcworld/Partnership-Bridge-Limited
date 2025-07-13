@@ -77,196 +77,188 @@ export default function Auth() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/30 flex">
-      {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-[var(--gradient-primary)] items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[var(--gradient-hero)] opacity-90"></div>
-        <div className="relative z-10 text-center max-w-md">
-          <div className="mb-8 inline-flex items-center justify-center w-20 h-20 bg-white/10 backdrop-blur-sm rounded-2xl">
-            <Building2 className="w-10 h-10 text-white" />
+    <div className="min-h-screen bg-primary flex items-center justify-center p-6">
+      <Card className="w-full max-w-md bg-white shadow-[var(--shadow-large)]">
+        <CardHeader className="text-center space-y-4 pt-8 pb-6">
+          <div className="mx-auto w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+            <Lock className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-6">
-            Partnership Bridge
-          </h1>
-          <p className="text-xl text-white/90 mb-8">
-            Your trusted partner for business loans and financial solutions
-          </p>
-          <div className="flex items-center justify-center space-x-8 text-white/80">
-            <div className="flex items-center space-x-2">
-              <Shield className="w-5 h-5" />
-              <span className="text-sm">Secure Platform</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Lock className="w-5 h-5" />
-              <span className="text-sm">Bank-Level Security</span>
-            </div>
+          <div>
+            <CardTitle className="text-2xl font-semibold text-foreground mb-2">
+              Welcome Back
+            </CardTitle>
+            <CardDescription className="text-muted-foreground">
+              Sign in to your Partnership Bridge account to manage your applications
+            </CardDescription>
           </div>
-        </div>
-      </div>
-
-      {/* Right Side - Authentication */}
-      <div className="flex-1 flex items-center justify-center p-6 lg:p-12">
-        <div className="w-full max-w-md">
-          {/* Mobile Branding */}
-          <div className="lg:hidden text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-xl mb-4">
-              <Building2 className="w-8 h-8 text-primary" />
-            </div>
-            <h1 className="text-2xl font-bold text-foreground mb-2">Partnership Bridge</h1>
-            <p className="text-muted-foreground">Secure business loan platform</p>
-          </div>
-
-          <Card className="border-0 shadow-[var(--shadow-large)] bg-white/60 backdrop-blur-sm">
-            <CardHeader className="space-y-1 text-center pb-4">
-              <CardTitle className="text-2xl font-semibold text-foreground">
-                Welcome Back
-              </CardTitle>
-              <CardDescription className="text-muted-foreground">
-                Access your loan application dashboard
-              </CardDescription>
-            </CardHeader>
+        </CardHeader>
+        
+        <CardContent className="px-8 pb-8">
+          <Tabs defaultValue="signin" className="w-full">
+            <TabsContent value="signin" className="mt-0">
+              <form onSubmit={handleSignIn} className="space-y-5">
+                <div className="space-y-2">
+                  <Label htmlFor="signin-email" className="text-sm font-medium text-foreground">
+                    Email
+                  </Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signin-email"
+                      name="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      className="pl-10 h-12 border-input focus:border-primary"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signin-password" className="text-sm font-medium text-foreground">
+                    Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signin-password"
+                      name="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      className="pl-10 h-12 border-input focus:border-primary"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="text-left">
+                  <button 
+                    type="button" 
+                    className="text-sm text-primary hover:text-primary-light transition-colors"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+                
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-primary hover:bg-primary-light text-white font-medium text-base" 
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Signing In...' : 'Sign In'}
+                </Button>
+              </form>
+              
+              <div className="mt-6 text-center">
+                <button 
+                  type="button"
+                  onClick={() => {
+                    const signupTab = document.querySelector('[value="signup"]') as HTMLButtonElement;
+                    signupTab?.click();
+                  }}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Don't have an account? <span className="text-primary hover:text-primary-light font-medium">Sign up</span>
+                </button>
+              </div>
+              
+              <div className="mt-4 text-center">
+                <p className="text-xs text-muted-foreground">
+                  For demo purposes, use any email and password
+                </p>
+              </div>
+            </TabsContent>
             
-            <CardContent className="pb-6">
-              <Tabs defaultValue="signin" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 bg-muted/50">
-                  <TabsTrigger 
-                    value="signin" 
-                    className="data-[state=active]:bg-white data-[state=active]:shadow-sm"
-                  >
-                    Sign In
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="signup"
-                    className="data-[state=active]:bg-white data-[state=active]:shadow-sm"
-                  >
-                    Create Account
-                  </TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="signin" className="mt-6">
-                  <form onSubmit={handleSignIn} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="signin-email" className="text-sm font-medium text-foreground">
-                        Email Address
-                      </Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="signin-email"
-                          name="email"
-                          type="email"
-                          placeholder="your.email@company.com"
-                          className="pl-10 border-border/50 focus:border-primary"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="signin-password" className="text-sm font-medium text-foreground">
-                        Password
-                      </Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="signin-password"
-                          name="password"
-                          type="password"
-                          placeholder="Enter your password"
-                          className="pl-10 border-border/50 focus:border-primary"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-primary hover:bg-primary-light transition-colors" 
-                      disabled={isLoading}
-                    >
-                      {isLoading ? 'Signing In...' : 'Sign In to Dashboard'}
-                    </Button>
-                  </form>
-                </TabsContent>
-                
-                <TabsContent value="signup" className="mt-6">
-                  <form onSubmit={handleSignUp} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="space-y-2">
-                        <Label htmlFor="firstName" className="text-sm font-medium text-foreground">
-                          First Name
-                        </Label>
-                        <div className="relative">
-                          <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            id="firstName"
-                            name="firstName"
-                            placeholder="John"
-                            className="pl-10 border-border/50 focus:border-primary"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="lastName" className="text-sm font-medium text-foreground">
-                          Last Name
-                        </Label>
-                        <Input
-                          id="lastName"
-                          name="lastName"
-                          placeholder="Smith"
-                          className="border-border/50 focus:border-primary"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="signup-email" className="text-sm font-medium text-foreground">
-                        Business Email
-                      </Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="signup-email"
-                          name="email"
-                          type="email"
-                          placeholder="your.email@company.com"
-                          className="pl-10 border-border/50 focus:border-primary"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="signup-password" className="text-sm font-medium text-foreground">
-                        Create Password
-                      </Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="signup-password"
-                          name="password"
-                          type="password"
-                          placeholder="Create a secure password"
-                          className="pl-10 border-border/50 focus:border-primary"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      By creating an account, you agree to our terms of service and privacy policy.
-                    </div>
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-primary hover:bg-primary-light transition-colors" 
-                      disabled={isLoading}
-                    >
-                      {isLoading ? 'Creating Account...' : 'Create Account'}
-                    </Button>
-                  </form>
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+            <TabsContent value="signup" className="mt-0">
+              <form onSubmit={handleSignUp} className="space-y-5">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName" className="text-sm font-medium text-foreground">
+                      First Name
+                    </Label>
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      placeholder="John"
+                      className="h-12 border-input focus:border-primary"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName" className="text-sm font-medium text-foreground">
+                      Last Name
+                    </Label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      placeholder="Smith"
+                      className="h-12 border-input focus:border-primary"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-email" className="text-sm font-medium text-foreground">
+                    Email
+                  </Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signup-email"
+                      name="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      className="pl-10 h-12 border-input focus:border-primary"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-password" className="text-sm font-medium text-foreground">
+                    Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signup-password"
+                      name="password"
+                      type="password"
+                      placeholder="Create a password"
+                      className="pl-10 h-12 border-input focus:border-primary"
+                      required
+                    />
+                  </div>
+                </div>
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-primary hover:bg-primary-light text-white font-medium text-base" 
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Creating Account...' : 'Create Account'}
+                </Button>
+              </form>
+              
+              <div className="mt-6 text-center">
+                <button 
+                  type="button"
+                  onClick={() => {
+                    const signinTab = document.querySelector('[value="signin"]') as HTMLButtonElement;
+                    signinTab?.click();
+                  }}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Already have an account? <span className="text-primary hover:text-primary-light font-medium">Sign in</span>
+                </button>
+              </div>
+            </TabsContent>
+            
+            {/* Hidden tab triggers */}
+            <TabsList className="hidden">
+              <TabsTrigger value="signin">Sign In</TabsTrigger>
+              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </CardContent>
+      </Card>
     </div>
   );
 }
