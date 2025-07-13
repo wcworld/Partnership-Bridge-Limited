@@ -103,8 +103,9 @@ const Contact = () => {
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Visit Us</h3>
                 <p className="text-primary-foreground/90 mb-3">Meet us in person</p>
-                <p className="text-sm">123 Financial District</p>
-                <p className="text-sm">London, EC2V 8RF</p>
+                <p className="text-sm">26 Talbot Road</p>
+                <p className="text-sm">Albrighton, Wolverhampton</p>
+                <p className="text-sm">England WV7 3HH</p>
               </CardContent>
             </Card>
           </div>
@@ -296,7 +297,7 @@ const Contact = () => {
                   <Calendar className="w-12 h-12 text-primary mx-auto mb-4" />
                   <h3 className="text-xl font-semibold mb-2">Book a Meeting</h3>
                   <p className="text-muted-foreground mb-4">
-                    Prefer to meet in person? Schedule a face-to-face consultation at our London office.
+                    Prefer to meet in person? Schedule a face-to-face consultation at our office.
                   </p>
                   <Button variant="outline" className="w-full">
                     Schedule Appointment
@@ -371,8 +372,8 @@ const Contact = () => {
               <div className="h-96 bg-gradient-to-br from-primary/10 to-success/10 flex items-center justify-center">
                 <div className="text-center">
                   <MapPin className="w-16 h-16 text-primary mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold text-foreground mb-2">Visit Our London Office</h3>
-                  <p className="text-muted-foreground">123 Financial District, London, EC2V 8RF</p>
+                  <h3 className="text-2xl font-bold text-foreground mb-2">Visit Our Office</h3>
+                  <p className="text-muted-foreground">26 Talbot Road, Albrighton, Wolverhampton, England WV7 3HH</p>
                   <Button variant="outline" className="mt-4">
                     Get Directions
                   </Button>

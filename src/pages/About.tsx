@@ -228,8 +228,12 @@ const About = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Users className="w-8 h-8 text-primary" />
+                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6">
+                  <img 
+                    src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=400&fit=crop&crop=face" 
+                    alt="Managing Director"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Managing Director</h3>
                 <p className="text-muted-foreground">
@@ -241,8 +245,12 @@ const About = () => {
 
             <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Heart className="w-8 h-8 text-success" />
+                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6">
+                  <img 
+                    src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=400&fit=crop&crop=face" 
+                    alt="Private Client Team"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Private Client Team</h3>
                 <p className="text-muted-foreground">
@@ -254,8 +262,12 @@ const About = () => {
 
             <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <TrendingUp className="w-8 h-8 text-primary" />
+                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6">
+                  <img 
+                    src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=400&fit=crop&crop=face" 
+                    alt="Finance Brokers"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Finance Brokers</h3>
                 <p className="text-muted-foreground">
@@ -267,8 +279,12 @@ const About = () => {
 
             <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Award className="w-8 h-8 text-success" />
+                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6">
+                  <img 
+                    src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=400&fit=crop&crop=face" 
+                    alt="Business Finance Team"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Business Finance Team</h3>
                 <p className="text-muted-foreground">
@@ -280,8 +296,12 @@ const About = () => {
 
             <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Shield className="w-8 h-8 text-primary" />
+                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6">
+                  <img 
+                    src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=400&fit=crop&crop=face" 
+                    alt="Operations Team"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Operations Team</h3>
                 <p className="text-muted-foreground">
