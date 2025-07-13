@@ -163,7 +163,7 @@ export default function Auth() {
               
               <div className="mt-4 text-center">
                 <p className="text-xs text-muted-foreground">
-                  For demo purposes, use any email and password
+                  Secure authentication powered by Partnership Bridge
                 </p>
               </div>
             </TabsContent>
