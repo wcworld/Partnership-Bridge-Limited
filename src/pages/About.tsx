@@ -261,6 +261,141 @@ const About = () => {
         </div>
       </section>
 
+      {/* Our Team */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-foreground mb-6">Meet Our Expert Team</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Our dedicated team of financial professionals brings together decades of experience 
+              to provide you with the best possible service and outcomes.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* CEO */}
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8 text-center">
+                <div className="w-24 h-24 bg-gradient-to-br from-primary to-primary-light rounded-full mx-auto mb-6 flex items-center justify-center">
+                  <Users className="w-12 h-12 text-primary-foreground" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-2">James Richardson</h3>
+                <p className="text-primary font-medium mb-4">Chief Executive Officer</p>
+                <p className="text-muted-foreground mb-4">
+                  With over 20 years in financial services, James leads our vision of making finance accessible to all. 
+                  Former director at major UK banks with expertise in commercial lending.
+                </p>
+                <div className="text-sm text-muted-foreground">
+                  <p>• MBA Finance, London Business School</p>
+                  <p>• CFA Charter Holder</p>
+                  <p>• Former Barclays Commercial Director</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Head of Business Finance */}
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8 text-center">
+                <div className="w-24 h-24 bg-gradient-to-br from-success to-success-light rounded-full mx-auto mb-6 flex items-center justify-center">
+                  <TrendingUp className="w-12 h-12 text-success-foreground" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-2">Sarah Mitchell</h3>
+                <p className="text-success font-medium mb-4">Head of Business Finance</p>
+                <p className="text-muted-foreground mb-4">
+                  Sarah specializes in complex business lending with 15+ years experience. She has personally 
+                  facilitated over £200M in business loans across various sectors.
+                </p>
+                <div className="text-sm text-muted-foreground">
+                  <p>• BSc Economics, University of Cambridge</p>
+                  <p>• Associate of the Chartered Institute of Bankers</p>
+                  <p>• Specialist in Asset Finance & Working Capital</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Senior Mortgage Advisor */}
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8 text-center">
+                <div className="w-24 h-24 bg-gradient-to-br from-primary/80 to-primary-light/80 rounded-full mx-auto mb-6 flex items-center justify-center">
+                  <Shield className="w-12 h-12 text-primary-foreground" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-2">Michael Chen</h3>
+                <p className="text-primary font-medium mb-4">Senior Mortgage Advisor</p>
+                <p className="text-muted-foreground mb-4">
+                  Michael brings 12 years of mortgage expertise, helping over 500 families secure their dream homes. 
+                  Specialist in first-time buyer and buy-to-let mortgages.
+                </p>
+                <div className="text-sm text-muted-foreground">
+                  <p>• Certificate in Mortgage Advice & Practice</p>
+                  <p>• Diploma in Regulated Financial Planning</p>
+                  <p>• Buy-to-Let Investment Specialist</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Head of Operations */}
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8 text-center">
+                <div className="w-24 h-24 bg-gradient-to-br from-success/80 to-success-light/80 rounded-full mx-auto mb-6 flex items-center justify-center">
+                  <Award className="w-12 h-12 text-success-foreground" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-2">Emma Thompson</h3>
+                <p className="text-success font-medium mb-4">Head of Operations</p>
+                <p className="text-muted-foreground mb-4">
+                  Emma ensures seamless client experiences and operational excellence. With 18 years in financial 
+                  operations, she maintains our 98% client satisfaction rate.
+                </p>
+                <div className="text-sm text-muted-foreground">
+                  <p>• BA Business Management, University of Manchester</p>
+                  <p>• Lean Six Sigma Black Belt</p>
+                  <p>• Expert in Process Optimization</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Senior Credit Analyst */}
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8 text-center">
+                <div className="w-24 h-24 bg-gradient-to-br from-primary/70 to-primary-light/70 rounded-full mx-auto mb-6 flex items-center justify-center">
+                  <Target className="w-12 h-12 text-primary-foreground" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-2">David Williams</h3>
+                <p className="text-primary font-medium mb-4">Senior Credit Analyst</p>
+                <p className="text-muted-foreground mb-4">
+                  David's analytical expertise helps secure favorable terms for our clients. Former risk analyst 
+                  at Lloyds Banking Group with deep understanding of lending criteria.
+                </p>
+                <div className="text-sm text-muted-foreground">
+                  <p>• MSc Risk Management, Imperial College</p>
+                  <p>• Professional Risk Manager (PRM)</p>
+                  <p>• Credit Risk Assessment Specialist</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Client Relations Manager */}
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8 text-center">
+                <div className="w-24 h-24 bg-gradient-to-br from-success/70 to-success-light/70 rounded-full mx-auto mb-6 flex items-center justify-center">
+                  <Heart className="w-12 h-12 text-success-foreground" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-2">Lisa Rodriguez</h3>
+                <p className="text-success font-medium mb-4">Client Relations Manager</p>
+                <p className="text-muted-foreground mb-4">
+                  Lisa ensures every client receives exceptional service throughout their journey. Her dedication 
+                  to client care has earned recognition for outstanding customer satisfaction.
+                </p>
+                <div className="text-sm text-muted-foreground">
+                  <p>• BA Communications, University of Leeds</p>
+                  <p>• Certified Customer Experience Professional</p>
+                  <p>• Financial Services Excellence Award Winner</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary to-primary-light">
         <div className="container mx-auto px-4 text-center">
