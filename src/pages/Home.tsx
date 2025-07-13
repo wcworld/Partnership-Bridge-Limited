@@ -13,6 +13,7 @@ import {
   Mail,
   Star
 } from 'lucide-react';
+import QuoteModal from '@/components/QuoteModal';
 
 const Home = () => {
   return (
@@ -32,12 +33,14 @@ const Home = () => {
                 for individuals and businesses across the UK. Let us bridge the gap to your financial goals.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button variant="cta" size="xl" className="group">
-                  Get Your Free Quote
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-                <Button variant="outline" size="xl" className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20">
-                  Learn More
+                <QuoteModal>
+                  <Button variant="cta" size="xl" className="group">
+                    Get Your Free Quote
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </QuoteModal>
+                <Button asChild variant="outline" size="xl" className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20">
+                  <Link to="/services">Learn More</Link>
                 </Button>
               </div>
             </div>
@@ -103,8 +106,8 @@ const Home = () => {
                 <p className="text-muted-foreground mb-6">
                   Competitive personal loans for debt consolidation, home improvements, or major purchases.
                 </p>
-                <Button variant="ghost" className="p-0 h-auto text-primary hover:text-primary-light">
-                  Learn More <ArrowRight className="w-4 h-4 ml-2" />
+                <Button asChild variant="ghost" className="p-0 h-auto text-primary hover:text-primary-light">
+                  <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-2" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -118,8 +121,8 @@ const Home = () => {
                 <p className="text-muted-foreground mb-6">
                   Flexible business loans, asset finance, and working capital solutions to fuel your growth.
                 </p>
-                <Button variant="ghost" className="p-0 h-auto text-primary hover:text-primary-light">
-                  Learn More <ArrowRight className="w-4 h-4 ml-2" />
+                <Button asChild variant="ghost" className="p-0 h-auto text-primary hover:text-primary-light">
+                  <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-2" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -133,8 +136,8 @@ const Home = () => {
                 <p className="text-muted-foreground mb-6">
                   Expert mortgage guidance for first-time buyers, remortgages, and buy-to-let properties.
                 </p>
-                <Button variant="ghost" className="p-0 h-auto text-primary hover:text-primary-light">
-                  Learn More <ArrowRight className="w-4 h-4 ml-2" />
+                <Button asChild variant="ghost" className="p-0 h-auto text-primary hover:text-primary-light">
+                  <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-2" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -292,9 +295,9 @@ const Home = () => {
             Contact us today for a free consultation and discover how we can help you achieve your financial goals.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="cta" size="xl">
-              <Link to="/contact">Get Free Quote</Link>
-            </Button>
+            <QuoteModal>
+              <Button variant="cta" size="xl">Get Free Quote</Button>
+            </QuoteModal>
             <Button 
               variant="outline" 
               size="xl" 

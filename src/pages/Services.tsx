@@ -11,9 +11,18 @@ import {
   ArrowRight,
   CheckCircle,
   Phone,
-  Calculator
+  Calculator,
+  Shield,
+  Coins,
+  Receipt,
+  FileText,
+  DollarSign,
+  Briefcase,
+  Truck,
+  ChartBar
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import QuoteModal from '@/components/QuoteModal';
 
 const Services = () => {
   return (
@@ -33,112 +42,383 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Main Services */}
+      {/* Business Loan Services */}
       <section className="py-20">
         <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-foreground mb-6">Business Finance Solutions</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Comprehensive business lending solutions tailored to your company's unique needs and growth objectives.
+            </p>
+          </div>
+
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Personal Loans */}
+            {/* Business Loan - Secured */}
             <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                  <Users className="w-8 h-8 text-primary" />
+                  <Shield className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-2xl font-semibold mb-4">Personal Loans</h3>
+                <h3 className="text-2xl font-semibold mb-4">Business Loan - Secured</h3>
                 <p className="text-muted-foreground mb-6">
-                  Flexible personal loan solutions for debt consolidation, home improvements, 
-                  major purchases, or any personal financial need.
+                  Lower rate business loans secured against business or personal assets with flexible terms up to 25 years.
                 </p>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">£1,000 - £50,000 available</span>
+                    <span className="text-sm text-muted-foreground">£10,000 - £1,000,000 available</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Competitive rates from 3.9% APR</span>
+                    <span className="text-sm text-muted-foreground">Rates from 4.5% APR</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">1-7 year repayment terms</span>
+                    <span className="text-sm text-muted-foreground">Terms up to 25 years</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Quick approval process</span>
+                    <span className="text-sm text-muted-foreground">Asset-backed security</span>
                   </div>
                 </div>
-                <Button className="w-full group-hover:bg-primary-light" variant="professional">
-                  Apply Now <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
+                <div className="space-y-3">
+                  <QuoteModal serviceType="business-secured">
+                    <Button className="w-full group-hover:bg-primary-light" variant="professional">
+                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </QuoteModal>
+                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
+                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
-            {/* Business Finance */}
-            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-success/20 bg-gradient-to-br from-success/5 to-primary/5">
+            {/* Business Loan - Unsecured */}
+            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-success/20">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-success/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-success/20 transition-colors">
                   <Building className="w-8 h-8 text-success" />
                 </div>
-                <h3 className="text-2xl font-semibold mb-4">Business Finance</h3>
+                <h3 className="text-2xl font-semibold mb-4">Business Loan - Unsecured</h3>
                 <p className="text-muted-foreground mb-6">
-                  Comprehensive business funding solutions to help your company grow, 
-                  expand operations, or manage cash flow effectively.
+                  Quick access to business funding without the need for collateral, ideal for established businesses.
                 </p>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">£5,000 - £500,000 funding</span>
+                    <span className="text-sm text-muted-foreground">£5,000 - £250,000 available</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Asset finance & equipment loans</span>
+                    <span className="text-sm text-muted-foreground">Rates from 6.9% APR</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Working capital solutions</span>
+                    <span className="text-sm text-muted-foreground">Terms 1-7 years</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Fast approval in 24-48 hours</span>
+                    <span className="text-sm text-muted-foreground">No collateral required</span>
                   </div>
                 </div>
-                <Button className="w-full" variant="success">
-                  Get Quote <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
+                <div className="space-y-3">
+                  <QuoteModal serviceType="business-unsecured">
+                    <Button className="w-full" variant="success">
+                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </QuoteModal>
+                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
+                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
-            {/* Mortgage Services */}
+            {/* Working Capital */}
             <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                  <Home className="w-8 h-8 text-primary" />
+                  <TrendingUp className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-2xl font-semibold mb-4">Mortgage Advice</h3>
+                <h3 className="text-2xl font-semibold mb-4">Working Capital Loan</h3>
                 <p className="text-muted-foreground mb-6">
-                  Expert mortgage guidance for first-time buyers, remortgages, 
-                  buy-to-let properties, and commercial mortgages.
+                  Short-term financing to manage cash flow gaps, seasonal fluctuations, and day-to-day operations.
                 </p>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">First-time buyer specialist</span>
+                    <span className="text-sm text-muted-foreground">£5,000 - £100,000 available</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Remortgage deals</span>
+                    <span className="text-sm text-muted-foreground">Fast approval in 24 hours</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Buy-to-let mortgages</span>
+                    <span className="text-sm text-muted-foreground">Flexible repayment terms</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Whole of market access</span>
+                    <span className="text-sm text-muted-foreground">Revolving credit facilities</span>
                   </div>
                 </div>
-                <Button className="w-full group-hover:bg-primary-light" variant="professional">
-                  Free Consultation <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
+                <div className="space-y-3">
+                  <QuoteModal serviceType="working-capital">
+                    <Button className="w-full group-hover:bg-primary-light" variant="professional">
+                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </QuoteModal>
+                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
+                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Merchant Cash Advance */}
+            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-success/20">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-success/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-success/20 transition-colors">
+                  <CreditCard className="w-8 h-8 text-success" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-4">Merchant Cash Advance</h3>
+                <p className="text-muted-foreground mb-6">
+                  Quick funding against future card sales, ideal for businesses with consistent card transaction volumes.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">£5,000 - £150,000 advance</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Same day approval</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Repaid via card sales</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">No fixed monthly payments</span>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <QuoteModal serviceType="merchant-cash">
+                    <Button className="w-full" variant="success">
+                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </QuoteModal>
+                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
+                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Invoice Finance */}
+            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+                  <FileText className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-4">Invoice Finance</h3>
+                <p className="text-muted-foreground mb-6">
+                  Release cash tied up in unpaid invoices to improve your cash flow and accelerate business growth.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Up to 90% of invoice value</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Factoring & discounting</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Selective invoice finance</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Bad debt protection</span>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <QuoteModal serviceType="invoice-finance">
+                    <Button className="w-full group-hover:bg-primary-light" variant="professional">
+                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </QuoteModal>
+                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
+                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Acquisition & Management Buyout */}
+            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-success/20">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-success/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-success/20 transition-colors">
+                  <Briefcase className="w-8 h-8 text-success" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-4">Acquisition & Management Buyout Finance</h3>
+                <p className="text-muted-foreground mb-6">
+                  Specialized funding for business acquisitions, management buyouts, and strategic investments.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">£50,000 - £5,000,000</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">MBO/MBI financing</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Development capital</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Expert deal structuring</span>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <QuoteModal serviceType="acquisition-buyout">
+                    <Button className="w-full" variant="success">
+                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </QuoteModal>
+                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
+                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Tax Loans */}
+            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+                  <Receipt className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-4">VAT, Corporation Tax & Self Assessment Loan</h3>
+                <p className="text-muted-foreground mb-6">
+                  Immediate funding to meet tax obligations and avoid penalties while maintaining cash flow.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">£2,000 - £500,000</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Same day funding</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Avoid HMRC penalties</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Flexible repayment terms</span>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <QuoteModal serviceType="tax-loans">
+                    <Button className="w-full group-hover:bg-primary-light" variant="professional">
+                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </QuoteModal>
+                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
+                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* SAAS Finance */}
+            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-success/20">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-success/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-success/20 transition-colors">
+                  <ChartBar className="w-8 h-8 text-success" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-4">SAAS Finance</h3>
+                <p className="text-muted-foreground mb-6">
+                  Specialized funding for software-as-a-service businesses based on recurring revenue models.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">£10,000 - £2,000,000</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">ARR-based underwriting</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Growth capital solutions</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Tech-friendly lenders</span>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <QuoteModal serviceType="saas-finance">
+                    <Button className="w-full" variant="success">
+                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </QuoteModal>
+                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
+                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Trade Loans */}
+            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+                  <Truck className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-4">Trade Loans</h3>
+                <p className="text-muted-foreground mb-6">
+                  Import/export finance, letters of credit, and trade finance solutions for international businesses.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">£25,000 - £10,000,000</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Letters of credit</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Import/export finance</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    <span className="text-sm text-muted-foreground">Supply chain finance</span>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <QuoteModal serviceType="trade-loans">
+                    <Button className="w-full group-hover:bg-primary-light" variant="professional">
+                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </QuoteModal>
+                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
+                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
