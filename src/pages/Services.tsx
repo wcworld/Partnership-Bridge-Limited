@@ -99,46 +99,6 @@ const Services = () => {
               </CardContent>
             </Card>
 
-            {/* Business Loan - Unsecured */}
-            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-success/20">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-success/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-success/20 transition-colors">
-                  <Building className="w-8 h-8 text-success" />
-                </div>
-                <h3 className="text-2xl font-semibold mb-4">Business Loan - Unsecured</h3>
-                <p className="text-muted-foreground mb-6">
-                  Quick access to business funding without the need for collateral, ideal for established businesses.
-                </p>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">£5,000 - £250,000 available</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Rates from 6.9% APR</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Terms 1-7 years</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">No collateral required</span>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <QuoteModal serviceType="business-unsecured">
-                    <Button className="w-full" variant="success">
-                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </QuoteModal>
-                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
-                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
 
             {/* Working Capital */}
             <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20">
@@ -181,46 +141,6 @@ const Services = () => {
               </CardContent>
             </Card>
 
-            {/* Merchant Cash Advance */}
-            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-success/20">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-success/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-success/20 transition-colors">
-                  <CreditCard className="w-8 h-8 text-success" />
-                </div>
-                <h3 className="text-2xl font-semibold mb-4">Merchant Cash Advance</h3>
-                <p className="text-muted-foreground mb-6">
-                  Quick funding against future card sales, ideal for businesses with consistent card transaction volumes.
-                </p>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">£5,000 - £150,000 advance</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Same day approval</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Repaid via card sales</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">No fixed monthly payments</span>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <QuoteModal serviceType="merchant-cash">
-                    <Button className="w-full" variant="success">
-                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </QuoteModal>
-                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
-                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
 
             {/* Invoice Finance */}
             <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20">
@@ -304,46 +224,6 @@ const Services = () => {
               </CardContent>
             </Card>
 
-            {/* Tax Loans */}
-            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                  <Receipt className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-2xl font-semibold mb-4">VAT, Corporation Tax & Self Assessment Loan</h3>
-                <p className="text-muted-foreground mb-6">
-                  Immediate funding to meet tax obligations and avoid penalties while maintaining cash flow.
-                </p>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">£2,000 - £500,000</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Same day funding</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Avoid HMRC penalties</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">Flexible repayment terms</span>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <QuoteModal serviceType="tax-loans">
-                    <Button className="w-full group-hover:bg-primary-light" variant="professional">
-                      Get Quote <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </QuoteModal>
-                  <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
-                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
 
             {/* SAAS Finance */}
             <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-success/20">
