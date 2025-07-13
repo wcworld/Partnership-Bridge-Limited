@@ -16,12 +16,14 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img 
-              src="/lovable-uploads/7272b389-0b5f-4b6c-befd-f2fc38803de1.png" 
-              alt="Partnership Bridge Limited" 
-              className="h-12 w-auto"
-            />
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-light rounded-lg flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-lg">PB</span>
+            </div>
+            <div>
+              <span className="text-xl font-bold text-primary">Partnership Bridge</span>
+              <p className="text-xs text-muted-foreground">Limited</p>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
