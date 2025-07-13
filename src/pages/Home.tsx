@@ -57,7 +57,7 @@ const Home = () => {
                   <div className="h-full bg-primary-foreground/20 rounded-xl flex items-center justify-center">
                     <div className="text-center">
                       <TrendingUp className="w-20 h-20 text-primary-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold text-primary-foreground mb-2">£50M+</h3>
+                      <h3 className="text-2xl font-bold text-primary-foreground mb-2">£680M+</h3>
                       <p className="text-primary-foreground/80">Loans Facilitated</p>
                     </div>
                   </div>

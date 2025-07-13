@@ -72,7 +72,7 @@ const About = () => {
                   </p>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <div className="text-2xl font-bold">£50M+</div>
+                      <div className="text-2xl font-bold">£680M+</div>
                       <div className="text-primary-foreground/80">Loans Facilitated</div>
                     </div>
                     <div>
@@ -367,7 +367,7 @@ const About = () => {
                 <TrendingUp className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Proven Results</h3>
-              <p className="text-muted-foreground">98% success rate with over £50M in loans facilitated</p>
+              <p className="text-muted-foreground">98% success rate with over £680M in loans facilitated</p>
             </div>
 
             <div className="text-center">
