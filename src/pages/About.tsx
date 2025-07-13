@@ -214,8 +214,88 @@ const About = () => {
         </div>
       </section>
 
-      {/* Why Choose Us */}
+      {/* Our Team */}
       <section className="py-20 bg-secondary">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-foreground mb-6">Our Expert Team</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Our dedicated professionals bring together decades of experience in financial services 
+              to provide you with the best possible outcomes.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Users className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Managing Director</h3>
+                <p className="text-muted-foreground">
+                  Strategic leadership and overall business direction, ensuring the highest standards 
+                  of service delivery and client satisfaction.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Heart className="w-8 h-8 text-success" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Private Client Team</h3>
+                <p className="text-muted-foreground">
+                  Specialists in personal lending solutions, providing tailored advice for mortgages, 
+                  personal loans, and wealth management.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <TrendingUp className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Finance Brokers</h3>
+                <p className="text-muted-foreground">
+                  Expert intermediaries who connect clients with the best lending options across 
+                  our extensive network of financial partners.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Award className="w-8 h-8 text-success" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Business Finance Team</h3>
+                <p className="text-muted-foreground">
+                  Commercial lending specialists focused on helping businesses grow through 
+                  strategic financing solutions and partnership opportunities.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Shield className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Operations Team</h3>
+                <p className="text-muted-foreground">
+                  Behind-the-scenes professionals ensuring seamless application processing, 
+                  compliance, and exceptional client support throughout your journey.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="py-20 bg-muted/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-6">Why Choose Partnership Bridge?</h2>
