@@ -95,11 +95,18 @@ const Navigation = () => {
                   </Button>
                 </div>
               ) : (
-                <Link to="/auth">
-                  <Button variant="outline" size="sm">
-                    Login
-                  </Button>
-                </Link>
+                <div className="flex items-center space-x-2">
+                  <Link to="/auth">
+                    <Button variant="outline" size="sm">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link to="/signup">
+                    <Button variant="default" size="sm">
+                      Get Started
+                    </Button>
+                  </Link>
+                </div>
               )}
             </div>
           </div>
@@ -176,11 +183,18 @@ const Navigation = () => {
                     </Button>
                   </div>
                 ) : (
-                  <Link to="/auth" onClick={() => setIsMenuOpen(false)}>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Login
-                    </Button>
-                  </Link>
+                  <div className="space-y-2">
+                    <Link to="/auth" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Login
+                      </Button>
+                    </Link>
+                    <Link to="/signup" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="default" size="sm" className="w-full">
+                        Get Started
+                      </Button>
+                    </Link>
+                  </div>
                 )}
               </div>
             </nav>
