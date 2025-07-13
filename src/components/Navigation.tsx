@@ -18,7 +18,7 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 flex items-center justify-center">
-              <img src="/lovable-uploads/72564750-0b4f-432e-a56c-6d314cbf31d1.png" alt="Partnership Bridge" className="w-10 h-10 object-contain" />
+              <img src="/lovable-uploads/3c9c587e-aeec-4682-834d-62d407a4045f.png" alt="Partnership Bridge" className="w-10 h-10 object-contain" />
             </div>
             <div>
               <span className="text-xl font-bold text-primary">Partnership Bridge</span>
