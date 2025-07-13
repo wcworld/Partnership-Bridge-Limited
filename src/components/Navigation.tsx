@@ -17,8 +17,8 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-light rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">PB</span>
+            <div className="w-10 h-10 flex items-center justify-center">
+              <img src="/lovable-uploads/72564750-0b4f-432e-a56c-6d314cbf31d1.png" alt="Partnership Bridge" className="w-10 h-10 object-contain" />
             </div>
             <div>
               <span className="text-xl font-bold text-primary">Partnership Bridge</span>
