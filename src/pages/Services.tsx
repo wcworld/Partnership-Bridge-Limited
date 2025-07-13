@@ -446,8 +446,8 @@ const Services = () => {
                 <p className="text-muted-foreground mb-4">
                   Balance transfer cards, purchase cards, and business credit solutions.
                 </p>
-                <Button variant="ghost" className="p-0 text-primary hover:text-primary-light">
-                  Learn More <ArrowRight className="w-4 h-4 ml-1" />
+                <Button asChild variant="ghost" className="p-0 text-primary hover:text-primary-light">
+                  <Link to="/additional-services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -461,8 +461,8 @@ const Services = () => {
                 <p className="text-muted-foreground mb-4">
                   Investment planning and portfolio management services.
                 </p>
-                <Button variant="ghost" className="p-0 text-primary hover:text-primary-light">
-                  Learn More <ArrowRight className="w-4 h-4 ml-1" />
+                <Button asChild variant="ghost" className="p-0 text-primary hover:text-primary-light">
+                  <Link to="/additional-services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -476,8 +476,8 @@ const Services = () => {
                 <p className="text-muted-foreground mb-4">
                   Simplify multiple debts into one manageable monthly payment.
                 </p>
-                <Button variant="ghost" className="p-0 text-primary hover:text-primary-light">
-                  Learn More <ArrowRight className="w-4 h-4 ml-1" />
+                <Button asChild variant="ghost" className="p-0 text-primary hover:text-primary-light">
+                  <Link to="/additional-services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -491,8 +491,8 @@ const Services = () => {
                 <p className="text-muted-foreground mb-4">
                   Comprehensive financial planning and retirement advice.
                 </p>
-                <Button variant="ghost" className="p-0 text-primary hover:text-primary-light">
-                  Learn More <ArrowRight className="w-4 h-4 ml-1" />
+                <Button asChild variant="ghost" className="p-0 text-primary hover:text-primary-light">
+                  <Link to="/additional-services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -506,8 +506,8 @@ const Services = () => {
                 <p className="text-muted-foreground mb-4">
                   Commercial mortgages and property development finance.
                 </p>
-                <Button variant="ghost" className="p-0 text-primary hover:text-primary-light">
-                  Learn More <ArrowRight className="w-4 h-4 ml-1" />
+                <Button asChild variant="ghost" className="p-0 text-primary hover:text-primary-light">
+                  <Link to="/additional-services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -521,8 +521,8 @@ const Services = () => {
                 <p className="text-muted-foreground mb-4">
                   Life insurance, income protection, and business insurance.
                 </p>
-                <Button variant="ghost" className="p-0 text-primary hover:text-primary-light">
-                  Learn More <ArrowRight className="w-4 h-4 ml-1" />
+                <Button asChild variant="ghost" className="p-0 text-primary hover:text-primary-light">
+                  <Link to="/additional-services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                 </Button>
               </CardContent>
             </Card>
