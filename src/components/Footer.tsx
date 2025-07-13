@@ -22,7 +22,7 @@ const Footer = () => {
               Providing high-quality lending advice and finance solutions for individuals and businesses across the UK.
             </p>
             <p className="text-primary-foreground/90 text-sm font-medium border border-primary-foreground/20 rounded-lg p-3 bg-primary-foreground/5">
-              Partnership Bridge Limited is a credit broker, not a lender. We are authorised and regulated by the Financial Conduct Authority.
+              Partnership Bridge is a broker, not a lender. We will connect you with a lender suitable for your needs.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
@@ -111,12 +111,7 @@ const Footer = () => {
             <p className="text-primary-foreground/60 text-sm">
               © {new Date().getFullYear()} Partnership Bridge Limited. All rights reserved.
             </p>
-            <p className="text-primary-foreground/60 text-sm mt-2 md:mt-0">
-              Authorized and regulated by the Financial Conduct Authority. FCA Registration Number: 123456
-            </p>
-          </div>
-          <div className="flex justify-center mt-4">
-            <div className="flex space-x-6">
+            <div className="flex space-x-6 mt-4 md:mt-0">
               <Link 
                 to="/privacy-policy" 
                 className="text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm"
@@ -139,11 +134,6 @@ const Footer = () => {
                 Cookie Policy
               </Link>
             </div>
-          </div>
-          <div className="mt-6 pt-4 border-t border-primary-foreground/20">
-            <p className="text-primary-foreground/80 text-xs text-center">
-              <span className="font-medium">Important:</span> Partnership Bridge Limited is a credit broker, not a lender. We are authorised and regulated by the Financial Conduct Authority. Credit is subject to status and affordability. Terms and conditions apply. Applicants must be 18 or over.
-            </p>
           </div>
         </div>
       </div>
