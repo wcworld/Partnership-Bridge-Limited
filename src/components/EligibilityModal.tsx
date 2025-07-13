@@ -248,7 +248,7 @@ export function EligibilityModal({ children }: EligibilityModalProps) {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] p-0">
+      <DialogContent className="sm:max-w-[600px] p-0 border-2 border-primary/20">
         <div className="p-6 space-y-6">
           {/* Header */}
           <div className="text-center space-y-2">
