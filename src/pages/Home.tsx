@@ -39,7 +39,12 @@ const Home = () => {
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </QuoteModal>
-                <Button asChild variant="outline" size="xl" className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20">
+                <QuoteModal>
+                  <Button variant="outline" size="xl" className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20">
+                    Check Eligibility
+                  </Button>
+                </QuoteModal>
+                <Button asChild variant="ghost" size="xl" className="text-primary-foreground hover:text-primary-foreground/80">
                   <Link to="/services">Learn More</Link>
                 </Button>
               </div>
