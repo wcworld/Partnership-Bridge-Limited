@@ -226,85 +226,100 @@ const About = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <Card className="group text-center hover:shadow-xl transition-all duration-500 hover:-translate-y-2 bg-gradient-to-br from-card to-card/50 border-2 hover:border-primary/20">
               <CardContent className="p-8">
-                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6">
-                  <img 
-                    src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=400&fit=crop&crop=face" 
-                    alt="Managing Director"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="relative w-32 h-32 mx-auto mb-6">
+                  <div className="w-full h-full rounded-full overflow-hidden border-4 border-primary/20 group-hover:border-primary/40 transition-all duration-300 group-hover:scale-105">
+                    <img 
+                      src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=400&fit=crop&crop=face" 
+                      alt="Managing Director"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Managing Director</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">Managing Director</h3>
+                <p className="text-muted-foreground group-hover:text-foreground/80 transition-colors">
                   Strategic leadership and overall business direction, ensuring the highest standards 
                   of service delivery and client satisfaction.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <Card className="group text-center hover:shadow-xl transition-all duration-500 hover:-translate-y-2 bg-gradient-to-br from-card to-card/50 border-2 hover:border-success/20">
               <CardContent className="p-8">
-                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6">
-                  <img 
-                    src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=400&fit=crop&crop=face" 
-                    alt="Private Client Team"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="relative w-32 h-32 mx-auto mb-6">
+                  <div className="w-full h-full rounded-full overflow-hidden border-4 border-success/20 group-hover:border-success/40 transition-all duration-300 group-hover:scale-105">
+                    <img 
+                      src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=400&fit=crop&crop=face" 
+                      alt="Private Client Team"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-success/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Private Client Team</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-xl font-semibold mb-3 group-hover:text-success transition-colors">Private Client Team</h3>
+                <p className="text-muted-foreground group-hover:text-foreground/80 transition-colors">
                   Specialists in personal lending solutions, providing tailored advice for mortgages, 
                   personal loans, and wealth management.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <Card className="group text-center hover:shadow-xl transition-all duration-500 hover:-translate-y-2 bg-gradient-to-br from-card to-card/50 border-2 hover:border-primary/20">
               <CardContent className="p-8">
-                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6">
-                  <img 
-                    src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=400&fit=crop&crop=face" 
-                    alt="Finance Brokers"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="relative w-32 h-32 mx-auto mb-6">
+                  <div className="w-full h-full rounded-full overflow-hidden border-4 border-primary/20 group-hover:border-primary/40 transition-all duration-300 group-hover:scale-105">
+                    <img 
+                      src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=400&fit=crop&crop=face" 
+                      alt="Finance Brokers"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Finance Brokers</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">Finance Brokers</h3>
+                <p className="text-muted-foreground group-hover:text-foreground/80 transition-colors">
                   Expert intermediaries who connect clients with the best lending options across 
                   our extensive network of financial partners.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <Card className="group text-center hover:shadow-xl transition-all duration-500 hover:-translate-y-2 bg-gradient-to-br from-card to-card/50 border-2 hover:border-success/20">
               <CardContent className="p-8">
-                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6">
-                  <img 
-                    src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=400&fit=crop&crop=face" 
-                    alt="Business Finance Team"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="relative w-32 h-32 mx-auto mb-6">
+                  <div className="w-full h-full rounded-full overflow-hidden border-4 border-success/20 group-hover:border-success/40 transition-all duration-300 group-hover:scale-105">
+                    <img 
+                      src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=400&fit=crop&crop=face" 
+                      alt="Business Finance Team"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-success/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Business Finance Team</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-xl font-semibold mb-3 group-hover:text-success transition-colors">Business Finance Team</h3>
+                <p className="text-muted-foreground group-hover:text-foreground/80 transition-colors">
                   Commercial lending specialists focused on helping businesses grow through 
                   strategic financing solutions and partnership opportunities.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <Card className="group text-center hover:shadow-xl transition-all duration-500 hover:-translate-y-2 bg-gradient-to-br from-card to-card/50 border-2 hover:border-primary/20">
               <CardContent className="p-8">
-                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6">
-                  <img 
-                    src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=400&fit=crop&crop=face" 
-                    alt="Operations Team"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="relative w-32 h-32 mx-auto mb-6">
+                  <div className="w-full h-full rounded-full overflow-hidden border-4 border-primary/20 group-hover:border-primary/40 transition-all duration-300 group-hover:scale-105">
+                    <img 
+                      src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=400&fit=crop&crop=face" 
+                      alt="Operations Team"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Operations Team</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">Operations Team</h3>
+                <p className="text-muted-foreground group-hover:text-foreground/80 transition-colors">
                   Behind-the-scenes professionals ensuring seamless application processing, 
                   compliance, and exceptional client support throughout your journey.
                 </p>
