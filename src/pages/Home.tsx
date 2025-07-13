@@ -288,6 +288,60 @@ const Home = () => {
                 </div>
               </CardContent>
             </Card>
+
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-8">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-success text-success" />
+                  ))}
+                </div>
+                <p className="text-muted-foreground mb-6 italic">
+                  "I was struggling to get approved for a loan elsewhere, but Partnership Bridge found 
+                  me a great solution within days. Their personal approach made all the difference."
+                </p>
+                <div>
+                  <p className="font-semibold">Rebecca Martinez</p>
+                  <p className="text-sm text-muted-foreground">Restaurant Owner</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-8">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-success text-success" />
+                  ))}
+                </div>
+                <p className="text-muted-foreground mb-6 italic">
+                  "The debt consolidation service was exactly what I needed. They simplified my finances 
+                  and reduced my monthly payments significantly. Couldn't be happier!"
+                </p>
+                <div>
+                  <p className="font-semibold">James Thompson</p>
+                  <p className="text-sm text-muted-foreground">Marketing Manager</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-8">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-success text-success" />
+                  ))}
+                </div>
+                <p className="text-muted-foreground mb-6 italic">
+                  "Their commercial finance expertise helped us acquire a new warehouse facility. 
+                  The team understood our industry needs perfectly. Exceptional service and support."
+                </p>
+                <div>
+                  <p className="font-semibold">Sophie Anderson</p>
+                  <p className="text-sm text-muted-foreground">Manufacturing Director</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
