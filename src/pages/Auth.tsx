@@ -10,9 +10,10 @@ import { useToast } from '@/hooks/use-toast';
 import { Building2, Lock, Mail, User, Shield } from 'lucide-react';
 
 export default function Auth() {
-  const { user, signIn, signUp, loading } = useAuth();
+  const { user, signIn, signUp, resetPassword, loading } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   // Redirect if already authenticated
   if (user && !loading) {
@@ -63,6 +64,32 @@ export default function Auth() {
         title: "Account Created",
         description: "Please check your email to verify your account.",
       });
+    }
+    
+    setIsLoading(false);
+  };
+
+  const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+
+    const { error } = await resetPassword(email);
+    
+    if (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Password Reset Email Sent",
+        description: "Check your email for password reset instructions.",
+      });
+      setShowForgotPassword(false);
     }
     
     setIsLoading(false);
@@ -133,6 +160,7 @@ export default function Auth() {
                 <div className="text-left">
                   <button 
                     type="button" 
+                    onClick={() => setShowForgotPassword(true)}
                     className="text-sm text-primary hover:text-primary-light transition-colors"
                   >
                     Forgot password?
@@ -250,6 +278,52 @@ export default function Auth() {
                 </button>
               </div>
             </TabsContent>
+            
+            {/* Forgot Password Form */}
+            {showForgotPassword && (
+              <div className="mt-6 p-4 border rounded-lg bg-muted/20">
+                <form onSubmit={handleForgotPassword} className="space-y-4">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg font-medium">Reset Password</h3>
+                    <p className="text-sm text-muted-foreground">Enter your email to receive reset instructions</p>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="forgot-email" className="text-sm font-medium text-foreground">
+                      Email Address
+                    </Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="forgot-email"
+                        name="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        className="pl-10 h-12 border-input focus:border-primary"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      type="submit" 
+                      className="flex-1 h-12 bg-primary hover:bg-primary-light text-white font-medium" 
+                      disabled={isLoading}
+                    >
+                      {isLoading ? 'Sending...' : 'Send Reset Email'}
+                    </Button>
+                    <Button 
+                      type="button" 
+                      variant="outline"
+                      onClick={() => setShowForgotPassword(false)}
+                      className="h-12"
+                      disabled={isLoading}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            )}
             
             {/* Hidden tab triggers */}
             <TabsList className="hidden">
