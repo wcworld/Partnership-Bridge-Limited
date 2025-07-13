@@ -28,6 +28,11 @@ const About = () => {
               lending advice and finance solutions. With over 15 years of experience, we have 
               helped thousands of individuals and businesses achieve their financial goals.
             </p>
+            <div className="mt-8 max-w-2xl mx-auto">
+              <p className="text-lg font-medium text-primary border border-primary/20 rounded-lg p-4 bg-primary/5">
+                Partnership Bridge is a broker, not a lender. We will connect you with a lender suitable for your needs.
+              </p>
+            </div>
           </div>
         </div>
       </section>

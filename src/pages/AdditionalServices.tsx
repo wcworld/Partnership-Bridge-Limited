@@ -37,6 +37,11 @@ const AdditionalServices = () => {
               Comprehensive financial solutions beyond our core lending services. From credit cards 
               to investment advice, we provide the complete financial support you need.
             </p>
+            <div className="mt-8 max-w-2xl mx-auto">
+              <p className="text-lg font-medium text-primary border border-primary/20 rounded-lg p-4 bg-primary/5">
+                Partnership Bridge is a broker, not a lender. We will connect you with a lender suitable for your needs.
+              </p>
+            </div>
           </div>
         </div>
       </section>

@@ -209,9 +209,14 @@ const Contact = () => {
                     Send Message
                   </Button>
 
-                  <p className="text-sm text-muted-foreground text-center">
-                    By submitting this form, you agree to our privacy policy and terms of service.
-                  </p>
+                  <div className="text-center space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      By submitting this form, you agree to our privacy policy and terms of service.
+                    </p>
+                    <p className="text-sm font-medium text-primary border border-primary/20 rounded-lg p-3 bg-primary/5">
+                      Partnership Bridge is a broker, not a lender. We will connect you with a lender suitable for your needs.
+                    </p>
+                  </div>
                 </form>
               </CardContent>
             </Card>

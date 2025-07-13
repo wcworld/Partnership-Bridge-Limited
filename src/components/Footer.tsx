@@ -21,6 +21,9 @@ const Footer = () => {
             <p className="text-primary-foreground/80 text-sm">
               Providing high-quality lending advice and finance solutions for individuals and businesses across the UK.
             </p>
+            <p className="text-primary-foreground/90 text-sm font-medium border border-primary-foreground/20 rounded-lg p-3 bg-primary-foreground/5">
+              Partnership Bridge is a broker, not a lender. We will connect you with a lender suitable for your needs.
+            </p>
             <div className="flex space-x-4">
               <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
                 <Linkedin className="w-5 h-5" />
