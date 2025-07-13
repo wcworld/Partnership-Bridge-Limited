@@ -40,7 +40,7 @@ const Home = () => {
                   </Button>
                 </QuoteModal>
                 <QuoteModal>
-                  <Button variant="outline" size="xl" className="group border-2 border-primary-foreground/40 bg-gradient-to-r from-primary-foreground/15 to-primary-foreground/5 text-primary-foreground hover:bg-primary-foreground/25 hover:border-primary-foreground/60 backdrop-blur-sm shadow-lg">
+                  <Button variant="professional" size="xl" className="group">
                     <CheckCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                     Check Eligibility
                   </Button>
