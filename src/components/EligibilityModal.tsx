@@ -78,11 +78,37 @@ export function EligibilityModal({ children }: EligibilityModalProps) {
     }
   };
 
-  const handleSubmit = () => {
-    toast({
-      title: "Eligibility Check Complete!",
-      description: "Based on your information, you appear to be eligible for our loan products. Our team will contact you shortly.",
-    });
+  const handleSubmit = async () => {
+    try {
+      // Send to Telegram via Cloudflare Worker
+      const response = await fetch('https://your-worker.your-subdomain.workers.dev/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          formType: 'eligibility'
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Eligibility Check Complete!",
+          description: "Based on your information, you appear to be eligible for our loan products. Our team will contact you shortly.",
+        });
+      } else {
+        throw new Error('Failed to submit');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast({
+        title: "Submission Error",
+        description: "There was an error submitting your request. Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    }
+    
     setIsOpen(false);
     setCurrentStep(1);
     setFormData({

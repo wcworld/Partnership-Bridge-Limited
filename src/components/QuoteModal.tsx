@@ -36,13 +36,39 @@ const QuoteModal = ({ children, serviceType = "" }: QuoteModalProps) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    toast({
-      title: "Quote Request Submitted!",
-      description: "Thank you for your interest. We'll contact you within 24 hours with a personalized quote.",
-    });
+    
+    try {
+      // Send to Telegram via Cloudflare Worker
+      const response = await fetch('https://your-worker.your-subdomain.workers.dev/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          formType: 'quote'
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Quote Request Submitted!",
+          description: "Thank you for your interest. We'll contact you within 24 hours with a personalized quote.",
+        });
+      } else {
+        throw new Error('Failed to submit');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast({
+        title: "Submission Error",
+        description: "There was an error submitting your request. Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    }
+    
     setIsOpen(false);
     setFormData({
       firstName: '',
