@@ -56,7 +56,7 @@ const Home = () => {
                   <div className="h-full bg-primary-foreground/20 rounded-xl flex items-center justify-center">
                     <div className="text-center">
                       <TrendingUp className="w-20 h-20 text-primary-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold text-primary-foreground mb-2">£750M+</h3>
+                      <h3 className="text-2xl font-bold text-primary-foreground mb-2">£50M+</h3>
                       <p className="text-primary-foreground/80">Loans Facilitated</p>
                     </div>
                   </div>
@@ -76,7 +76,7 @@ const Home = () => {
               <div className="text-muted-foreground">Happy Clients</div>
             </div>
             <div className="animate-fade-in">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">£750M+</div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">£50M+</div>
               <div className="text-muted-foreground">Loans Arranged</div>
             </div>
             <div className="animate-fade-in">
