@@ -14,6 +14,7 @@ export default function Auth() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [activeTab, setActiveTab] = useState('signin');
 
   // Redirect if already authenticated
   if (user && !loading) {
@@ -121,7 +122,7 @@ export default function Auth() {
         </CardHeader>
         
         <CardContent className="px-8 pb-8">
-          <Tabs defaultValue="signin" className="w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsContent value="signin" className="mt-0">
               <form onSubmit={handleSignIn} className="space-y-5">
                 <div className="space-y-2">
@@ -179,10 +180,7 @@ export default function Auth() {
               <div className="mt-6 text-center">
                 <button 
                   type="button"
-                  onClick={() => {
-                    const signupTab = document.querySelector('[value="signup"]') as HTMLButtonElement;
-                    signupTab?.click();
-                  }}
+                  onClick={() => setActiveTab('signup')}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Don't have an account? <span className="text-primary hover:text-primary-light font-medium">Sign up</span>
@@ -268,10 +266,7 @@ export default function Auth() {
               <div className="mt-6 text-center">
                 <button 
                   type="button"
-                  onClick={() => {
-                    const signinTab = document.querySelector('[value="signin"]') as HTMLButtonElement;
-                    signinTab?.click();
-                  }}
+                  onClick={() => setActiveTab('signin')}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Already have an account? <span className="text-primary hover:text-primary-light font-medium">Sign in</span>
