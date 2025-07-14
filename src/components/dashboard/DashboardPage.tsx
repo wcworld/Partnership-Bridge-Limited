@@ -49,6 +49,7 @@ export default function DashboardPage() {
   const [userRole, setUserRole] = useState<string>('client');
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentView, setCurrentView] = useState<'overview' | 'applications' | 'profile'>('overview');
 
   useEffect(() => {
     if (user) {
@@ -215,25 +216,40 @@ export default function DashboardPage() {
         <nav className="flex-1 p-6">
           <div className="space-y-3">
             <Button 
-              variant="default" 
-              className="w-full justify-start h-12 rounded-xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25"
+              variant={currentView === 'overview' ? 'default' : 'ghost'}
+              className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
+                currentView === 'overview' 
+                  ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
+                  : 'hover:bg-muted/80'
+              }`}
+              onClick={() => setCurrentView('overview')}
             >
               <FileText className="mr-4 h-5 w-5" />
-              <span className="font-medium">Overview</span>
+              <span className={currentView === 'overview' ? 'font-medium' : ''}>Overview</span>
             </Button>
             <Button 
-              variant="ghost" 
-              className="w-full justify-start h-12 rounded-xl hover:bg-muted/80 transition-all duration-200"
+              variant={currentView === 'applications' ? 'default' : 'ghost'}
+              className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
+                currentView === 'applications' 
+                  ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
+                  : 'hover:bg-muted/80'
+              }`}
+              onClick={() => setCurrentView('applications')}
             >
               <FileText className="mr-4 h-5 w-5" />
-              <span>Applications</span>
+              <span className={currentView === 'applications' ? 'font-medium' : ''}>Applications</span>
             </Button>
             <Button 
-              variant="ghost" 
-              className="w-full justify-start h-12 rounded-xl hover:bg-muted/80 transition-all duration-200"
+              variant={currentView === 'profile' ? 'default' : 'ghost'}
+              className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
+                currentView === 'profile' 
+                  ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
+                  : 'hover:bg-muted/80'
+              }`}
+              onClick={() => setCurrentView('profile')}
             >
               <UserCheck className="mr-4 h-5 w-5" />
-              <span>Profile</span>
+              <span className={currentView === 'profile' ? 'font-medium' : ''}>Profile</span>
             </Button>
           </div>
         </nav>
@@ -254,154 +270,169 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Content with left margin for fixed sidebar */}
-      <div className="ml-80 p-8">
-        {/* Welcome Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">
-            Welcome back, {sampleData.user.name.split(' ')[0] || 'User'}
+      <div className="ml-80">
+        {/* Title Bar for Main Content */}
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border/50 p-6">
+          <h1 className="text-2xl font-bold text-foreground">
+            {currentView === 'overview' && 'Dashboard Overview'}
+            {currentView === 'applications' && 'My Applications'}
+            {currentView === 'profile' && 'Profile Settings'}
           </h1>
-          <p className="text-lg text-muted-foreground">
-            Here's an overview of your loan applications and account activity.
+          <p className="text-muted-foreground mt-1">
+            {currentView === 'overview' && 'Here\'s an overview of your loan applications and account activity.'}
+            {currentView === 'applications' && 'Manage and track your loan applications.'}
+            {currentView === 'profile' && 'Update your personal and business information.'}
           </p>
         </div>
 
-        {/* Enhanced Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <CardContent className="p-8 relative">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-primary/10 rounded-xl">
-                  <FileText className="h-6 w-6 text-primary" />
-                </div>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-0">
-                  Active
-                </Badge>
+        {/* Content Area */}
+        <div className="p-8">
+          {currentView === 'overview' && (
+            <>
+              {/* Welcome Header */}
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold text-foreground mb-2">
+                  Welcome back, {sampleData.user.name.split(' ')[0] || 'User'}
+                </h2>
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{applications.length}</div>
-              <div className="text-sm text-muted-foreground font-medium">Total Applications</div>
-            </CardContent>
-          </Card>
 
-          <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
-            <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <CardContent className="p-8 relative">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-green-500/10 rounded-xl">
-                  <DollarSign className="h-6 w-6 text-green-600" />
-                </div>
-                <Badge variant="secondary" className="bg-green-500/10 text-green-700 border-0">
-                  Approved
-                </Badge>
-              </div>
-              <div className="text-3xl font-bold text-foreground mb-2">
-                £{approvedAmount.toLocaleString()}
-              </div>
-              <div className="text-sm text-muted-foreground font-medium">Approved Amount</div>
-            </CardContent>
-          </Card>
-
-          <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <CardContent className="p-8 relative">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-orange-500/10 rounded-xl">
-                  <Clock className="h-6 w-6 text-orange-600" />
-                </div>
-                <Badge variant="secondary" className="bg-orange-500/10 text-orange-700 border-0">
-                  Pending
-                </Badge>
-              </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{pendingCount}</div>
-              <div className="text-sm text-muted-foreground font-medium">Pending Review</div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Enhanced Recent Activity */}
-        <Card className="mb-10 border-0 shadow-lg bg-gradient-to-br from-card to-card/80">
-          <CardHeader className="pb-4">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-2xl font-bold flex items-center gap-3">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <TrendingUp className="h-5 w-5 text-primary" />
-                </div>
-                Recent Activity
-              </CardTitle>
-              <Button variant="ghost" size="sm" className="hover:bg-muted/80">
-                View All
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              {recentActivities.map((activity, index) => (
-                <div key={activity.id} className="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-colors duration-200">
-                  <div className={`w-3 h-3 rounded-full mt-2 ${
-                    activity.type === 'success' ? 'bg-green-500 shadow-lg shadow-green-500/50' : 
-                    activity.type === 'warning' ? 'bg-yellow-500 shadow-lg shadow-yellow-500/50' : 'bg-blue-500 shadow-lg shadow-blue-500/50'
-                  }`} />
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-foreground mb-1">{activity.title}</h4>
-                    <p className="text-muted-foreground">{activity.description}</p>
-                    <p className="text-xs text-muted-foreground mt-2 font-medium">{activity.time}</p>
-                  </div>
-                  <Badge 
-                    variant="outline" 
-                    className={`${
-                      activity.type === 'success' ? 'border-green-200 text-green-700 bg-green-50' :
-                      activity.type === 'warning' ? 'border-yellow-200 text-yellow-700 bg-yellow-50' :
-                      'border-blue-200 text-blue-700 bg-blue-50'
-                    }`}
-                  >
-                    {activity.type === 'success' ? 'Completed' : activity.type === 'warning' ? 'In Review' : 'Processing'}
-                  </Badge>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Enhanced Components Section */}
-        <div className="space-y-8">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            <div className="space-y-8">
-              <div className="transform hover:scale-[1.02] transition-transform duration-200">
-                <ProgressStepper 
-                  steps={sampleData.application.steps}
-                  currentStep={sampleData.application.currentStep}
-                />
-              </div>
-              <div className="transform hover:scale-[1.02] transition-transform duration-200">
-                <ActionItems actionItems={sampleData.application.actionItems} />
-              </div>
-            </div>
-            
-            <div className="transform hover:scale-[1.02] transition-transform duration-200">
-              {applications[0]?.id ? (
-                <DocumentUploader 
-                  documents={sampleData.application.documents} 
-                  loanId={applications[0].id}
-                  onDocumentUploaded={fetchApplications}
-                />
-              ) : (
-                <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-card/80">
-                  <CardContent className="p-12 text-center">
-                    <div className="p-4 bg-muted/50 rounded-2xl w-fit mx-auto mb-4">
-                      <FileText className="h-8 w-8 text-muted-foreground" />
+              {/* Enhanced Stats Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <CardContent className="p-8 relative">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-primary/10 rounded-xl">
+                        <FileText className="h-6 w-6 text-primary" />
+                      </div>
+                      <Badge variant="secondary" className="bg-primary/10 text-primary border-0">
+                        Active
+                      </Badge>
                     </div>
-                    <h3 className="font-semibold text-lg mb-2">No Applications Yet</h3>
-                    <p className="text-muted-foreground mb-6">Start your loan application to see document requirements.</p>
-                    <Button>Start Application</Button>
+                    <div className="text-3xl font-bold text-foreground mb-2">{applications.length}</div>
+                    <div className="text-sm text-muted-foreground font-medium">Total Applications</div>
                   </CardContent>
                 </Card>
-              )}
-            </div>
-          </div>
 
-          {/* Application and Profile Details */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            <div className="transform hover:scale-[1.02] transition-transform duration-200">
+                <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <CardContent className="p-8 relative">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-green-500/10 rounded-xl">
+                        <DollarSign className="h-6 w-6 text-green-600" />
+                      </div>
+                      <Badge variant="secondary" className="bg-green-500/10 text-green-700 border-0">
+                        Approved
+                      </Badge>
+                    </div>
+                    <div className="text-3xl font-bold text-foreground mb-2">
+                      £{approvedAmount.toLocaleString()}
+                    </div>
+                    <div className="text-sm text-muted-foreground font-medium">Approved Amount</div>
+                  </CardContent>
+                </Card>
+
+                <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <CardContent className="p-8 relative">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-orange-500/10 rounded-xl">
+                        <Clock className="h-6 w-6 text-orange-600" />
+                      </div>
+                      <Badge variant="secondary" className="bg-orange-500/10 text-orange-700 border-0">
+                        Pending
+                      </Badge>
+                    </div>
+                    <div className="text-3xl font-bold text-foreground mb-2">{pendingCount}</div>
+                    <div className="text-sm text-muted-foreground font-medium">Pending Review</div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Enhanced Recent Activity */}
+              <Card className="mb-10 border-0 shadow-lg bg-gradient-to-br from-card to-card/80">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-2xl font-bold flex items-center gap-3">
+                      <div className="p-2 bg-primary/10 rounded-lg">
+                        <TrendingUp className="h-5 w-5 text-primary" />
+                      </div>
+                      Recent Activity
+                    </CardTitle>
+                    <Button variant="ghost" size="sm" className="hover:bg-muted/80">
+                      View All
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    {recentActivities.map((activity, index) => (
+                      <div key={activity.id} className="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-colors duration-200">
+                        <div className={`w-3 h-3 rounded-full mt-2 ${
+                          activity.type === 'success' ? 'bg-green-500 shadow-lg shadow-green-500/50' : 
+                          activity.type === 'warning' ? 'bg-yellow-500 shadow-lg shadow-yellow-500/50' : 'bg-blue-500 shadow-lg shadow-blue-500/50'
+                        }`} />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-foreground mb-1">{activity.title}</h4>
+                          <p className="text-muted-foreground">{activity.description}</p>
+                          <p className="text-xs text-muted-foreground mt-2 font-medium">{activity.time}</p>
+                        </div>
+                        <Badge 
+                          variant="outline" 
+                          className={`${
+                            activity.type === 'success' ? 'border-green-200 text-green-700 bg-green-50' :
+                            activity.type === 'warning' ? 'border-yellow-200 text-yellow-700 bg-yellow-50' :
+                            'border-blue-200 text-blue-700 bg-blue-50'
+                          }`}
+                        >
+                          {activity.type === 'success' ? 'Completed' : activity.type === 'warning' ? 'In Review' : 'Processing'}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Enhanced Components Section */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                <div className="space-y-8">
+                  <div className="transform hover:scale-[1.02] transition-transform duration-200">
+                    <ProgressStepper 
+                      steps={sampleData.application.steps}
+                      currentStep={sampleData.application.currentStep}
+                    />
+                  </div>
+                  <div className="transform hover:scale-[1.02] transition-transform duration-200">
+                    <ActionItems actionItems={sampleData.application.actionItems} />
+                  </div>
+                </div>
+                
+                <div className="transform hover:scale-[1.02] transition-transform duration-200">
+                  {applications[0]?.id ? (
+                    <DocumentUploader 
+                      documents={sampleData.application.documents} 
+                      loanId={applications[0].id}
+                      onDocumentUploaded={fetchApplications}
+                    />
+                  ) : (
+                    <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-card/80">
+                      <CardContent className="p-12 text-center">
+                        <div className="p-4 bg-muted/50 rounded-2xl w-fit mx-auto mb-4">
+                          <FileText className="h-8 w-8 text-muted-foreground" />
+                        </div>
+                        <h3 className="font-semibold text-lg mb-2">No Applications Yet</h3>
+                        <p className="text-muted-foreground mb-6">Start your loan application to see document requirements.</p>
+                        <Button>Start Application</Button>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+
+          {currentView === 'applications' && (
+            <div className="max-w-4xl">
               <ApplicationSection 
                 application={applications[0]}
                 onSave={(data) => {
@@ -410,14 +441,16 @@ export default function DashboardPage() {
                 }}
               />
             </div>
-            
-            <div className="transform hover:scale-[1.02] transition-transform duration-200">
+          )}
+
+          {currentView === 'profile' && (
+            <div className="max-w-4xl">
               <ProfileSection 
                 profile={profile}
                 onUpdate={fetchProfile}
               />
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
