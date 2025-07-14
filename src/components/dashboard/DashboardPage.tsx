@@ -20,6 +20,7 @@ import { ActionItems } from './ActionItems';
 import { DocumentUploader } from './DocumentUploader';
 import { ApplicationSection } from './ApplicationSection';
 import { ProfileSection } from './ProfileSection';
+import { StartApplicationModal } from './StartApplicationModal';
 
 interface LoanApplication {
   id: string;
@@ -422,7 +423,7 @@ export default function DashboardPage() {
                         </div>
                         <h3 className="font-semibold text-lg mb-2">No Applications Yet</h3>
                         <p className="text-muted-foreground mb-6">Start your loan application to see document requirements.</p>
-                        <Button>Start Application</Button>
+                        <StartApplicationModal onApplicationCreated={fetchApplications} />
                       </CardContent>
                     </Card>
                   )}
