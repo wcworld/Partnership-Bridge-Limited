@@ -5,16 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { Building2, Lock, Mail, User, Shield } from 'lucide-react';
+import { Lock, Mail } from 'lucide-react';
 
 export default function Auth() {
-  const { user, signIn, signUp, resetPassword, loading } = useAuth();
+  const { user, signIn, resetPassword, loading } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState('signin');
 
   // Redirect if already authenticated
   if (user && !loading) {
@@ -42,33 +40,6 @@ export default function Auth() {
     setIsLoading(false);
   };
 
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    const firstName = formData.get('firstName') as string;
-    const lastName = formData.get('lastName') as string;
-
-    const { error } = await signUp(email, password, firstName, lastName);
-    
-    if (error) {
-      toast({
-        title: "Sign Up Failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Account Created",
-        description: "Please check your email to verify your account.",
-      });
-    }
-    
-    setIsLoading(false);
-  };
 
   const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -168,163 +139,76 @@ export default function Auth() {
               </div>
             </div>
           ) : (
-            /* Sign In/Sign Up Tabs */
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="signin">Sign In</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="signin" className="mt-6">
-                <form onSubmit={handleSignIn} className="space-y-5">
-                  <div className="space-y-2">
-                    <Label htmlFor="signin-email" className="text-sm font-medium text-foreground">
-                      Email
-                    </Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="signin-email"
-                        name="email"
-                        type="email"
-                        placeholder="Enter your email"
-                        className="pl-10 h-12 border-input focus:border-primary"
-                        required
-                      />
-                    </div>
+            /* Sign In Form */
+            <div className="space-y-6">
+              <form onSubmit={handleSignIn} className="space-y-5">
+                <div className="space-y-2">
+                  <Label htmlFor="signin-email" className="text-sm font-medium text-foreground">
+                    Email
+                  </Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signin-email"
+                      name="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      className="pl-10 h-12 border-input focus:border-primary"
+                      required
+                    />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signin-password" className="text-sm font-medium text-foreground">
-                      Password
-                    </Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="signin-password"
-                        name="password"
-                        type="password"
-                        placeholder="Enter your password"
-                        className="pl-10 h-12 border-input focus:border-primary"
-                        required
-                      />
-                    </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signin-password" className="text-sm font-medium text-foreground">
+                    Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signin-password"
+                      name="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      className="pl-10 h-12 border-input focus:border-primary"
+                      required
+                    />
                   </div>
-                  
-                  <div className="text-left">
-                    <button 
-                      type="button" 
-                      onClick={() => setShowForgotPassword(true)}
-                      className="text-sm text-primary hover:text-primary-light transition-colors"
-                    >
-                      Forgot password?
-                    </button>
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full h-12 bg-primary hover:bg-primary-light text-white font-medium text-base" 
-                    disabled={isLoading}
-                  >
-                    {isLoading ? 'Signing In...' : 'Sign In'}
-                  </Button>
-                </form>
-                
-                <div className="mt-6 text-center">
-                  <a 
-                    href="/signup"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Don't have an account? <span className="text-primary hover:text-primary-light font-medium">Sign up</span>
-                  </a>
                 </div>
                 
-                <div className="mt-4 text-center">
-                  <p className="text-xs text-muted-foreground">
-                    Secure authentication powered by Partnership Bridge
-                  </p>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="signup" className="mt-6">
-                <form onSubmit={handleSignUp} className="space-y-5">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName" className="text-sm font-medium text-foreground">
-                        First Name
-                      </Label>
-                      <Input
-                        id="firstName"
-                        name="firstName"
-                        placeholder="John"
-                        className="h-12 border-input focus:border-primary"
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName" className="text-sm font-medium text-foreground">
-                        Last Name
-                      </Label>
-                      <Input
-                        id="lastName"
-                        name="lastName"
-                        placeholder="Smith"
-                        className="h-12 border-input focus:border-primary"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-email" className="text-sm font-medium text-foreground">
-                      Email
-                    </Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="signup-email"
-                        name="email"
-                        type="email"
-                        placeholder="Enter your email"
-                        className="pl-10 h-12 border-input focus:border-primary"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-password" className="text-sm font-medium text-foreground">
-                      Password
-                    </Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="signup-password"
-                        name="password"
-                        type="password"
-                        placeholder="Create a password"
-                        className="pl-10 h-12 border-input focus:border-primary"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <Button 
-                    type="submit" 
-                    className="w-full h-12 bg-primary hover:bg-primary-light text-white font-medium text-base" 
-                    disabled={isLoading}
-                  >
-                    {isLoading ? 'Creating Account...' : 'Create Account'}
-                  </Button>
-                </form>
-                
-                <div className="mt-6 text-center">
+                <div className="text-left">
                   <button 
-                    type="button"
-                    onClick={() => setActiveTab('signin')}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    type="button" 
+                    onClick={() => setShowForgotPassword(true)}
+                    className="text-sm text-primary hover:text-primary-light transition-colors"
                   >
-                    Already have an account? <span className="text-primary hover:text-primary-light font-medium">Sign in</span>
+                    Forgot password?
                   </button>
                 </div>
-              </TabsContent>
-            </Tabs>
+                
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-primary hover:bg-primary-light text-white font-medium text-base" 
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Signing In...' : 'Sign In'}
+                </Button>
+              </form>
+              
+              <div className="text-center">
+                <a 
+                  href="/signup"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Don't have an account? <span className="text-primary hover:text-primary-light font-medium">Sign up</span>
+                </a>
+              </div>
+              
+              <div className="mt-4 text-center">
+                <p className="text-xs text-muted-foreground">
+                  Secure authentication powered by Partnership Bridge
+                </p>
+              </div>
+            </div>
           )}
         </CardContent>
       </Card>
