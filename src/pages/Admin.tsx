@@ -51,7 +51,8 @@ export default function Admin() {
 
   console.log('Current userRole state:', userRole, 'Type:', typeof userRole);
   
-  if (userRole !== 'admin') {
+  // Wait for role to be loaded before making redirect decisions
+  if (userRole !== null && userRole !== 'admin') {
     console.log('Redirecting to dashboard because userRole is not admin:', userRole);
     return <Navigate to="/dashboard" replace />;
   }
