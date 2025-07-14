@@ -39,7 +39,7 @@ export function StartApplicationModal({ onApplicationCreated, trigger }: StartAp
       if (refError) throw refError;
 
       // Create the loan application
-      const { error } = await supabase
+      const { data: applicationData, error: applicationError } = await supabase
         .from('loan_applications')
         .insert({
           user_id: user.id,
@@ -50,9 +50,36 @@ export function StartApplicationModal({ onApplicationCreated, trigger }: StartAp
           status: 'submitted',
           last_action: 'Application started',
           last_action_date: new Date().toISOString()
-        });
+        })
+        .select()
+        .single();
 
-      if (error) throw error;
+      if (applicationError) throw applicationError;
+
+      // Create required documents for the application
+      const requiredDocuments = [
+        { name: 'Photo ID', document_type: 'photo_id' },
+        { name: 'Bank Statements', document_type: 'bank_statement' },
+        { name: 'Tax Returns', document_type: 'tax_return' },
+        { name: 'Pay Stubs', document_type: 'pay_stub' },
+        { name: 'Financial Statement', document_type: 'financial_statement' }
+      ];
+
+      const documentsToInsert = requiredDocuments.map(doc => ({
+        loan_id: applicationData.id,
+        document_name: doc.name,
+        document_type: doc.document_type,
+        status: 'missing'
+      }));
+
+      const { error: documentsError } = await supabase
+        .from('loan_documents')
+        .insert(documentsToInsert);
+
+      if (documentsError) {
+        console.error('Error creating documents:', documentsError);
+        // Don't throw here as the application was created successfully
+      }
 
       toast({
         title: "Success",

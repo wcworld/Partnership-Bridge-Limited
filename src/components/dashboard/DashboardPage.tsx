@@ -49,6 +49,7 @@ export default function DashboardPage() {
   const [applications, setApplications] = useState<LoanApplication[]>([]);
   const [userRole, setUserRole] = useState<string>('client');
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [documents, setDocuments] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentView, setCurrentView] = useState<'overview' | 'applications' | 'profile'>('overview');
 
@@ -58,6 +59,12 @@ export default function DashboardPage() {
       fetchApplications();
     }
   }, [user]);
+
+  useEffect(() => {
+    if (applications.length > 0) {
+      fetchDocuments();
+    }
+  }, [applications]);
 
   const fetchUserData = async () => {
     try {
@@ -113,6 +120,31 @@ export default function DashboardPage() {
       if (profileData) setProfile(profileData);
     } catch (error) {
       console.error('Error fetching profile:', error);
+    }
+  };
+
+  const fetchDocuments = async () => {
+    try {
+      if (applications[0]?.id) {
+        const { data: documentsData } = await supabase
+          .from('loan_documents')
+          .select('*')
+          .eq('loan_id', applications[0].id);
+        
+        if (documentsData) {
+          // Transform documents to match the expected format
+          const formattedDocuments = documentsData.map(doc => ({
+            name: doc.document_name,
+            status: doc.status === 'missing' ? 'Requested' as const : 
+                   doc.status === 'uploaded' ? 'Uploaded' as const :
+                   doc.status === 'approved' ? 'Approved' as const : 'Requested' as const,
+            document_type: doc.document_type
+          }));
+          setDocuments(formattedDocuments);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching documents:', error);
     }
   };
 
@@ -411,9 +443,12 @@ export default function DashboardPage() {
                 <div className="transform hover:scale-[1.02] transition-transform duration-200">
                   {applications[0]?.id ? (
                     <DocumentUploader 
-                      documents={sampleData.application.documents} 
+                      documents={documents.length > 0 ? documents : sampleData.application.documents} 
                       loanId={applications[0].id}
-                      onDocumentUploaded={fetchApplications}
+                      onDocumentUploaded={() => {
+                        fetchApplications();
+                        fetchDocuments();
+                      }}
                     />
                   ) : (
                     <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-card/80">
