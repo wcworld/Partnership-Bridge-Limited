@@ -49,9 +49,14 @@ export default function Admin() {
     return <Navigate to="/auth" replace />;
   }
 
+  console.log('Current userRole state:', userRole, 'Type:', typeof userRole);
+  
   if (userRole !== 'admin') {
+    console.log('Redirecting to dashboard because userRole is not admin:', userRole);
     return <Navigate to="/dashboard" replace />;
   }
+
+  console.log('Rendering AdminDashboard');
 
   return <AdminDashboard />;
 }
