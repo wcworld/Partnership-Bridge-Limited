@@ -168,6 +168,11 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20">
       {/* Modern Sidebar */}
       <div className="fixed left-0 top-0 h-full w-80 bg-card/95 backdrop-blur-sm border-r border-border/50 flex flex-col shadow-xl">
+        {/* Title Bar */}
+        <div className="p-6 border-b border-border/50">
+          <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
+        </div>
+
         {/* Enhanced User Profile Section */}
         <div className="p-8">
           <div className="relative">
@@ -178,7 +183,7 @@ export default function DashboardPage() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="text-center mt-8">
+            <div className="text-center">
               <h2 className="text-xl font-bold text-foreground mb-1">{sampleData.user.name}</h2>
               <p className="text-sm text-muted-foreground bg-muted/50 px-3 py-1 rounded-full inline-block">
                 {sampleData.user.company || 'Bridge Finance Client'}
