@@ -38,6 +38,9 @@ interface Profile {
   first_name: string | null;
   last_name: string | null;
   company_name: string | null;
+  email: string | null;
+  phone: string | null;
+  avatar_url: string | null;
 }
 
 interface UserRole {
@@ -80,7 +83,7 @@ export default function DashboardPage() {
       // Fetch user profile
       const { data: profileData } = await supabase
         .from('profiles')
-        .select('first_name, last_name, company_name')
+        .select('first_name, last_name, company_name, email, phone, avatar_url')
         .eq('user_id', user?.id)
         .single();
       
@@ -113,7 +116,7 @@ export default function DashboardPage() {
     try {
       const { data: profileData } = await supabase
         .from('profiles')
-        .select('first_name, last_name, company_name, email, phone')
+        .select('first_name, last_name, company_name, email, phone, avatar_url')
         .eq('user_id', user?.id)
         .single();
       
