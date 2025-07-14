@@ -296,11 +296,19 @@ export default function DashboardPage() {
           </div>
           
           <div>
-            <DocumentUploader 
-              documents={sampleData.application.documents} 
-              loanId={applications[0]?.id || 'sample-loan-id'}
-              onDocumentUploaded={fetchApplications}
-            />
+            {applications[0]?.id ? (
+              <DocumentUploader 
+                documents={sampleData.application.documents} 
+                loanId={applications[0].id}
+                onDocumentUploaded={fetchApplications}
+              />
+            ) : (
+              <Card>
+                <CardContent className="p-6 text-center">
+                  <p className="text-muted-foreground">Create a loan application to upload documents</p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>
