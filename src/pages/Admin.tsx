@@ -13,15 +13,22 @@ export default function Admin() {
     const fetchUserRole = async () => {
       if (user) {
         try {
-          const { data } = await supabase
+          console.log('Fetching role for user:', user.id);
+          const { data, error } = await supabase
             .from('user_roles')
             .select('role')
             .eq('user_id', user.id)
-            .single();
+            .maybeSingle();
           
-          setUserRole(data?.role || '');
+          if (error) {
+            console.error('Error fetching user role:', error);
+          } else {
+            console.log('User role data:', data);
+            setUserRole(data?.role || 'client');
+          }
         } catch (error) {
           console.error('Error fetching user role:', error);
+          setUserRole('client');
         }
       }
       setRoleLoading(false);
