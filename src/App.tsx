@@ -16,6 +16,7 @@ import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
 import Auth from "./pages/Auth";
 import Signup from "./pages/Signup";
+import SignupSuccess from "./pages/SignupSuccess";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
@@ -43,6 +44,7 @@ const App = () => (
                 <Route path="/cookie-policy" element={<CookiePolicy />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/signup-success" element={<SignupSuccess />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />

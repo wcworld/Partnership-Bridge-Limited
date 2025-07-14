@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +12,7 @@ import { Lock, Mail, User, Building2, Shield, CheckCircle, Phone } from 'lucide-
 export default function Signup() {
   const { user, signUp, loading } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -88,10 +89,8 @@ export default function Signup() {
         variant: "destructive",
       });
     } else {
-      toast({
-        title: "Account Created Successfully!",
-        description: "Please check your email to verify your account before signing in.",
-      });
+      // Redirect to signup success page
+      navigate('/signup-success');
     }
     
     setIsLoading(false);
