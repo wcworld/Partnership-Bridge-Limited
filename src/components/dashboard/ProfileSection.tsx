@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { User, Mail, Phone, Building, MapPin, Edit3, Save, X, Camera } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -18,6 +18,7 @@ interface ProfileData {
   city: string;
   state: string;
   zipCode: string;
+  avatarUrl: string;
 }
 
 interface ProfileSectionProps {
@@ -36,9 +37,11 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
     address: '123 Business Ave',
     city: 'New York',
     state: 'NY',
-    zipCode: '10001'
+    zipCode: '10001',
+    avatarUrl: profile?.avatar_url || ''
   });
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = async () => {
     try {
@@ -84,8 +87,50 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
       address: '123 Business Ave',
       city: 'New York',
       state: 'NY',
-      zipCode: '10001'
+      zipCode: '10001',
+      avatarUrl: profile?.avatar_url || ''
     });
+  };
+
+  const handlePhotoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/avatar.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('profile-pictures')
+        .upload(fileName, file, { upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('profile-pictures')
+        .getPublicUrl(fileName);
+
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: publicUrl })
+        .eq('user_id', user.id);
+
+      if (updateError) throw updateError;
+
+      setFormData({ ...formData, avatarUrl: publicUrl });
+      onUpdate();
+      toast({ title: "Success", description: "Profile picture updated successfully" });
+    } catch (error) {
+      console.error('Error uploading photo:', error);
+      toast({ 
+        title: "Error", 
+        description: "Failed to upload photo", 
+        variant: "destructive" 
+      });
+    }
   };
 
   return (
@@ -118,11 +163,20 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Hidden file input for photo upload */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handlePhotoUpload}
+          accept="image/*"
+          className="hidden"
+        />
+        
         {/* Profile Picture Section */}
         <div className="flex items-center gap-4">
           <div className="relative">
             <Avatar className="h-20 w-20">
-              <AvatarImage src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=80&h=80&fit=crop&crop=face" />
+              <AvatarImage src={formData.avatarUrl || "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=80&h=80&fit=crop&crop=face"} />
               <AvatarFallback>{formData.firstName[0]}{formData.lastName[0]}</AvatarFallback>
             </Avatar>
             {isEditing && (
@@ -130,6 +184,7 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
                 size="sm" 
                 variant="outline" 
                 className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full p-0"
+                onClick={() => fileInputRef.current?.click()}
               >
                 <Camera className="h-4 w-4" />
               </Button>
