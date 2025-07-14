@@ -6,7 +6,7 @@ import { AdminDashboard } from '@/components/admin/AdminDashboard';
 
 export default function Admin() {
   const { user, loading } = useAuth();
-  const [userRole, setUserRole] = useState<string>('');
+  const [userRole, setUserRole] = useState<string | null>(null);
   const [roleLoading, setRoleLoading] = useState(true);
 
   useEffect(() => {
