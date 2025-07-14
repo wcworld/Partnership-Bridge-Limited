@@ -67,7 +67,7 @@ serve(async (req) => {
     const r2AccessKeyId = Deno.env.get('CLOUDFLARE_R2_ACCESS_KEY_ID');
     const r2SecretAccessKey = Deno.env.get('CLOUDFLARE_R2_SECRET_ACCESS_KEY');
     const r2BucketName = 'loan-documents'; // You'll need to create this bucket
-    const r2AccountId = 'your-account-id'; // You'll need to add this
+    const r2AccountId = '1c5a671881a5edea6afc744019708638';
 
     if (!r2AccessKeyId || !r2SecretAccessKey) {
       return new Response(JSON.stringify({ error: 'R2 credentials not configured' }), {
