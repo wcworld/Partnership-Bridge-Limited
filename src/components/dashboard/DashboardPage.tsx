@@ -171,10 +171,14 @@ export default function DashboardPage() {
         {/* Enhanced User Profile Section */}
         <div className="p-8">
           <div className="relative">
-            <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-primary/25">
-              <User className="h-10 w-10 text-primary-foreground" />
+            <div className="w-20 h-20 rounded-2xl overflow-hidden mx-auto mb-6 shadow-2xl ring-4 ring-primary/20">
+              <img 
+                src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=80&h=80&fit=crop&crop=face" 
+                alt="Client Photo ID"
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="text-center">
+            <div className="text-center mt-8">
               <h2 className="text-xl font-bold text-foreground mb-1">{sampleData.user.name}</h2>
               <p className="text-sm text-muted-foreground bg-muted/50 px-3 py-1 rounded-full inline-block">
                 {sampleData.user.company || 'Bridge Finance Client'}
