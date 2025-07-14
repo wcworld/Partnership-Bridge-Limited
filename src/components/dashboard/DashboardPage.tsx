@@ -18,6 +18,8 @@ import {
 import { ProgressStepper } from './ProgressStepper';
 import { ActionItems } from './ActionItems';
 import { DocumentUploader } from './DocumentUploader';
+import { ApplicationSection } from './ApplicationSection';
+import { ProfileSection } from './ProfileSection';
 
 interface LoanApplication {
   id: string;
@@ -98,6 +100,20 @@ export default function DashboardPage() {
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('first_name, last_name, company_name, email, phone')
+        .eq('user_id', user?.id)
+        .single();
+      
+      if (profileData) setProfile(profileData);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -129,10 +145,11 @@ export default function DashboardPage() {
         { id: 3, text: 'Complete credit authorization' }
       ],
       documents: [
-        { name: 'Photo ID', status: 'Approved' as const, document_type: 'photo_id' },
-        { name: 'Latest Pay Stub', status: 'Requested' as const, document_type: 'pay_stub' },
-        { name: 'Tax Return (2023)', status: 'Uploaded' as const, document_type: 'tax_return' },
-        { name: 'Bank Statements', status: 'Requested' as const, document_type: 'bank_statements' }
+        { name: 'Photo ID', status: 'Requested' as const, document_type: 'photo_id' },
+        { name: 'Bank Statements', status: 'Approved' as const, document_type: 'bank_statement' },
+        { name: 'Tax Returns', status: 'Uploaded' as const, document_type: 'tax_return' },
+        { name: 'Pay Stubs', status: 'Requested' as const, document_type: 'pay_stub' },
+        { name: 'Financial Statement', status: 'Requested' as const, document_type: 'financial_statement' }
       ]
     }
   };
@@ -346,40 +363,60 @@ export default function DashboardPage() {
         </Card>
 
         {/* Enhanced Components Section */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-          <div className="space-y-8">
-            <div className="transform hover:scale-[1.02] transition-transform duration-200">
-              <ProgressStepper 
-                steps={sampleData.application.steps}
-                currentStep={sampleData.application.currentStep}
-              />
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            <div className="space-y-8">
+              <div className="transform hover:scale-[1.02] transition-transform duration-200">
+                <ProgressStepper 
+                  steps={sampleData.application.steps}
+                  currentStep={sampleData.application.currentStep}
+                />
+              </div>
+              <div className="transform hover:scale-[1.02] transition-transform duration-200">
+                <ActionItems actionItems={sampleData.application.actionItems} />
+              </div>
             </div>
+            
             <div className="transform hover:scale-[1.02] transition-transform duration-200">
-              <ActionItems actionItems={sampleData.application.actionItems} />
+              {applications[0]?.id ? (
+                <DocumentUploader 
+                  documents={sampleData.application.documents} 
+                  loanId={applications[0].id}
+                  onDocumentUploaded={fetchApplications}
+                />
+              ) : (
+                <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-card/80">
+                  <CardContent className="p-12 text-center">
+                    <div className="p-4 bg-muted/50 rounded-2xl w-fit mx-auto mb-4">
+                      <FileText className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2">No Applications Yet</h3>
+                    <p className="text-muted-foreground mb-6">Start your loan application to see document requirements.</p>
+                    <Button>Start Application</Button>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </div>
-          
-          <div className="transform hover:scale-[1.02] transition-transform duration-200">
-            {applications[0]?.id ? (
-              <DocumentUploader 
-                documents={sampleData.application.documents} 
-                loanId={applications[0].id}
-                onDocumentUploaded={fetchApplications}
+
+          {/* Application and Profile Details */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            <div className="transform hover:scale-[1.02] transition-transform duration-200">
+              <ApplicationSection 
+                application={applications[0]}
+                onSave={(data) => {
+                  console.log('Application data saved:', data);
+                  // Handle application update
+                }}
               />
-            ) : (
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-card/80">
-                <CardContent className="p-12 text-center">
-                  <div className="p-4 bg-muted/50 rounded-2xl w-fit mx-auto mb-4">
-                    <FileText className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">No Applications Yet</h3>
-                  <p className="text-muted-foreground mb-6">Create your first loan application to get started with document uploads</p>
-                  <Button className="rounded-xl shadow-lg shadow-primary/25">
-                    Create Application
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
+            </div>
+            
+            <div className="transform hover:scale-[1.02] transition-transform duration-200">
+              <ProfileSection 
+                profile={profile}
+                onUpdate={fetchProfile}
+              />
+            </div>
           </div>
         </div>
       </div>

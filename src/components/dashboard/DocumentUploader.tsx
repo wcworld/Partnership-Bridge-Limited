@@ -211,7 +211,7 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
         type="file"
         onChange={handleFileSelect}
         style={{ display: 'none' }}
-        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif"
       />
     </Card>
   );
