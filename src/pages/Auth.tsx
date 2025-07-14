@@ -178,13 +178,12 @@ export default function Auth() {
               </form>
               
               <div className="mt-6 text-center">
-                <button 
-                  type="button"
-                  onClick={() => setActiveTab('signup')}
+                <a 
+                  href="/signup"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Don't have an account? <span className="text-primary hover:text-primary-light font-medium">Sign up</span>
-                </button>
+                </a>
               </div>
               
               <div className="mt-4 text-center">
