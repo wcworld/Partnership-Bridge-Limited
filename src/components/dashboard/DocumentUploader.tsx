@@ -2,17 +2,26 @@ import { Upload, Check, Clock, X, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useRef, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 interface Document {
   name: string;
   status: 'Requested' | 'Uploaded' | 'Approved' | 'Rejected';
+  document_type: string;
 }
 
 interface DocumentUploaderProps {
   documents: Document[];
+  loanId: string;
+  onDocumentUploaded?: () => void;
 }
 
-export function DocumentUploader({ documents }: DocumentUploaderProps) {
+export function DocumentUploader({ documents, loanId, onDocumentUploaded }: DocumentUploaderProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadingDoc, setUploadingDoc] = useState<string | null>(null);
+  const { toast } = useToast();
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'Approved':
@@ -41,10 +50,63 @@ export function DocumentUploader({ documents }: DocumentUploaderProps) {
     );
   };
 
-  const handleUpload = (documentName: string) => {
-    // Placeholder for upload functionality
-    console.log(`Uploading ${documentName}`);
-    // You would implement actual file upload logic here
+  const handleUpload = (document: Document) => {
+    if (fileInputRef.current) {
+      fileInputRef.current.setAttribute('data-document-type', document.document_type);
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    const documentType = event.target.getAttribute('data-document-type');
+    
+    if (!file || !documentType) return;
+
+    setUploadingDoc(documentType);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast({ title: "Error", description: "Please sign in to upload documents", variant: "destructive" });
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('loanId', loanId);
+      formData.append('documentType', documentType);
+
+      const { data, error } = await supabase.functions.invoke('upload-document', {
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data?.success) {
+        toast({ title: "Success", description: "Document uploaded successfully" });
+        onDocumentUploaded?.();
+      } else {
+        throw new Error(data?.error || 'Upload failed');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({ 
+        title: "Error", 
+        description: error instanceof Error ? error.message : "Failed to upload document",
+        variant: "destructive" 
+      });
+    } finally {
+      setUploadingDoc(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
   };
 
   const pendingCount = documents.filter(doc => doc.status === 'Requested').length;
@@ -86,10 +148,11 @@ export function DocumentUploader({ documents }: DocumentUploaderProps) {
                 {document.status === 'Requested' && (
                   <Button 
                     size="sm"
-                    onClick={() => handleUpload(document.name)}
+                    onClick={() => handleUpload(document)}
+                    disabled={uploadingDoc === document.document_type}
                   >
                     <Upload className="h-4 w-4 mr-2" />
-                    Upload
+                    {uploadingDoc === document.document_type ? 'Uploading...' : 'Upload'}
                   </Button>
                 )}
 
@@ -97,10 +160,11 @@ export function DocumentUploader({ documents }: DocumentUploaderProps) {
                   <Button 
                     size="sm"
                     variant="outline"
-                    onClick={() => handleUpload(document.name)}
+                    onClick={() => handleUpload(document)}
+                    disabled={uploadingDoc === document.document_type}
                   >
                     <Upload className="h-4 w-4 mr-2" />
-                    Re-upload
+                    {uploadingDoc === document.document_type ? 'Uploading...' : 'Re-upload'}
                   </Button>
                 )}
 
@@ -142,6 +206,13 @@ export function DocumentUploader({ documents }: DocumentUploaderProps) {
           </div>
         )}
       </CardContent>
+      <input
+        ref={fileInputRef}
+        type="file"
+        onChange={handleFileSelect}
+        style={{ display: 'none' }}
+        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+      />
     </Card>
   );
 }

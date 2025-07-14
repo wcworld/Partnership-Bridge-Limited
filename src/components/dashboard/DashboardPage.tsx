@@ -129,10 +129,10 @@ export default function DashboardPage() {
         { id: 3, text: 'Complete credit authorization' }
       ],
       documents: [
-        { name: 'Photo ID', status: 'Approved' as const },
-        { name: 'Latest Pay Stub', status: 'Requested' as const },
-        { name: 'Tax Return (2023)', status: 'Uploaded' as const },
-        { name: 'Bank Statements', status: 'Requested' as const }
+        { name: 'Photo ID', status: 'Approved' as const, document_type: 'photo_id' },
+        { name: 'Latest Pay Stub', status: 'Requested' as const, document_type: 'pay_stub' },
+        { name: 'Tax Return (2023)', status: 'Uploaded' as const, document_type: 'tax_return' },
+        { name: 'Bank Statements', status: 'Requested' as const, document_type: 'bank_statements' }
       ]
     }
   };
@@ -296,7 +296,11 @@ export default function DashboardPage() {
           </div>
           
           <div>
-            <DocumentUploader documents={sampleData.application.documents} />
+            <DocumentUploader 
+              documents={sampleData.application.documents} 
+              loanId={applications[0]?.id || 'sample-loan-id'}
+              onDocumentUploaded={fetchApplications}
+            />
           </div>
         </div>
       </div>
