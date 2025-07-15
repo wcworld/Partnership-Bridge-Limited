@@ -207,14 +207,14 @@ const Home = () => {
                       Get a decision on your application within 24 hours
                     </p>
                     <div className="flex space-x-4 justify-center">
-                      <div className="flex items-center space-x-2 text-sm">
+                      <a href="tel:+447362055683" className="flex items-center space-x-2 text-sm hover:text-primary-foreground/70 transition-colors">
                         <Phone className="w-4 h-4" />
                         <span>Call Now</span>
-                      </div>
-                      <div className="flex items-center space-x-2 text-sm">
+                      </a>
+                      <a href="mailto:info@partnershipbridge.co.uk" className="flex items-center space-x-2 text-sm hover:text-primary-foreground/70 transition-colors">
                         <Mail className="w-4 h-4" />
                         <span>Email Us</span>
-                      </div>
+                      </a>
                     </div>
                   </CardContent>
                 </Card>

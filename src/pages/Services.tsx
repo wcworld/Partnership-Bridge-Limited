@@ -523,9 +523,11 @@ const Services = () => {
                     Get your free quote in under 24 hours
                   </p>
                   <div className="space-y-4">
-                    <Button variant="cta" size="lg" className="w-full bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground">
-                      <Phone className="w-5 h-5 mr-2" />
-                      Call Now
+                    <Button asChild variant="cta" size="lg" className="w-full bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground">
+                      <a href="tel:+447362055683">
+                        <Phone className="w-5 h-5 mr-2" />
+                        Call Now
+                      </a>
                     </Button>
                     <p className="text-sm text-primary-foreground/80">
                       +44 73 6205 5683

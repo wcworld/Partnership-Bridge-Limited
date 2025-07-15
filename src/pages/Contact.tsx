@@ -115,9 +115,15 @@ const Contact = () => {
                 <div className="w-12 h-12 bg-success-foreground/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Mail className="w-6 h-6 text-success-foreground" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Email Us</h3>
+                <h3 className="text-lg font-semibold mb-2">
+                  <a href="mailto:info@partnershipbridge.co.uk" className="hover:underline">
+                    Email Us
+                  </a>
+                </h3>
                 <p className="text-success-foreground/90 mb-3">Send us your inquiry</p>
-                <p className="text-lg font-bold">info@partnershipbridge.co.uk</p>
+                <a href="mailto:info@partnershipbridge.co.uk" className="text-lg font-bold hover:underline">
+                  info@partnershipbridge.co.uk
+                </a>
                 <p className="text-sm text-success-foreground/80 mt-2">Response within 24hrs</p>
               </CardContent>
             </Card>
