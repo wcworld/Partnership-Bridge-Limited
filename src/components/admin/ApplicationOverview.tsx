@@ -261,11 +261,9 @@ export function ApplicationOverview() {
                     <Select
                       onValueChange={(value) => updateApplicationStatus(application.id, value)}
                     >
-                      <SelectTrigger asChild>
-                        <Button size="sm" variant="outline">
-                          <Edit className="h-4 w-4 mr-1" />
-                          Update Status
-                        </Button>
+                      <SelectTrigger className="w-auto">
+                        <Edit className="h-4 w-4 mr-1" />
+                        Update Status
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="submitted">Submitted</SelectItem>
