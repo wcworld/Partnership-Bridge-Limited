@@ -49,12 +49,7 @@ export default function DocumentManager() {
           loan_id,
           loan_applications!inner(
             reference_number,
-            user_id,
-            profiles!inner(
-              first_name,
-              last_name,
-              email
-            )
+            user_id
           )
         `);
 
@@ -74,19 +69,41 @@ export default function DocumentManager() {
         return;
       }
 
-      // Transform the data to match our interface
-      const transformedData: DocumentWithApplication[] = data?.map((doc: any) => ({
-        id: doc.id,
-        document_name: doc.document_name,
-        document_type: doc.document_type,
-        status: doc.status,
-        file_path: doc.file_path,
-        uploaded_at: doc.uploaded_at,
-        loan_id: doc.loan_id,
-        application_reference: doc.loan_applications.reference_number,
-        user_name: `${doc.loan_applications.profiles.first_name} ${doc.loan_applications.profiles.last_name}`,
-        user_email: doc.loan_applications.profiles.email
-      })) || [];
+      // Transform the data and fetch profile info separately
+      const transformedData: DocumentWithApplication[] = [];
+      
+      if (data) {
+        // Get all unique user IDs
+        const userIds = [...new Set(data.map((doc: any) => doc.loan_applications.user_id))];
+        
+        // Fetch profiles for these users
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('user_id, first_name, last_name, email')
+          .in('user_id', userIds);
+        
+        // Create a profile map for quick lookup
+        const profileMap = new Map(
+          profiles?.map(profile => [profile.user_id, profile]) || []
+        );
+        
+        // Transform the documents with profile data
+        data.forEach((doc: any) => {
+          const profile = profileMap.get(doc.loan_applications.user_id);
+          transformedData.push({
+            id: doc.id,
+            document_name: doc.document_name,
+            document_type: doc.document_type,
+            status: doc.status,
+            file_path: doc.file_path,
+            uploaded_at: doc.uploaded_at,
+            loan_id: doc.loan_id,
+            application_reference: doc.loan_applications.reference_number,
+            user_name: profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() : 'Unknown User',
+            user_email: profile?.email || 'Unknown Email'
+          });
+        });
+      }
 
       setDocuments(transformedData);
     } catch (error) {

@@ -34,12 +34,28 @@ export function PendingSignups({ onStatsUpdate }: PendingSignupsProps) {
   const fetchPendingSignups = async () => {
     try {
       setLoading(true);
-      const { data } = await supabase
+      
+      // Get all profiles
+      const { data: profiles } = await supabase
         .from('profiles')
         .select('*')
         .order('created_at', { ascending: false });
 
-      setProfiles(data || []);
+      if (profiles) {
+        // Get user roles to check which users are already approved/have roles
+        const userIds = profiles.map(p => p.user_id);
+        const { data: userRoles } = await supabase
+          .from('user_roles')
+          .select('user_id, role')
+          .in('user_id', userIds);
+        
+        const roleMap = new Map(userRoles?.map(role => [role.user_id, role.role]) || []);
+        
+        // Filter to show only users without roles (pending approval)
+        const pendingUsers = profiles.filter(profile => !roleMap.has(profile.user_id));
+        
+        setProfiles(pendingUsers);
+      }
     } catch (error) {
       console.error('Error fetching profiles:', error);
       toast({
@@ -54,10 +70,25 @@ export function PendingSignups({ onStatsUpdate }: PendingSignupsProps) {
 
   const handleApproveUser = async (userId: string) => {
     try {
-      // Update user role to ensure they're approved
+      // First check if user already has a role
+      const { data: existingRole } = await supabase
+        .from('user_roles')
+        .select('id')
+        .eq('user_id', userId)
+        .maybeSingle();
+
+      if (existingRole) {
+        toast({
+          title: "User Already Approved",
+          description: "This user already has an assigned role",
+        });
+        return;
+      }
+
+      // Insert new role for the user
       const { error: roleError } = await supabase
         .from('user_roles')
-        .upsert({ 
+        .insert({ 
           user_id: userId, 
           role: 'client' 
         });

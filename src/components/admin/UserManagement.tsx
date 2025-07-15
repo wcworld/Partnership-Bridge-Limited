@@ -131,10 +131,28 @@ export function UserManagement({ onStatsUpdate }: UserManagementProps) {
 
   const updateUserRole = async (userId: string, newRole: 'admin' | 'client') => {
     try {
-      const { error } = await supabase
+      // First check if user has an existing role
+      const { data: existingRole } = await supabase
         .from('user_roles')
-        .update({ role: newRole })
-        .eq('user_id', userId);
+        .select('id')
+        .eq('user_id', userId)
+        .maybeSingle();
+
+      let error;
+      if (existingRole) {
+        // Update existing role
+        const result = await supabase
+          .from('user_roles')
+          .update({ role: newRole })
+          .eq('user_id', userId);
+        error = result.error;
+      } else {
+        // Insert new role
+        const result = await supabase
+          .from('user_roles')
+          .insert({ user_id: userId, role: newRole });
+        error = result.error;
+      }
 
       if (error) throw error;
 
