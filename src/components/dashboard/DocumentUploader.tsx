@@ -66,6 +66,7 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
     setUploadingDoc(documentType);
 
     try {
+      console.log('Starting document upload for:', documentType);
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
         toast({ title: "Error", description: "Please sign in to upload documents", variant: "destructive" });
@@ -77,12 +78,20 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
       formData.append('loanId', loanId);
       formData.append('documentType', documentType);
 
+      console.log('Calling upload-document function with:', { 
+        fileName: file.name, 
+        loanId, 
+        documentType 
+      });
+
       const { data, error } = await supabase.functions.invoke('upload-document', {
         body: formData,
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         },
       });
+
+      console.log('Upload response:', { data, error });
 
       if (error) {
         throw error;
