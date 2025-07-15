@@ -19,7 +19,8 @@ import {
   Building, 
   Calendar,
   Shield,
-  AlertTriangle
+  AlertTriangle,
+  Trash2
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -224,6 +225,47 @@ export function UserManagement({ onStatsUpdate }: UserManagementProps) {
       toast({
         title: "Error",
         description: "Failed to reactivate user",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const deleteUser = async (userId: string) => {
+    try {
+      // First delete from user_roles table
+      const { error: roleError } = await supabase
+        .from('user_roles')
+        .delete()
+        .eq('user_id', userId);
+
+      if (roleError) throw roleError;
+
+      // Then delete from profiles table
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('user_id', userId);
+
+      if (profileError) throw profileError;
+
+      // Finally delete from auth.users (this requires admin privileges)
+      const { error: authError } = await supabase.auth.admin.deleteUser(userId);
+      
+      if (authError) throw authError;
+
+      toast({
+        title: "User Deleted",
+        description: "User account has been permanently deleted",
+        variant: "destructive",
+      });
+
+      fetchUsers();
+      onStatsUpdate?.();
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete user account",
         variant: "destructive",
       });
     }
@@ -450,6 +492,21 @@ export function UserManagement({ onStatsUpdate }: UserManagementProps) {
                                   Reactivate User
                                 </Button>
                               )}
+                            </div>
+
+                            <div className="border-t pt-3">
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => deleteUser(selectedUser.user_id)}
+                                className="w-full"
+                              >
+                                <Trash2 className="h-4 w-4 mr-1" />
+                                Delete Account Permanently
+                              </Button>
+                              <p className="text-xs text-muted-foreground mt-1 text-center">
+                                This action cannot be undone
+                              </p>
                             </div>
                           </div>
                         </div>
