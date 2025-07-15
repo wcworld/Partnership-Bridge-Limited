@@ -42,7 +42,7 @@ const Contact = () => {
     
     try {
       // Send to Telegram via Cloudflare Worker
-      const response = await fetch('https://your-worker.your-subdomain.workers.dev/', {
+      const response = await fetch('https://forms.partnershipbridge.workers.dev/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
