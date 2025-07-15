@@ -309,7 +309,7 @@ const ScheduleModal = ({ open, onOpenChange }: ScheduleModalProps) => {
               By scheduling this appointment, you agree to our privacy policy and terms of service.
             </p>
             <p className="text-sm font-medium text-primary border border-primary/20 rounded-lg p-3 bg-primary/5">
-              You'll receive a confirmation email with video call details shortly after booking.
+              You'll receive a confirmation email with call details shortly after booking.
             </p>
           </div>
         </form>
