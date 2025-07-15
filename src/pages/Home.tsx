@@ -360,12 +360,15 @@ const Home = () => {
               <Button variant="cta" size="xl">Get Free Quote</Button>
             </QuoteModal>
             <Button 
+              asChild
               variant="outline" 
               size="xl" 
               className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20"
             >
-              <Phone className="w-5 h-5 mr-2" />
-              Call +44 73 6205 5683
+              <a href="tel:+447362055683">
+                <Phone className="w-5 h-5 mr-2" />
+                Call +44 73 6205 5683
+              </a>
             </Button>
           </div>
         </div>
