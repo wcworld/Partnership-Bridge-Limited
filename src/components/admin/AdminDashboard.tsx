@@ -14,7 +14,8 @@ import {
   TrendingUp,
   Settings,
   BarChart3,
-  Shield
+  Shield,
+  FolderOpen
 } from 'lucide-react';
 import { PendingSignups } from './PendingSignups';
 import { ClientActivities } from './ClientActivities';
@@ -22,6 +23,7 @@ import { ApplicationOverview } from './ApplicationOverview';
 import { UserManagement } from './UserManagement';
 import { UserActivityLog } from './UserActivityLog';
 import { AdminStats } from './AdminStats';
+import DocumentManager from './DocumentManager';
 
 interface AdminStats {
   totalUsers: number;
@@ -109,7 +111,7 @@ export function AdminDashboard() {
       <div className="p-6">
         {/* Main Content Tabs */}
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
               Overview
@@ -129,6 +131,10 @@ export function AdminDashboard() {
             <TabsTrigger value="applications" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Applications
+            </TabsTrigger>
+            <TabsTrigger value="documents" className="flex items-center gap-2">
+              <FolderOpen className="h-4 w-4" />
+              Documents
             </TabsTrigger>
             <TabsTrigger value="logs" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
@@ -161,6 +167,10 @@ export function AdminDashboard() {
           
           <TabsContent value="applications">
             <ApplicationOverview />
+          </TabsContent>
+
+          <TabsContent value="documents">
+            <DocumentManager />
           </TabsContent>
 
           <TabsContent value="logs">

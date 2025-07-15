@@ -76,17 +76,34 @@ serve(async (req) => {
       });
     }
 
-    // For now, just update the document status without actual file upload
-    // In a real implementation, you would upload to storage first
-    console.log(`Document upload simulated for loan ${loanId}, type: ${documentType}, file: ${file.name}`);
+    // Upload file to storage
+    const fileName = `${loanId}/${documentType}-${Date.now()}-${file.name}`;
+    console.log(`Uploading document to storage: ${fileName}`);
 
-    // Update document record in database - use 'processing' status as 'uploaded' is not in check constraint
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('documents')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (uploadError) {
+      console.error('Storage upload failed:', uploadError);
+      return new Response(JSON.stringify({ error: 'File upload failed', details: uploadError }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    console.log('File uploaded successfully:', uploadData);
+
+    // Update document record in database with actual file path
     const { error: updateError } = await userSupabase
       .from('loan_documents')
       .update({
         status: 'processing',
         uploaded_at: new Date().toISOString(),
-        file_path: `simulated-path/${user.id}/${loanId}/${documentType}-${file.name}`
+        file_path: fileName
       })
       .eq('loan_id', loanId)
       .eq('document_type', documentType);
