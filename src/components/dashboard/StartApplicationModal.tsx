@@ -59,10 +59,12 @@ export function StartApplicationModal({ onApplicationCreated, trigger }: StartAp
       // Create required documents for the application
       const requiredDocuments = [
         { name: 'Photo ID', document_type: 'photo_id' },
-        { name: 'Bank Statements', document_type: 'bank_statement' },
-        { name: 'Tax Returns', document_type: 'tax_return' },
-        { name: 'Pay Stubs', document_type: 'pay_stub' },
-        { name: 'Financial Statement', document_type: 'financial_statement' }
+        { name: 'Company Registration/Incorporation Documents', document_type: 'company_registration' },
+        { name: 'Proof of Business Address', document_type: 'business_address' },
+        { name: 'Detailed Business Services and Business Plan', document_type: 'business_plan' },
+        { name: 'Detailed Use of Funds Breakdown', document_type: 'use_of_funds' },
+        { name: '3-Year Financial Projections', document_type: 'financial_projections' },
+        { name: 'Relevant Business Licenses or Permits', document_type: 'business_licenses' }
       ];
 
       const documentsToInsert = requiredDocuments.map(doc => ({
