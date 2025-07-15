@@ -117,16 +117,16 @@ export function AdminStats({ onStatsChange }: AdminStatsProps) {
 
       const newStats: AdminStatsData = {
         totalUsers: totalUsers || 0,
-        activeUsers: Math.floor((totalUsers || 0) * 0.8), // Simulated active users
+        activeUsers: totalUsers || 0, // Same as total users since we don't track active sessions
         newUsersToday: newUsersToday || 0,
         totalApplications: totalApplications || 0,
         pendingApplications: pendingApplications || 0,
         approvedApplications: approvedApplications || 0,
         rejectedApplications: rejectedApplications || 0,
         totalLoanAmount,
-        averageProcessingTime: 7, // Simulated average processing time in days
+        averageProcessingTime: 0, // Would need to calculate from actual processing times
         documentUploadRate,
-        systemHealth: Math.floor(Math.random() * 10) + 90 // Simulated system health
+        systemHealth: 100 // System is healthy if we can fetch data
       };
 
       setStats(newStats);
