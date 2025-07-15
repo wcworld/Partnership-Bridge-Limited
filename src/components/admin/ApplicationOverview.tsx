@@ -42,6 +42,7 @@ export function ApplicationOverview() {
   const fetchApplications = async () => {
     try {
       setLoading(true);
+      console.log('Fetching applications with filter:', statusFilter);
       
       let query = supabase
         .from('loan_applications')
@@ -52,15 +53,25 @@ export function ApplicationOverview() {
         query = query.eq('status', statusFilter);
       }
 
-      const { data: applications } = await query;
+      const { data: applications, error: appError } = await query;
+      console.log('Applications fetched:', applications?.length, 'Error:', appError);
 
-      if (applications) {
+      if (appError) {
+        console.error('Error fetching applications:', appError);
+        return;
+      }
+
+      if (applications && applications.length > 0) {
         // Fetch profiles for each application
         const userIds = [...new Set(applications.map(app => app.user_id))];
-        const { data: profiles } = await supabase
+        console.log('Fetching profiles for user IDs:', userIds);
+        
+        const { data: profiles, error: profileError } = await supabase
           .from('profiles')
           .select('user_id, first_name, last_name, company_name')
           .in('user_id', userIds);
+
+        console.log('Profiles fetched:', profiles?.length, 'Error:', profileError);
 
         const profileMap = new Map(
           profiles?.map(profile => [profile.user_id, profile]) || []
@@ -76,10 +87,15 @@ export function ApplicationOverview() {
           }
         }));
 
+        console.log('Final applications with profiles:', applicationsWithProfiles.length);
         setApplications(applicationsWithProfiles);
+      } else {
+        console.log('No applications found');
+        setApplications([]);
       }
     } catch (error) {
       console.error('Error fetching applications:', error);
+      setApplications([]);
     } finally {
       setLoading(false);
     }
