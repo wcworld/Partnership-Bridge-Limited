@@ -96,6 +96,8 @@ serve(async (req) => {
 
     if (accessKeyId && secretAccessKey && accountId) {
       try {
+        console.log('Attempting Cloudflare R2 upload...');
+        
         // Configure S3Client for Cloudflare R2
         const s3Client = new S3Client({
           region: 'auto',
@@ -104,21 +106,25 @@ serve(async (req) => {
             accessKeyId,
             secretAccessKey,
           },
+          forcePathStyle: true,
         });
 
         // Convert file to buffer
         const fileBuffer = new Uint8Array(await file.arrayBuffer());
+        console.log('File converted to buffer, size:', fileBuffer.length);
 
         // Upload to R2
         const uploadCommand = new PutObjectCommand({
           Bucket: bucketName,
           Key: fileName,
           Body: fileBuffer,
-          ContentType: file.type,
+          ContentType: file.type || 'application/octet-stream',
           CacheControl: 'max-age=3600',
         });
 
-        await s3Client.send(uploadCommand);
+        console.log('Sending upload command to R2...');
+        const result = await s3Client.send(uploadCommand);
+        console.log('R2 upload result:', result);
         console.log('File uploaded successfully to Cloudflare R2:', fileName);
 
         // Update document record in database
