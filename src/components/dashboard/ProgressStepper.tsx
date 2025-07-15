@@ -4,9 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 interface ProgressStepperProps {
   steps: string[];
   currentStep: number;
+  documentProgress?: number;
+  applicationStatus?: string;
 }
 
-export function ProgressStepper({ steps, currentStep }: ProgressStepperProps) {
+export function ProgressStepper({ steps, currentStep, documentProgress = 0, applicationStatus }: ProgressStepperProps) {
   return (
     <Card>
       <CardHeader>
@@ -68,18 +70,52 @@ export function ProgressStepper({ steps, currentStep }: ProgressStepperProps) {
           })}
         </div>
 
-        {/* Progress Bar */}
-        <div className="mt-6">
-          <div className="flex justify-between text-xs text-muted-foreground mb-2">
-            <span>Progress</span>
-            <span>{Math.round((currentStep / steps.length) * 100)}%</span>
+        {/* Progress Bars */}
+        <div className="mt-6 space-y-4">
+          {/* Application Progress */}
+          <div>
+            <div className="flex justify-between text-xs text-muted-foreground mb-2">
+              <span>Application Progress</span>
+              <span>{Math.round((currentStep / steps.length) * 100)}%</span>
+            </div>
+            <div className="w-full bg-muted rounded-full h-2">
+              <div 
+                className="bg-primary h-2 rounded-full transition-all duration-500"
+                style={{ width: `${(currentStep / steps.length) * 100}%` }}
+              />
+            </div>
           </div>
-          <div className="w-full bg-muted rounded-full h-2">
-            <div 
-              className="bg-primary h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(currentStep / steps.length) * 100}%` }}
-            />
+          
+          {/* Document Progress */}
+          <div>
+            <div className="flex justify-between text-xs text-muted-foreground mb-2">
+              <span>Document Completion</span>
+              <span>{Math.round(documentProgress)}%</span>
+            </div>
+            <div className="w-full bg-muted rounded-full h-2">
+              <div 
+                className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                style={{ width: `${documentProgress}%` }}
+              />
+            </div>
           </div>
+          
+          {/* Overall Status */}
+          {applicationStatus && (
+            <div className="pt-2 border-t">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Status</span>
+                <span className={`text-xs px-2 py-1 rounded-full ${
+                  applicationStatus === 'approved' ? 'bg-green-100 text-green-800' :
+                  applicationStatus === 'under_review' ? 'bg-blue-100 text-blue-800' :
+                  applicationStatus === 'submitted' ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-gray-100 text-gray-800'
+                }`}>
+                  {applicationStatus.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

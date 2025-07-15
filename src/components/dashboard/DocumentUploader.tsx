@@ -1,3 +1,4 @@
+import React from 'react';
 import { Upload, Check, Clock, X, FileText, Eye, Download } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,9 +18,10 @@ interface DocumentUploaderProps {
   documents: Document[];
   loanId: string;
   onDocumentUploaded?: () => void;
+  onProgressUpdate?: (completionPercentage: number) => void;
 }
 
-export function DocumentUploader({ documents, loanId, onDocumentUploaded }: DocumentUploaderProps) {
+export function DocumentUploader({ documents, loanId, onDocumentUploaded, onProgressUpdate }: DocumentUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadingDoc, setUploadingDoc] = useState<string | null>(null);
   const { toast } = useToast();
@@ -108,6 +110,10 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
       if (data?.success) {
         toast({ title: "Success", description: "Document uploaded successfully" });
         onDocumentUploaded?.();
+        // Update progress after successful upload
+        const newCompletedCount = documents.filter(doc => doc.status === 'approved').length;
+        const newTotalProgress = documents.length > 0 ? (newCompletedCount / documents.length) * 100 : 0;
+        onProgressUpdate?.(newTotalProgress);
       } else {
         throw new Error(data?.error || 'Upload failed');
       }
@@ -147,6 +153,13 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
 
   const pendingCount = documents.filter(doc => doc.status === 'missing').length;
   const completedCount = documents.filter(doc => doc.status === 'approved').length;
+  const processingCount = documents.filter(doc => doc.status === 'processing').length;
+  const totalProgress = documents.length > 0 ? (completedCount / documents.length) * 100 : 0;
+  
+  // Update progress when documents change
+  React.useEffect(() => {
+    onProgressUpdate?.(totalProgress);
+  }, [totalProgress, onProgressUpdate]);
 
   return (
     <Card>
@@ -237,13 +250,22 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
           <div className="mt-6">
             <div className="flex justify-between text-xs text-muted-foreground mb-2">
               <span>Document Completion</span>
-              <span>{Math.round((completedCount / documents.length) * 100)}%</span>
+              <span>{Math.round(totalProgress)}%</span>
             </div>
-            <div className="w-full bg-muted rounded-full h-2">
+            <div className="w-full bg-muted rounded-full h-3">
               <div 
-                className="bg-primary h-2 rounded-full transition-all duration-300"
-                style={{ width: `${(completedCount / documents.length) * 100}%` }}
-              />
+                className="bg-primary h-3 rounded-full transition-all duration-500 relative overflow-hidden"
+                style={{ width: `${totalProgress}%` }}
+              >
+                {processingCount > 0 && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
+                )}
+              </div>
+            </div>
+            <div className="flex justify-between text-xs text-muted-foreground mt-2">
+              <span>{completedCount} approved</span>
+              {processingCount > 0 && <span>{processingCount} processing</span>}
+              <span>{pendingCount} pending</span>
             </div>
           </div>
         )}

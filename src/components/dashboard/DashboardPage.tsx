@@ -56,6 +56,7 @@ export default function DashboardPage() {
   const [documents, setDocuments] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentView, setCurrentView] = useState<'overview' | 'applications' | 'profile'>('overview');
+  const [documentProgress, setDocumentProgress] = useState(0);
 
   useEffect(() => {
     if (user) {
@@ -504,6 +505,8 @@ export default function DashboardPage() {
                     <ProgressStepper 
                       steps={sampleData.application.steps}
                       currentStep={sampleData.application.currentStep}
+                      documentProgress={documentProgress}
+                      applicationStatus={applications[0]?.status}
                     />
                   </div>
                   <div className="transform hover:scale-[1.02] transition-transform duration-200">
@@ -524,14 +527,15 @@ export default function DashboardPage() {
                 
                 <div className="transform hover:scale-[1.02] transition-transform duration-200">
                   {applications[0]?.id ? (
-                    <DocumentUploader 
-                      documents={documents} 
-                      loanId={applications[0].id}
-                      onDocumentUploaded={() => {
-                        fetchApplications();
-                        fetchDocuments();
-                      }}
-                    />
+                     <DocumentUploader 
+                       documents={documents} 
+                       loanId={applications[0].id}
+                       onDocumentUploaded={() => {
+                         fetchApplications();
+                         fetchDocuments();
+                       }}
+                       onProgressUpdate={setDocumentProgress}
+                     />
                   ) : (
                     <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-card/80">
                       <CardContent className="p-12 text-center">
@@ -582,6 +586,8 @@ export default function DashboardPage() {
                       <ProgressStepper 
                         steps={sampleData.application.steps}
                         currentStep={application.current_stage}
+                        documentProgress={documentProgress}
+                        applicationStatus={application.status}
                       />
                       
                       <ActionItems 
@@ -595,11 +601,12 @@ export default function DashboardPage() {
                         }}
                       />
                       
-                      <DocumentUploader 
-                        documents={documents}
-                        loanId={application.id}
-                        onDocumentUploaded={fetchDocuments}
-                      />
+                       <DocumentUploader 
+                         documents={documents}
+                         loanId={application.id}
+                         onDocumentUploaded={fetchDocuments}
+                         onProgressUpdate={setDocumentProgress}
+                       />
                     </div>
                   ))}
                 </>
