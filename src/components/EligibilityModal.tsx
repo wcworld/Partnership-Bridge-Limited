@@ -81,7 +81,7 @@ export function EligibilityModal({ children }: EligibilityModalProps) {
   const handleSubmit = async () => {
     try {
       // Send to Telegram via Cloudflare Worker
-      const response = await fetch('https://your-worker.your-subdomain.workers.dev/', {
+      const response = await fetch('https://bridge-finance-solutions.preview--bridge-finance-solutions.lovable.app/api/cloudflare-worker', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
