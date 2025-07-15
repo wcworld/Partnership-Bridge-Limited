@@ -137,12 +137,10 @@ export default function DashboardPage() {
           .eq('loan_id', applications[0].id);
         
         if (documentsData) {
-          // Transform documents to match the expected format
+          // Transform documents to match the expected format - use database status values directly
           const formattedDocuments = documentsData.map(doc => ({
             name: doc.document_name,
-            status: doc.status === 'missing' ? 'Requested' as const : 
-                   doc.status === 'uploaded' ? 'Uploaded' as const :
-                   doc.status === 'approved' ? 'Approved' as const : 'Requested' as const,
+            status: doc.status as 'missing' | 'processing' | 'approved' | 'reupload_needed',
             document_type: doc.document_type
           }));
           setDocuments(formattedDocuments);

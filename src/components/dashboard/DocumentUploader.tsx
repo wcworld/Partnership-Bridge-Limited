@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 
 interface Document {
   name: string;
-  status: 'Requested' | 'Uploaded' | 'Approved' | 'Rejected';
+  status: 'missing' | 'processing' | 'approved' | 'reupload_needed';
   document_type: string;
 }
 
@@ -24,11 +24,11 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
   const { toast } = useToast();
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'Approved':
+      case 'approved':
         return <Check className="h-4 w-4 text-green-600" />;
-      case 'Rejected':
+      case 'reupload_needed':
         return <X className="h-4 w-4 text-red-600" />;
-      case 'Uploaded':
+      case 'processing':
         return <Clock className="h-4 w-4 text-yellow-600" />;
       default:
         return <FileText className="h-4 w-4 text-muted-foreground" />;
@@ -37,15 +37,22 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
 
   const getStatusBadge = (status: string) => {
     const variants = {
-      'Approved': 'bg-green-100 text-green-800 border-green-200',
-      'Rejected': 'bg-red-100 text-red-800 border-red-200',
-      'Uploaded': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      'Requested': 'bg-gray-100 text-gray-800 border-gray-200'
+      'approved': 'bg-green-100 text-green-800 border-green-200',
+      'reupload_needed': 'bg-red-100 text-red-800 border-red-200',
+      'processing': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      'missing': 'bg-gray-100 text-gray-800 border-gray-200'
+    };
+
+    const displayNames = {
+      'approved': 'Approved',
+      'reupload_needed': 'Rejected',
+      'processing': 'Processing',
+      'missing': 'Required'
     };
 
     return (
       <Badge variant="outline" className={variants[status as keyof typeof variants]}>
-        {status}
+        {displayNames[status as keyof typeof displayNames] || status}
       </Badge>
     );
   };
@@ -118,8 +125,8 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
     }
   };
 
-  const pendingCount = documents.filter(doc => doc.status === 'Requested').length;
-  const completedCount = documents.filter(doc => doc.status === 'Approved').length;
+  const pendingCount = documents.filter(doc => doc.status === 'missing').length;
+  const completedCount = documents.filter(doc => doc.status === 'approved').length;
 
   return (
     <Card>
@@ -143,10 +150,10 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
                 <div>
                   <h4 className="font-medium text-foreground">{document.name}</h4>
                   <p className="text-sm text-muted-foreground">
-                    {document.status === 'Requested' && 'Upload required'}
-                    {document.status === 'Uploaded' && 'Under review'}
-                    {document.status === 'Approved' && 'Document approved'}
-                    {document.status === 'Rejected' && 'Please resubmit'}
+                    {document.status === 'missing' && 'Upload required'}
+                    {document.status === 'processing' && 'Under review'}
+                    {document.status === 'approved' && 'Document approved'}
+                    {document.status === 'reupload_needed' && 'Please resubmit'}
                   </p>
                 </div>
               </div>
@@ -154,7 +161,7 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
               <div className="flex items-center gap-3">
                 {getStatusBadge(document.status)}
                 
-                {document.status === 'Requested' && (
+                {document.status === 'missing' && (
                   <Button 
                     size="sm"
                     onClick={() => handleUpload(document)}
@@ -165,7 +172,7 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
                   </Button>
                 )}
 
-                {document.status === 'Rejected' && (
+                {document.status === 'reupload_needed' && (
                   <Button 
                     size="sm"
                     variant="outline"
@@ -177,7 +184,7 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
                   </Button>
                 )}
 
-                {(document.status === 'Uploaded' || document.status === 'Approved') && (
+                {(document.status === 'processing' || document.status === 'approved') && (
                   <Button size="sm" variant="ghost">
                     View
                   </Button>

@@ -80,11 +80,11 @@ serve(async (req) => {
     // In a real implementation, you would upload to storage first
     console.log(`Document upload simulated for loan ${loanId}, type: ${documentType}, file: ${file.name}`);
 
-    // Update document record in database
+    // Update document record in database - use 'processing' status as 'uploaded' is not in check constraint
     const { error: updateError } = await userSupabase
       .from('loan_documents')
       .update({
-        status: 'uploaded',
+        status: 'processing',
         uploaded_at: new Date().toISOString(),
         file_path: `simulated-path/${user.id}/${loanId}/${documentType}-${file.name}`
       })
