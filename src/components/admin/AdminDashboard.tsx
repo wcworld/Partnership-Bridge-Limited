@@ -15,7 +15,8 @@ import {
   Settings,
   BarChart3,
   Shield,
-  FolderOpen
+  FolderOpen,
+  Camera
 } from 'lucide-react';
 import { PendingSignups } from './PendingSignups';
 import { ClientActivities } from './ClientActivities';
@@ -24,6 +25,7 @@ import { UserManagement } from './UserManagement';
 import { UserActivityLog } from './UserActivityLog';
 import { AdminStats } from './AdminStats';
 import DocumentManager from './DocumentManager';
+import { UserPhotoManager } from './UserPhotoManager';
 
 interface AdminStats {
   totalUsers: number;
@@ -111,7 +113,7 @@ export function AdminDashboard() {
       <div className="p-6">
         {/* Main Content Tabs */}
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-8">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
               Overview
@@ -119,6 +121,10 @@ export function AdminDashboard() {
             <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
               Users
+            </TabsTrigger>
+            <TabsTrigger value="photos" className="flex items-center gap-2">
+              <Camera className="h-4 w-4" />
+              Photos
             </TabsTrigger>
             <TabsTrigger value="signups" className="flex items-center gap-2">
               <UserCheck className="h-4 w-4" />
@@ -155,6 +161,10 @@ export function AdminDashboard() {
 
           <TabsContent value="users">
             <UserManagement onStatsUpdate={fetchStats} />
+          </TabsContent>
+
+          <TabsContent value="photos">
+            <UserPhotoManager />
           </TabsContent>
           
           <TabsContent value="signups">
