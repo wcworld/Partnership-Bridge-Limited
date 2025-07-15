@@ -507,7 +507,18 @@ export default function DashboardPage() {
                     />
                   </div>
                   <div className="transform hover:scale-[1.02] transition-transform duration-200">
-                    <ActionItems actionItems={sampleData.application.actionItems} />
+                    <ActionItems 
+                      userId={user.id}
+                      applications={applications}
+                      profile={profile}
+                      onActionClick={(actionType, data) => {
+                        if (actionType === 'profile') {
+                          setCurrentView('profile');
+                        } else if (actionType === 'documents' || actionType === 'application') {
+                          setCurrentView('applications');
+                        }
+                      }}
+                    />
                   </div>
                 </div>
                 
@@ -574,7 +585,14 @@ export default function DashboardPage() {
                       />
                       
                       <ActionItems 
-                        actionItems={sampleData.application.actionItems}
+                        userId={user.id}
+                        applications={[application]}
+                        profile={profile}
+                        onActionClick={(actionType, data) => {
+                          if (actionType === 'profile') {
+                            setCurrentView('profile');
+                          }
+                        }}
                       />
                       
                       <DocumentUploader 
