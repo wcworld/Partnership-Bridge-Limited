@@ -64,20 +64,28 @@ export function UserManagement({ onStatsUpdate }: UserManagementProps) {
     try {
       setLoading(true);
       
-      // Fetch profiles with user roles
+      // Fetch profiles
       const { data: profiles } = await supabase
         .from('profiles')
-        .select(`
-          *,
-          user_roles(role)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (profiles) {
+        // Fetch user roles separately
+        const userIds = profiles.map(profile => profile.user_id);
+        const { data: userRoles } = await supabase
+          .from('user_roles')
+          .select('user_id, role')
+          .in('user_id', userIds);
+
+        const roleMap = new Map(
+          userRoles?.map(role => [role.user_id, role.role]) || []
+        );
+
         const usersWithRoles = profiles.map(profile => ({
           ...profile,
-          role: (profile.user_roles as any)?.[0]?.role || 'client',
-          status: 'active' as const // Default status, would need a status field in profiles table
+          role: roleMap.get(profile.user_id) || 'client',
+          status: 'active' as const
         }));
         
         setUsers(usersWithRoles);
