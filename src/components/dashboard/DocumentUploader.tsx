@@ -212,7 +212,7 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
                         View
                       </Button>
                     </DialogTrigger>
-                    <DocumentViewDialog document={document} />
+                    <DocumentViewDialog document={document} loanId={loanId} />
                   </Dialog>
                 )}
               </div>
@@ -260,20 +260,30 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
 }
 
 // Document View Dialog Component
-function DocumentViewDialog({ document }: { document: Document }) {
+function DocumentViewDialog({ document, loanId }: { document: Document; loanId: string }) {
   const { toast } = useToast();
 
   const handleDownloadDocument = async (document: Document) => {
     try {
-      // Get the file path from the database
+      // Get the file path from the database  
       const { data: docData, error } = await supabase
         .from('loan_documents')
         .select('file_path')
         .eq('document_type', document.document_type)
-        .eq('document_name', document.name)
-        .single();
+        .eq('loan_id', loanId)
+        .maybeSingle();
 
-      if (error || !docData?.file_path) {
+      if (error) {
+        console.error('Database error:', error);
+        toast({ 
+          title: "Error", 
+          description: "Database error occurred", 
+          variant: "destructive" 
+        });
+        return;
+      }
+
+      if (!docData?.file_path) {
         toast({ 
           title: "Error", 
           description: "Document file not found", 
@@ -288,6 +298,7 @@ function DocumentViewDialog({ document }: { document: Document }) {
         .download(docData.file_path);
 
       if (downloadError) {
+        console.error('Download error:', downloadError);
         toast({ 
           title: "Error", 
           description: "Failed to download document", 
@@ -327,10 +338,20 @@ function DocumentViewDialog({ document }: { document: Document }) {
         .from('loan_documents')
         .select('file_path')
         .eq('document_type', document.document_type)
-        .eq('document_name', document.name)
-        .single();
+        .eq('loan_id', loanId)
+        .maybeSingle();
 
-      if (error || !docData?.file_path) {
+      if (error) {
+        console.error('Database error:', error);
+        toast({ 
+          title: "Error", 
+          description: "Database error occurred", 
+          variant: "destructive" 
+        });
+        return;
+      }
+
+      if (!docData?.file_path) {
         toast({ 
           title: "Error", 
           description: "Document file not found", 
