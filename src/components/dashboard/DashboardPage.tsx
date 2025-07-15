@@ -201,22 +201,63 @@ export default function DashboardPage() {
     app.status === 'underwriting'
   ).length;
 
-  const recentActivities = [
-    {
-      id: 1,
-      title: 'Asset Finance Application Approved',
-      description: `Your £${approvedAmount.toLocaleString()} asset finance application has been approved`,
-      time: '2 days ago',
-      type: 'success'
-    },
-    {
-      id: 2,
-      title: 'Business Loan Under Review',
-      description: 'Your £50,000 business loan application is being reviewed',
-      time: '5 days ago',
-      type: 'warning'
-    }
-  ];
+  const recentActivities = applications.map(app => {
+    const getActivityType = (status: string) => {
+      switch (status) {
+        case 'approved':
+        case 'funded':
+          return 'success';
+        case 'rejected':
+          return 'error';
+        case 'submitted':
+        case 'document_review':
+        case 'underwriting':
+          return 'warning';
+        default:
+          return 'info';
+      }
+    };
+
+    const getActivityTitle = (app: LoanApplication) => {
+      if (app.last_action) {
+        return app.last_action;
+      }
+      return `${app.loan_type} Application ${app.status === 'approved' ? 'Approved' : 
+             app.status === 'rejected' ? 'Rejected' : 
+             app.status === 'funded' ? 'Funded' : 'Submitted'}`;
+    };
+
+    const getActivityDescription = (app: LoanApplication) => {
+      return `Your £${app.loan_amount.toLocaleString()} ${app.loan_type.toLowerCase()} application (Ref: ${app.reference_number}) ${
+        app.status === 'approved' ? 'has been approved' :
+        app.status === 'rejected' ? 'has been rejected' :
+        app.status === 'funded' ? 'has been funded' :
+        app.status === 'submitted' ? 'has been submitted' :
+        'is under review'
+      }`;
+    };
+
+    const getTimeAgo = (dateString: string) => {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffInMs = now.getTime() - date.getTime();
+      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+      
+      if (diffInDays === 0) return 'Today';
+      if (diffInDays === 1) return '1 day ago';
+      if (diffInDays < 7) return `${diffInDays} days ago`;
+      if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
+      return `${Math.floor(diffInDays / 30)} months ago`;
+    };
+
+    return {
+      id: app.id,
+      title: getActivityTitle(app),
+      description: getActivityDescription(app),
+      time: getTimeAgo(app.last_action_date || app.created_at),
+      type: getActivityType(app.status)
+    };
+  }).slice(0, 5); // Show only the 5 most recent activities
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20">
@@ -406,6 +447,7 @@ export default function DashboardPage() {
                       <div key={activity.id} className="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-colors duration-200">
                         <div className={`w-3 h-3 rounded-full mt-2 ${
                           activity.type === 'success' ? 'bg-green-500 shadow-lg shadow-green-500/50' : 
+                          activity.type === 'error' ? 'bg-red-500 shadow-lg shadow-red-500/50' :
                           activity.type === 'warning' ? 'bg-yellow-500 shadow-lg shadow-yellow-500/50' : 'bg-blue-500 shadow-lg shadow-blue-500/50'
                         }`} />
                         <div className="flex-1">
@@ -417,11 +459,14 @@ export default function DashboardPage() {
                           variant="outline" 
                           className={`${
                             activity.type === 'success' ? 'border-green-200 text-green-700 bg-green-50' :
+                            activity.type === 'error' ? 'border-red-200 text-red-700 bg-red-50' :
                             activity.type === 'warning' ? 'border-yellow-200 text-yellow-700 bg-yellow-50' :
                             'border-blue-200 text-blue-700 bg-blue-50'
                           }`}
                         >
-                          {activity.type === 'success' ? 'Completed' : activity.type === 'warning' ? 'In Review' : 'Processing'}
+                          {activity.type === 'success' ? 'Completed' : 
+                           activity.type === 'error' ? 'Rejected' :
+                           activity.type === 'warning' ? 'In Review' : 'Processing'}
                         </Badge>
                       </div>
                     ))}
