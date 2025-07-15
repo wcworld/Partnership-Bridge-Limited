@@ -237,7 +237,7 @@ const CookiePolicy = () => {
                     <p><strong>Partnership Bridge Limited</strong></p>
                     <p>26 Talbot Road, Albrighton, Wolverhampton, England WV7 3HH</p>
                     <p>Email: privacy@partnershipbridge.co.uk</p>
-                    <p>Phone: +447362055683</p>
+                    <p>Phone: +44 73 6205 5683</p>
                   </div>
                   <p>We may update this Cookie Policy from time to time. When we do, we will post the updated policy on this page and update the "Last Updated" date.</p>
                 </div>

@@ -70,7 +70,7 @@ const Navigation = () => {
             <div className="flex items-center space-x-4 text-sm text-muted-foreground">
               <div className="flex items-center space-x-1">
                 <Phone className="w-4 h-4" />
-                <span>+447362055683</span>
+                <span>+44 73 6205 5683</span>
               </div>
               <div className="flex items-center space-x-1">
                 <Mail className="w-4 h-4" />

@@ -174,7 +174,7 @@ const TermsOfService = () => {
                   <div className="bg-secondary rounded-lg p-6 space-y-2">
                     <p><strong>Contact Details:</strong></p>
                     <p>Email: complaints@partnershipbridge.co.uk</p>
-                    <p>Phone: +447362055683</p>
+                    <p>Phone: +44 73 6205 5683</p>
                     <p>Address: 26 Talbot Road, Albrighton, Wolverhampton, England WV7 3HH</p>
                   </div>
                 </div>

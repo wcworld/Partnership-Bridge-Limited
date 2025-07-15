@@ -166,7 +166,7 @@ const PrivacyPolicy = () => {
                     <p><strong>Partnership Bridge Limited</strong></p>
                     <p>26 Talbot Road, Albrighton, Wolverhampton, England WV7 3HH</p>
                     <p>Email: privacy@partnershipbridge.co.uk</p>
-                    <p>Phone: +447362055683</p>
+                    <p>Phone: +44 73 6205 5683</p>
                   </div>
                   <p>You also have the right to lodge a complaint with the Information Commissioner's Office (ICO) if you believe your data protection rights have been breached.</p>
                 </div>

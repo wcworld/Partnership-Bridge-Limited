@@ -365,7 +365,7 @@ const Home = () => {
               className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20"
             >
               <Phone className="w-5 h-5 mr-2" />
-              Call +447362055683
+              Call +44 73 6205 5683
             </Button>
           </div>
         </div>
