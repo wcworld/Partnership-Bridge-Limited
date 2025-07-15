@@ -279,7 +279,7 @@ const Contact = () => {
                     </div>
                   </div>
                   <div className="mt-4 p-3 bg-success/10 rounded-lg">
-                    <p className="text-sm text-success-foreground font-medium">
+                    <p className="text-sm text-black font-medium">
                       Emergency contact available 24/7 for existing clients
                     </p>
                   </div>
