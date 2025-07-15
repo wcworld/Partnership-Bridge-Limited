@@ -45,7 +45,10 @@ export function ApplicationOverview() {
       
       let query = supabase
         .from('loan_applications')
-        .select('*')
+        .select(`
+          *,
+          profiles(user_id, first_name, last_name, company_name)
+        `)
         .order('created_at', { ascending: false });
 
       if (statusFilter !== 'all') {
@@ -55,20 +58,9 @@ export function ApplicationOverview() {
       const { data: applications } = await query;
 
       if (applications) {
-        // Fetch profiles for each application
-        const userIds = [...new Set(applications.map(app => app.user_id))];
-        const { data: profiles } = await supabase
-          .from('profiles')
-          .select('user_id, first_name, last_name, company_name')
-          .in('user_id', userIds);
-
-        const profileMap = new Map(
-          profiles?.map(profile => [profile.user_id, profile]) || []
-        );
-
         const applicationsWithProfiles = applications.map(app => ({
           ...app,
-          profile: profileMap.get(app.user_id) || {
+          profile: app.profiles || {
             user_id: app.user_id,
             first_name: null,
             last_name: null,
