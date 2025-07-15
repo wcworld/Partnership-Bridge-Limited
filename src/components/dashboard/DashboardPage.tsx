@@ -460,7 +460,12 @@ export default function DashboardPage() {
                       </div>
                       Recent Activity
                     </CardTitle>
-                    <Button variant="ghost" size="sm" className="hover:bg-muted/80">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="hover:bg-muted/80"
+                      onClick={() => setCurrentView('applications')}
+                    >
                       View All
                     </Button>
                   </div>
