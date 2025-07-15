@@ -13,7 +13,8 @@ import {
   LogOut,
   DollarSign,
   TrendingUp,
-  Clock
+  Clock,
+  X
 } from 'lucide-react';
 import { ProgressStepper } from './ProgressStepper';
 import { ActionItems } from './ActionItems';
@@ -201,6 +202,10 @@ export default function DashboardPage() {
     app.status === 'underwriting'
   ).length;
 
+  const rejectedCount = applications.filter(app => 
+    app.status === 'rejected'
+  ).length;
+
   const recentActivities = applications.map(app => {
     const getActivityType = (status: string) => {
       switch (status) {
@@ -374,7 +379,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Enhanced Stats Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
                 <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <CardContent className="p-8 relative">
@@ -422,6 +427,22 @@ export default function DashboardPage() {
                     </div>
                     <div className="text-3xl font-bold text-foreground mb-2">{pendingCount}</div>
                     <div className="text-sm text-muted-foreground font-medium">Pending Review</div>
+                  </CardContent>
+                </Card>
+
+                <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <CardContent className="p-8 relative">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-red-500/10 rounded-xl">
+                        <X className="h-6 w-6 text-red-600" />
+                      </div>
+                      <Badge variant="secondary" className="bg-red-500/10 text-red-700 border-0">
+                        Rejected
+                      </Badge>
+                    </div>
+                    <div className="text-3xl font-bold text-foreground mb-2">{rejectedCount}</div>
+                    <div className="text-sm text-muted-foreground font-medium">Rejected Applications</div>
                   </CardContent>
                 </Card>
               </div>
