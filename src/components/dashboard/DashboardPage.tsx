@@ -19,7 +19,7 @@ import {
 import { ProgressStepper } from './ProgressStepper';
 import { ActionItems } from './ActionItems';
 import { DocumentUploader } from './DocumentUploader';
-import { ApplicationSection } from './ApplicationSection';
+import { ApplicationDetails } from './ApplicationDetails';
 import { ProfileSection } from './ProfileSection';
 import { StartApplicationModal } from './StartApplicationModal';
 
@@ -539,14 +539,53 @@ export default function DashboardPage() {
           )}
 
           {currentView === 'applications' && (
-            <div className="max-w-4xl">
-              <ApplicationSection 
-                application={applications[0]}
-                onSave={(data) => {
-                  console.log('Application data saved:', data);
-                  // Handle application update
-                }}
-              />
+            <div className="space-y-8">
+              {applications.length === 0 ? (
+                <div className="text-center py-16">
+                  <div className="mb-6">
+                    <div className="w-20 h-20 bg-muted rounded-2xl mx-auto flex items-center justify-center">
+                      <FileText className="h-10 w-10 text-muted-foreground" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">No applications yet</h3>
+                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                    Ready to secure funding for your business? Start your first application today.
+                  </p>
+                  <StartApplicationModal onApplicationCreated={fetchApplications} />
+                </div>
+              ) : (
+                <>
+                  {applications.map((application) => (
+                    <div key={application.id} className="space-y-8">
+                      <ApplicationDetails 
+                        application={application}
+                        profile={profile}
+                        onSave={(data) => {
+                          console.log('Saving application data:', data);
+                          // Handle save logic here
+                        }}
+                        isEditable={true}
+                        isAdminView={false}
+                      />
+                      
+                      <ProgressStepper 
+                        steps={sampleData.application.steps}
+                        currentStep={application.current_stage}
+                      />
+                      
+                      <ActionItems 
+                        actionItems={sampleData.application.actionItems}
+                      />
+                      
+                      <DocumentUploader 
+                        documents={documents}
+                        loanId={application.id}
+                        onDocumentUploaded={fetchDocuments}
+                      />
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           )}
 
