@@ -232,26 +232,13 @@ export function UserManagement({ onStatsUpdate }: UserManagementProps) {
 
   const deleteUser = async (userId: string) => {
     try {
-      // First delete from user_roles table
-      const { error: roleError } = await supabase
-        .from('user_roles')
-        .delete()
-        .eq('user_id', userId);
+      // Call edge function to delete user (requires service role)
+      const { data, error } = await supabase.functions.invoke('delete-user', {
+        body: { userId }
+      });
 
-      if (roleError) throw roleError;
-
-      // Then delete from profiles table
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .delete()
-        .eq('user_id', userId);
-
-      if (profileError) throw profileError;
-
-      // Finally delete from auth.users (this requires admin privileges)
-      const { error: authError } = await supabase.auth.admin.deleteUser(userId);
-      
-      if (authError) throw authError;
+      if (error) throw error;
+      if (!data?.success) throw new Error('Failed to delete user');
 
       toast({
         title: "User Deleted",
