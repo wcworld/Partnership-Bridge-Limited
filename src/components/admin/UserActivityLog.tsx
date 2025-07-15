@@ -94,6 +94,8 @@ export function UserActivityLog() {
         profiles?.map(profile => [profile.user_id, profile]) || []
       );
 
+      console.log('Profiles fetched:', profiles?.length, 'Profile map size:', profileMap.size);
+
       // Convert to activity logs
       const activityLogs: ActivityLog[] = [];
 
