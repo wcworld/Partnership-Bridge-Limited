@@ -183,11 +183,13 @@ export default function DashboardPage() {
         { id: 3, text: 'Complete credit authorization' }
       ],
       documents: [
-        { name: 'Photo ID', status: 'Requested' as const, document_type: 'photo_id' },
-        { name: 'Bank Statements', status: 'Approved' as const, document_type: 'bank_statement' },
-        { name: 'Tax Returns', status: 'Uploaded' as const, document_type: 'tax_return' },
-        { name: 'Pay Stubs', status: 'Requested' as const, document_type: 'pay_stub' },
-        { name: 'Financial Statement', status: 'Requested' as const, document_type: 'financial_statement' }
+        { name: 'Photo ID', status: 'missing' as const, document_type: 'photo_id' },
+        { name: 'Company Registration/Incorporation Documents', status: 'missing' as const, document_type: 'company_registration' },
+        { name: 'Proof of Business Address', status: 'missing' as const, document_type: 'business_address' },
+        { name: 'Detailed Business Services and Business Plan', status: 'missing' as const, document_type: 'business_plan' },
+        { name: 'Detailed Use of Funds Breakdown', status: 'missing' as const, document_type: 'use_of_funds' },
+        { name: '3-Year Financial Projections', status: 'missing' as const, document_type: 'financial_projections' },
+        { name: 'Relevant Business Licenses or Permits', status: 'missing' as const, document_type: 'business_licenses' }
       ]
     }
   };
