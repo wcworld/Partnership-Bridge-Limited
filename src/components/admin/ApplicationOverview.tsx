@@ -37,7 +37,7 @@ export function ApplicationOverview() {
 
   useEffect(() => {
     fetchApplications();
-  }, []);
+  }, [statusFilter]);
 
   const fetchApplications = async () => {
     try {
@@ -151,9 +151,6 @@ export function ApplicationOverview() {
     return status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
-  useEffect(() => {
-    fetchApplications();
-  }, [statusFilter]);
 
   if (loading) {
     return (
