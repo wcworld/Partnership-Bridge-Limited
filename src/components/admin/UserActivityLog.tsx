@@ -55,12 +55,16 @@ export function UserActivityLog() {
     try {
       setLoading(true);
       
+      console.log('=== UserActivityLog: Starting fetch ===');
+      
       // Fetch applications
       const { data: applications } = await supabase
         .from('loan_applications')
         .select('id, user_id, status, created_at, updated_at, last_action, last_action_date')
         .order('updated_at', { ascending: false })
         .limit(100);
+
+      console.log('=== Applications raw data ===', applications);
 
       // Fetch documents  
       const { data: documents } = await supabase

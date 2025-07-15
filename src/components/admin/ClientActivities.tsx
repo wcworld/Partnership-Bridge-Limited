@@ -41,6 +41,8 @@ export function ClientActivities() {
     try {
       setLoading(true);
       
+      console.log('=== ClientActivities: Starting fetch ===');
+      
       // Fetch applications with profile information
       const { data: applications } = await supabase
         .from('loan_applications')
@@ -49,6 +51,8 @@ export function ClientActivities() {
         `)
         .order('last_action_date', { ascending: false, nullsFirst: false })
         .limit(50);
+
+      console.log('=== ClientActivities raw data ===', applications);
 
       if (applications) {
         // Fetch profiles for each application
