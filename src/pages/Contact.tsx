@@ -334,7 +334,7 @@ const Contact = () => {
                   <Calendar className="w-12 h-12 text-primary mx-auto mb-4" />
                   <h3 className="text-xl font-semibold mb-2">Book a Meeting</h3>
                   <p className="text-muted-foreground mb-4">
-                    Prefer to meet in person? Schedule a face-to-face consultation at our office.
+                    Interested in a meeting? Schedule an online consultation with our experienced staff.
                   </p>
                   <Button variant="outline" className="w-full">
                     Schedule Appointment
