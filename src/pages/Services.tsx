@@ -93,7 +93,7 @@ const Services = () => {
                     </Button>
                   </QuoteModal>
                   <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
-                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                    <Link to="/contact">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                   </Button>
                 </div>
               </CardContent>
@@ -135,7 +135,7 @@ const Services = () => {
                     </Button>
                   </QuoteModal>
                   <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
-                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                    <Link to="/contact">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                   </Button>
                 </div>
               </CardContent>
@@ -177,7 +177,7 @@ const Services = () => {
                     </Button>
                   </QuoteModal>
                   <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
-                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                    <Link to="/contact">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                   </Button>
                 </div>
               </CardContent>
@@ -218,7 +218,7 @@ const Services = () => {
                     </Button>
                   </QuoteModal>
                   <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
-                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                    <Link to="/contact">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                   </Button>
                 </div>
               </CardContent>
@@ -260,7 +260,7 @@ const Services = () => {
                     </Button>
                   </QuoteModal>
                   <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
-                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                    <Link to="/contact">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                   </Button>
                 </div>
               </CardContent>
@@ -301,7 +301,7 @@ const Services = () => {
                     </Button>
                   </QuoteModal>
                   <Button asChild variant="ghost" className="w-full p-0 text-primary hover:text-primary-light">
-                    <Link to="/services">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                    <Link to="/contact">Learn More <ArrowRight className="w-4 h-4 ml-1" /></Link>
                   </Button>
                 </div>
               </CardContent>
