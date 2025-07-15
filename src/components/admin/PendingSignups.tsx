@@ -16,6 +16,7 @@ interface Profile {
   company_name: string | null;
   phone: string | null;
   created_at: string;
+  role?: string | null;
 }
 
 interface PendingSignupsProps {
@@ -51,10 +52,13 @@ export function PendingSignups({ onStatsUpdate }: PendingSignupsProps) {
         
         const roleMap = new Map(userRoles?.map(role => [role.user_id, role.role]) || []);
         
-        // Filter to show only users without roles (pending approval)
-        const pendingUsers = profiles.filter(profile => !roleMap.has(profile.user_id));
+        // Show users with their role status - filter to show recent signups or those with default 'client' role
+        const recentUsers = profiles.map(profile => ({
+          ...profile,
+          role: roleMap.get(profile.user_id) || null
+        }));
         
-        setProfiles(pendingUsers);
+        setProfiles(recentUsers);
       }
     } catch (error) {
       console.error('Error fetching profiles:', error);
@@ -167,7 +171,7 @@ export function PendingSignups({ onStatsUpdate }: PendingSignupsProps) {
       <CardContent>
         {profiles.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
-            No user profiles found
+            No user signups found
           </div>
         ) : (
           <div className="space-y-4">
@@ -207,31 +211,36 @@ export function PendingSignups({ onStatsUpdate }: PendingSignupsProps) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
-                    Active
+                  <Badge 
+                    variant={profile.role ? "default" : "secondary"} 
+                    className={profile.role ? "" : "bg-yellow-100 text-yellow-800"}
+                  >
+                    {profile.role ? profile.role : "Pending"}
                   </Badge>
                   
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleApproveUser(profile.user_id)}
-                      className="text-green-600 border-green-200 hover:bg-green-50"
-                    >
-                      <CheckCircle className="h-4 w-4 mr-1" />
-                      Approve
-                    </Button>
-                    
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleRejectUser(profile.user_id)}
-                      className="text-red-600 border-red-200 hover:bg-red-50"
-                    >
-                      <XCircle className="h-4 w-4 mr-1" />
-                      Reject
-                    </Button>
-                  </div>
+                  {!profile.role && (
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleApproveUser(profile.user_id)}
+                        className="text-green-600 border-green-200 hover:bg-green-50"
+                      >
+                        <CheckCircle className="h-4 w-4 mr-1" />
+                        Approve
+                      </Button>
+                      
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleRejectUser(profile.user_id)}
+                        className="text-red-600 border-red-200 hover:bg-red-50"
+                      >
+                        <XCircle className="h-4 w-4 mr-1" />
+                        Reject
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

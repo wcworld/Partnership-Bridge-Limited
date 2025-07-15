@@ -131,26 +131,34 @@ export function UserManagement({ onStatsUpdate }: UserManagementProps) {
 
   const updateUserRole = async (userId: string, newRole: 'admin' | 'client') => {
     try {
+      console.log('Updating user role:', userId, 'to', newRole);
+      
       // First check if user has an existing role
-      const { data: existingRole } = await supabase
+      const { data: existingRole, error: fetchError } = await supabase
         .from('user_roles')
         .select('id')
         .eq('user_id', userId)
         .maybeSingle();
 
+      console.log('Existing role check:', existingRole, fetchError);
+
       let error;
       if (existingRole) {
         // Update existing role
+        console.log('Updating existing role...');
         const result = await supabase
           .from('user_roles')
           .update({ role: newRole })
           .eq('user_id', userId);
+        console.log('Update result:', result);
         error = result.error;
       } else {
         // Insert new role
+        console.log('Inserting new role...');
         const result = await supabase
           .from('user_roles')
           .insert({ user_id: userId, role: newRole });
+        console.log('Insert result:', result);
         error = result.error;
       }
 
