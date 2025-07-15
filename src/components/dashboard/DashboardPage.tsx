@@ -446,7 +446,7 @@ export default function DashboardPage() {
                 <div className="transform hover:scale-[1.02] transition-transform duration-200">
                   {applications[0]?.id ? (
                     <DocumentUploader 
-                      documents={documents.length > 0 ? documents : sampleData.application.documents} 
+                      documents={documents} 
                       loanId={applications[0].id}
                       onDocumentUploaded={() => {
                         fetchApplications();
