@@ -11,11 +11,17 @@ import {
   LogOut,
   UserCheck,
   FileText,
-  TrendingUp
+  TrendingUp,
+  Settings,
+  BarChart3,
+  Shield
 } from 'lucide-react';
 import { PendingSignups } from './PendingSignups';
 import { ClientActivities } from './ClientActivities';
 import { ApplicationOverview } from './ApplicationOverview';
+import { UserManagement } from './UserManagement';
+import { UserActivityLog } from './UserActivityLog';
+import { AdminStats } from './AdminStats';
 
 interface AdminStats {
   totalUsers: number;
@@ -71,99 +77,79 @@ export function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card">
+      {/* Enhanced Header */}
+      <header className="border-b border-border bg-card shadow-sm">
         <div className="flex items-center justify-between p-6">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Manage users and monitor activities</p>
+          <div className="flex items-center gap-4">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <Shield className="h-6 w-6 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
+              <p className="text-muted-foreground">Comprehensive system management and monitoring</p>
+            </div>
           </div>
-          <Button 
-            variant="ghost" 
-            onClick={handleLogout}
-            className="text-red-600 hover:text-red-700 hover:bg-red-50"
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            Logout
-          </Button>
+          <div className="flex items-center gap-4">
+            <Badge variant="outline" className="text-green-600 border-green-200">
+              <Activity className="h-3 w-3 mr-1" />
+              System Online
+            </Badge>
+            <Button 
+              variant="ghost" 
+              onClick={handleLogout}
+              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 
       <div className="p-6">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Users className="h-6 w-6 text-blue-600" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-foreground">
-                    {loading ? '-' : stats.totalUsers}
-                  </div>
-                  <div className="text-sm text-muted-foreground">Total Users</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="p-2 bg-orange-100 rounded-lg">
-                  <UserCheck className="h-6 w-6 text-orange-600" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-foreground">
-                    {loading ? '-' : stats.pendingSignups}
-                  </div>
-                  <div className="text-sm text-muted-foreground">Pending Signups</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <FileText className="h-6 w-6 text-green-600" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-foreground">
-                    {loading ? '-' : stats.totalApplications}
-                  </div>
-                  <div className="text-sm text-muted-foreground">Applications</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <Activity className="h-6 w-6 text-purple-600" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-foreground">
-                    {loading ? '-' : stats.recentActivities}
-                  </div>
-                  <div className="text-sm text-muted-foreground">Recent Activities</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
         {/* Main Content Tabs */}
-        <Tabs defaultValue="signups" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="signups">Pending Signups</TabsTrigger>
-            <TabsTrigger value="activities">Client Activities</TabsTrigger>
-            <TabsTrigger value="applications">Applications</TabsTrigger>
+        <Tabs defaultValue="overview" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-6">
+            <TabsTrigger value="overview" className="flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="users" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              Users
+            </TabsTrigger>
+            <TabsTrigger value="signups" className="flex items-center gap-2">
+              <UserCheck className="h-4 w-4" />
+              Signups
+            </TabsTrigger>
+            <TabsTrigger value="activities" className="flex items-center gap-2">
+              <Activity className="h-4 w-4" />
+              Activities
+            </TabsTrigger>
+            <TabsTrigger value="applications" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Applications
+            </TabsTrigger>
+            <TabsTrigger value="logs" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              Activity Logs
+            </TabsTrigger>
           </TabsList>
+          
+          <TabsContent value="overview">
+            <AdminStats onStatsChange={(newStats) => {
+              setStats({
+                totalUsers: newStats.totalUsers,
+                pendingSignups: newStats.newUsersToday,
+                totalApplications: newStats.totalApplications,
+                recentActivities: newStats.pendingApplications
+              });
+            }} />
+          </TabsContent>
+
+          <TabsContent value="users">
+            <UserManagement onStatsUpdate={fetchStats} />
+          </TabsContent>
           
           <TabsContent value="signups">
             <PendingSignups onStatsUpdate={fetchStats} />
@@ -175,6 +161,10 @@ export function AdminDashboard() {
           
           <TabsContent value="applications">
             <ApplicationOverview />
+          </TabsContent>
+
+          <TabsContent value="logs">
+            <UserActivityLog />
           </TabsContent>
         </Tabs>
       </div>

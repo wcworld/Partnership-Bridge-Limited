@@ -54,12 +54,22 @@ export function PendingSignups({ onStatsUpdate }: PendingSignupsProps) {
 
   const handleApproveUser = async (userId: string) => {
     try {
-      // In a real implementation, you might update a status field
-      // For now, we'll just show a success message
+      // Update user role to ensure they're approved
+      const { error: roleError } = await supabase
+        .from('user_roles')
+        .upsert({ 
+          user_id: userId, 
+          role: 'client' 
+        });
+
+      if (roleError) throw roleError;
+
       toast({
         title: "User Approved",
-        description: "User has been successfully approved",
+        description: "User has been successfully approved and granted client access",
       });
+      
+      fetchPendingSignups();
       onStatsUpdate();
     } catch (error) {
       console.error('Error approving user:', error);
@@ -73,12 +83,22 @@ export function PendingSignups({ onStatsUpdate }: PendingSignupsProps) {
 
   const handleRejectUser = async (userId: string) => {
     try {
-      // In a real implementation, you might delete the user or mark as rejected
+      // In a real implementation, you might want to soft-delete or mark as rejected
+      // For now, we'll just remove their role
+      const { error } = await supabase
+        .from('user_roles')
+        .delete()
+        .eq('user_id', userId);
+
+      if (error) throw error;
+
       toast({
         title: "User Rejected",
-        description: "User has been rejected",
+        description: "User access has been revoked",
         variant: "destructive",
       });
+      
+      fetchPendingSignups();
       onStatsUpdate();
     } catch (error) {
       console.error('Error rejecting user:', error);
