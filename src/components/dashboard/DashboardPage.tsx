@@ -96,14 +96,16 @@ export default function DashboardPage() {
   const fetchApplications = async () => {
     try {
       setIsLoading(true);
-      let query = supabase.from('loan_applications').select('*');
+      console.log('Fetching applications for user:', user?.id, 'Role:', userRole);
       
-      if (userRole === 'client') {
-        query = query.eq('user_id', user?.id);
-      }
+      // Always filter by user_id for client dashboard - don't rely on userRole state
+      const { data } = await supabase
+        .from('loan_applications')
+        .select('*')
+        .eq('user_id', user?.id)
+        .order('created_at', { ascending: false });
       
-      const { data } = await query.order('created_at', { ascending: false });
-      
+      console.log('Applications fetched:', data);
       if (data) setApplications(data);
     } catch (error) {
       console.error('Error fetching applications:', error);
