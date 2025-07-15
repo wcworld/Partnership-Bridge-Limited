@@ -108,7 +108,7 @@ const Services = () => {
                 </div>
                 <h3 className="text-2xl font-semibold mb-4">Working Capital Loan</h3>
                 <p className="text-muted-foreground mb-6">
-                  Short-term financing to manage cash flow gaps, seasonal fluctuations, and day-to-day operations.
+                  Term financing to manage cash flow gaps, seasonal fluctuations, project and business operations.
                 </p>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
