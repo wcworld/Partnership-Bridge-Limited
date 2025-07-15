@@ -71,7 +71,7 @@ const Services = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">$10,000 - $1,000,000 available</span>
+                    <span className="text-sm text-muted-foreground">$1,000,000 - $500,000,000 + available</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
@@ -113,7 +113,7 @@ const Services = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">$5,000 - $100,000 available</span>
+                    <span className="text-sm text-muted-foreground">$1,000,000 - $500,000,000 available</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
