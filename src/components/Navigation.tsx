@@ -65,8 +65,8 @@ const Navigation = () => {
             </Link>
           </nav>
 
-          {/* Contact Info & CTA */}
-          <div className="hidden lg:flex items-center space-x-4">
+          {/* Contact Info & CTA - More mobile friendly breakpoint */}
+          <div className="hidden xl:flex items-center space-x-4">
             <div className="flex items-center space-x-4 text-sm text-muted-foreground">
               <div className="flex items-center space-x-1">
                 <Phone className="w-4 h-4" />
@@ -109,6 +109,35 @@ const Navigation = () => {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Action Buttons for medium screens */}
+          <div className="hidden md:flex xl:hidden items-center space-x-2">
+            <QuoteModal>
+              <Button variant="professional" size="sm">
+                Get Quote
+              </Button>
+            </QuoteModal>
+            {user ? (
+              <div className="flex items-center space-x-2">
+                <Link to="/dashboard">
+                  <Button variant="outline" size="sm">
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button variant="ghost" size="sm" onClick={signOut}>
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link to="/auth">
+                  <Button variant="outline" size="sm">
+                    Login
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}

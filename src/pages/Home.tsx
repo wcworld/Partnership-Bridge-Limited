@@ -23,7 +23,7 @@ const Home = () => {
       <section className="relative bg-gradient-to-br from-primary via-primary-light to-success py-20 overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="text-center lg:text-left animate-fade-in">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
                 Your Trusted Partner in
@@ -53,7 +53,7 @@ const Home = () => {
             </div>
             <div className="flex justify-center lg:justify-end animate-scale-in">
               <div className="relative">
-                <div className="w-96 h-96 bg-primary-foreground/10 rounded-2xl backdrop-blur-sm p-8 animate-float">
+                <div className="w-72 h-72 lg:w-96 lg:h-96 bg-primary-foreground/10 rounded-2xl backdrop-blur-sm p-6 lg:p-8 animate-float">
                   <div className="h-full bg-primary-foreground/20 rounded-xl flex items-center justify-center">
                     <div className="text-center">
                       <TrendingUp className="w-20 h-20 text-primary-foreground mx-auto mb-4" />
@@ -71,7 +71,7 @@ const Home = () => {
       {/* Stats Section */}
       <section className="py-16 bg-secondary">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-8 text-center">
             <div className="animate-fade-in">
               <div className="text-3xl md:text-4xl font-bold text-primary mb-2">1000+</div>
               <div className="text-muted-foreground">Happy Clients</div>
@@ -103,7 +103,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
@@ -155,7 +155,7 @@ const Home = () => {
       {/* Why Choose Us */}
       <section className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-foreground mb-6">Why Choose Partnership Bridge?</h2>
               <div className="space-y-6">

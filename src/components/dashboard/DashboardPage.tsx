@@ -22,6 +22,7 @@ import { DocumentUploader } from './DocumentUploader';
 import { ApplicationDetails } from './ApplicationDetails';
 import { ProfileSection } from './ProfileSection';
 import { StartApplicationModal } from './StartApplicationModal';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface LoanApplication {
   id: string;
@@ -50,6 +51,7 @@ interface UserRole {
 
 export default function DashboardPage() {
   const { user, loading, signOut } = useAuth();
+  const isMobile = useIsMobile();
   const [applications, setApplications] = useState<LoanApplication[]>([]);
   const [userRole, setUserRole] = useState<string>('client');
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -184,7 +186,7 @@ export default function DashboardPage() {
         { id: 3, text: 'Complete credit authorization' }
       ],
       documents: [
-        { name: 'Photo ID', status: 'missing' as const, document_type: 'photo_id' },
+        { name: 'Valid Form of Identification (Passport or National ID)', status: 'missing' as const, document_type: 'identification' },
         { name: 'Company Registration/Incorporation Documents', status: 'missing' as const, document_type: 'company_registration' },
         { name: 'Proof of Business Address', status: 'missing' as const, document_type: 'business_address' },
         { name: 'Detailed Business Services and Business Plan', status: 'missing' as const, document_type: 'business_plan' },
@@ -269,95 +271,156 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20">
-      {/* Modern Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-80 bg-card/95 backdrop-blur-sm border-r border-border/50 flex flex-col shadow-xl">
-        {/* Title Bar */}
-        <div className="p-6 border-b border-border/50">
+      {/* Mobile-friendly Sidebar */}
+      <div className="hidden lg:block fixed left-0 top-0 h-full w-80 bg-card/95 backdrop-blur-sm border-r border-border/50 shadow-xl">
+        {/* Desktop Sidebar Content */}
+        <div className="flex flex-col h-full">
+          {/* Title Bar */}
+          <div className="p-6 border-b border-border/50">
+            <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
+          </div>
+
+          {/* Enhanced User Profile Section */}
+          <div className="p-8">
+            <div className="relative">
+              <div className="w-20 h-20 rounded-2xl overflow-hidden mx-auto mb-6 shadow-2xl ring-4 ring-primary/20">
+                <img 
+                  src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=80&h=80&fit=crop&crop=face" 
+                  alt="Client Photo ID"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-center">
+                <h2 className="text-xl font-bold text-foreground mb-1">{sampleData.user.name}</h2>
+                <p className="text-sm text-muted-foreground bg-muted/50 px-3 py-1 rounded-full inline-block">
+                  {sampleData.user.company || 'Bridge Finance Client'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <Separator className="mx-6" />
+
+          {/* Enhanced Navigation */}
+          <nav className="flex-1 p-6">
+            <div className="space-y-3">
+              <Button 
+                variant={currentView === 'overview' ? 'default' : 'ghost'}
+                className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
+                  currentView === 'overview' 
+                    ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
+                    : 'hover:bg-muted/80'
+                }`}
+                onClick={() => setCurrentView('overview')}
+              >
+                <FileText className="mr-4 h-5 w-5" />
+                <span className={currentView === 'overview' ? 'font-medium' : ''}>Overview</span>
+              </Button>
+              <Button 
+                variant={currentView === 'applications' ? 'default' : 'ghost'}
+                className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
+                  currentView === 'applications' 
+                    ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
+                    : 'hover:bg-muted/80'
+                }`}
+                onClick={() => setCurrentView('applications')}
+              >
+                <FileText className="mr-4 h-5 w-5" />
+                <span className={currentView === 'applications' ? 'font-medium' : ''}>Applications</span>
+              </Button>
+              <Button 
+                variant={currentView === 'profile' ? 'default' : 'ghost'}
+                className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
+                  currentView === 'profile' 
+                    ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
+                    : 'hover:bg-muted/80'
+                }`}
+                onClick={() => setCurrentView('profile')}
+              >
+                <UserCheck className="mr-4 h-5 w-5" />
+                <span className={currentView === 'profile' ? 'font-medium' : ''}>Profile</span>
+              </Button>
+            </div>
+          </nav>
+
+          <Separator className="mx-6" />
+
+          {/* Enhanced Logout */}
+          <div className="p-6">
+            <Button 
+              variant="ghost" 
+              className="w-full justify-start h-12 rounded-xl text-destructive hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
+              onClick={handleLogout}
+            >
+              <LogOut className="mr-4 h-5 w-5" />
+              <span>Sign Out</span>
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Navigation */}
+      <div className="lg:hidden sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border/50">
+        <div className="flex items-center justify-between p-4">
           <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
-        </div>
-
-        {/* Enhanced User Profile Section */}
-        <div className="p-8">
-          <div className="relative">
-            <div className="w-20 h-20 rounded-2xl overflow-hidden mx-auto mb-6 shadow-2xl ring-4 ring-primary/20">
-              <img 
-                src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=80&h=80&fit=crop&crop=face" 
-                alt="Client Photo ID"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="text-center">
-              <h2 className="text-xl font-bold text-foreground mb-1">{sampleData.user.name}</h2>
-              <p className="text-sm text-muted-foreground bg-muted/50 px-3 py-1 rounded-full inline-block">
-                {sampleData.user.company || 'Bridge Finance Client'}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <Separator className="mx-6" />
-
-        {/* Enhanced Navigation */}
-        <nav className="flex-1 p-6">
-          <div className="space-y-3">
-            <Button 
-              variant={currentView === 'overview' ? 'default' : 'ghost'}
-              className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
-                currentView === 'overview' 
-                  ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
-                  : 'hover:bg-muted/80'
-              }`}
-              onClick={() => setCurrentView('overview')}
-            >
-              <FileText className="mr-4 h-5 w-5" />
-              <span className={currentView === 'overview' ? 'font-medium' : ''}>Overview</span>
-            </Button>
-            <Button 
-              variant={currentView === 'applications' ? 'default' : 'ghost'}
-              className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
-                currentView === 'applications' 
-                  ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
-                  : 'hover:bg-muted/80'
-              }`}
-              onClick={() => setCurrentView('applications')}
-            >
-              <FileText className="mr-4 h-5 w-5" />
-              <span className={currentView === 'applications' ? 'font-medium' : ''}>Applications</span>
-            </Button>
-            <Button 
-              variant={currentView === 'profile' ? 'default' : 'ghost'}
-              className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
-                currentView === 'profile' 
-                  ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
-                  : 'hover:bg-muted/80'
-              }`}
-              onClick={() => setCurrentView('profile')}
-            >
-              <UserCheck className="mr-4 h-5 w-5" />
-              <span className={currentView === 'profile' ? 'font-medium' : ''}>Profile</span>
-            </Button>
-          </div>
-        </nav>
-
-        <Separator className="mx-6" />
-
-        {/* Enhanced Logout */}
-        <div className="p-6">
           <Button 
             variant="ghost" 
-            className="w-full justify-start h-12 rounded-xl text-destructive hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
+            size="sm"
             onClick={handleLogout}
+            className="text-destructive hover:text-destructive hover:bg-destructive/10"
           >
-            <LogOut className="mr-4 h-5 w-5" />
-            <span>Sign Out</span>
+            <LogOut className="h-4 w-4" />
+          </Button>
+        </div>
+        
+        {/* Mobile Navigation Tabs */}
+        <div className="flex overflow-x-auto border-t border-border/50">
+          <Button 
+            variant={currentView === 'overview' ? 'default' : 'ghost'}
+            size="sm"
+            className={`flex-shrink-0 rounded-none border-b-2 ${
+              currentView === 'overview' 
+                ? 'border-primary bg-primary/10' 
+                : 'border-transparent'
+            }`}
+            onClick={() => setCurrentView('overview')}
+          >
+            <FileText className="mr-2 h-4 w-4" />
+            Overview
+          </Button>
+          <Button 
+            variant={currentView === 'applications' ? 'default' : 'ghost'}
+            size="sm"
+            className={`flex-shrink-0 rounded-none border-b-2 ${
+              currentView === 'applications' 
+                ? 'border-primary bg-primary/10' 
+                : 'border-transparent'
+            }`}
+            onClick={() => setCurrentView('applications')}
+          >
+            <FileText className="mr-2 h-4 w-4" />
+            Applications
+          </Button>
+          <Button 
+            variant={currentView === 'profile' ? 'default' : 'ghost'}
+            size="sm"
+            className={`flex-shrink-0 rounded-none border-b-2 ${
+              currentView === 'profile' 
+                ? 'border-primary bg-primary/10' 
+                : 'border-transparent'
+            }`}
+            onClick={() => setCurrentView('profile')}
+          >
+            <UserCheck className="mr-2 h-4 w-4" />
+            Profile
           </Button>
         </div>
       </div>
 
-      {/* Main Content with left margin for fixed sidebar */}
-      <div className="ml-80">
-        {/* Title Bar for Main Content */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border/50 p-6">
+      {/* Main Content with responsive margin */}
+      <div className="lg:ml-80">
+        {/* Title Bar for Main Content - Hidden on mobile since we have mobile nav */}
+        <div className="hidden lg:block sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border/50 p-6">
           <h1 className="text-2xl font-bold text-foreground">
             {currentView === 'overview' && 'Dashboard Overview'}
             {currentView === 'applications' && 'My Applications'}
@@ -370,8 +433,8 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Content Area */}
-        <div className="p-8">
+        {/* Content Area with mobile-friendly padding */}
+        <div className="p-4 lg:p-8">
           {currentView === 'overview' && (
             <>
               {/* Welcome Header */}
@@ -381,11 +444,11 @@ export default function DashboardPage() {
                 </h2>
               </div>
 
-              {/* Enhanced Stats Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+              {/* Enhanced Stats Cards - Mobile friendly grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-10">
                 <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardContent className="p-8 relative">
+                  <CardContent className="p-4 lg:p-8 relative">
                     <div className="flex items-center justify-between mb-4">
                       <div className="p-3 bg-primary/10 rounded-xl">
                         <FileText className="h-6 w-6 text-primary" />
@@ -394,14 +457,14 @@ export default function DashboardPage() {
                         Active
                       </Badge>
                     </div>
-                    <div className="text-3xl font-bold text-foreground mb-2">{applications.length}</div>
+                    <div className="text-2xl lg:text-3xl font-bold text-foreground mb-2">{applications.length}</div>
                     <div className="text-sm text-muted-foreground font-medium">Total Applications</div>
                   </CardContent>
                 </Card>
 
                 <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
                   <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardContent className="p-8 relative">
+                  <CardContent className="p-4 lg:p-8 relative">
                     <div className="flex items-center justify-between mb-4">
                       <div className="p-3 bg-green-500/10 rounded-xl">
                         <DollarSign className="h-6 w-6 text-green-600" />
@@ -410,7 +473,7 @@ export default function DashboardPage() {
                         Approved
                       </Badge>
                     </div>
-                     <div className="text-3xl font-bold text-foreground mb-2">
+                     <div className="text-2xl lg:text-3xl font-bold text-foreground mb-2">
                        ${approvedAmount.toLocaleString()}
                      </div>
                     <div className="text-sm text-muted-foreground font-medium">Approved Amount</div>
@@ -419,7 +482,7 @@ export default function DashboardPage() {
 
                 <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardContent className="p-8 relative">
+                  <CardContent className="p-4 lg:p-8 relative">
                     <div className="flex items-center justify-between mb-4">
                       <div className="p-3 bg-orange-500/10 rounded-xl">
                         <Clock className="h-6 w-6 text-orange-600" />
@@ -428,14 +491,14 @@ export default function DashboardPage() {
                         Pending
                       </Badge>
                     </div>
-                    <div className="text-3xl font-bold text-foreground mb-2">{pendingCount}</div>
+                    <div className="text-2xl lg:text-3xl font-bold text-foreground mb-2">{pendingCount}</div>
                     <div className="text-sm text-muted-foreground font-medium">Pending Review</div>
                   </CardContent>
                 </Card>
 
                 <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
                   <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardContent className="p-8 relative">
+                  <CardContent className="p-4 lg:p-8 relative">
                     <div className="flex items-center justify-between mb-4">
                       <div className="p-3 bg-red-500/10 rounded-xl">
                         <X className="h-6 w-6 text-red-600" />
@@ -444,7 +507,7 @@ export default function DashboardPage() {
                         Rejected
                       </Badge>
                     </div>
-                    <div className="text-3xl font-bold text-foreground mb-2">{rejectedCount}</div>
+                    <div className="text-2xl lg:text-3xl font-bold text-foreground mb-2">{rejectedCount}</div>
                     <div className="text-sm text-muted-foreground font-medium">Rejected Applications</div>
                   </CardContent>
                 </Card>
@@ -503,8 +566,8 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
 
-              {/* Enhanced Components Section */}
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+              {/* Enhanced Components Section - Mobile friendly */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                 <div className="space-y-8">
                   <div className="transform hover:scale-[1.02] transition-transform duration-200">
                     <ProgressStepper 
