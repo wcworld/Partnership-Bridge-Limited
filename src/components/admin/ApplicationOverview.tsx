@@ -130,20 +130,20 @@ export function ApplicationOverview() {
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string) => {
     switch (status.toLowerCase()) {
       case 'approved':
       case 'funded':
-        return 'bg-green-100 text-green-800';
+        return 'default';
       case 'submitted':
-        return 'bg-blue-100 text-blue-800';
+        return 'secondary';
       case 'document_review':
       case 'underwriting':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'outline';
       case 'rejected':
-        return 'bg-red-100 text-red-800';
+        return 'destructive';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'outline';
     }
   };
 
@@ -219,7 +219,7 @@ export function ApplicationOverview() {
                     </p>
                   </div>
                   
-                  <Badge className={getStatusColor(application.status)}>
+                  <Badge variant={getStatusVariant(application.status) as any}>
                     {formatStatus(application.status)}
                   </Badge>
                 </div>
