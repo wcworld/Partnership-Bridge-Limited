@@ -1,7 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { S3Client, GetObjectCommand } from "https://esm.sh/@aws-sdk/client-s3@3";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -50,113 +49,93 @@ serve(async (req) => {
       });
     }
 
+    // Parse URL to get document identifiers
     const url = new URL(req.url);
     const documentId = url.searchParams.get('documentId');
     const loanId = url.searchParams.get('loanId');
     const documentType = url.searchParams.get('documentType');
 
     if (!documentId && (!loanId || !documentType)) {
-      return new Response(JSON.stringify({ error: 'Missing document identifier' }), {
+      return new Response(JSON.stringify({ error: 'Document ID or (Loan ID and Document Type) required' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    // Get document from database
-    let documentQuery = userSupabase.from('loan_documents').select('*');
-    
+    // Get document metadata from database
+    let query = userSupabase
+      .from('loan_documents')
+      .select('id, file_path, document_name, loan_id');
+
     if (documentId) {
-      documentQuery = documentQuery.eq('id', documentId);
+      query = query.eq('id', documentId);
     } else {
-      documentQuery = documentQuery.eq('loan_id', loanId).eq('document_type', documentType);
+      query = query.eq('loan_id', loanId).eq('document_type', documentType);
     }
 
-    const { data: document, error: docError } = await documentQuery.single();
+    const { data: docData, error: docError } = await query.maybeSingle();
 
-    if (docError || !document) {
+    if (docError) {
+      console.error('Database error:', docError);
+      return new Response(JSON.stringify({ error: 'Database error', details: docError }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (!docData) {
       return new Response(JSON.stringify({ error: 'Document not found' }), {
         status: 404,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    // Verify user owns the loan
+    // Verify user has access to this document by checking loan ownership
     const { data: loan, error: loanError } = await userSupabase
       .from('loan_applications')
-      .select('user_id')
-      .eq('id', document.loan_id)
+      .select('id')
+      .eq('id', docData.loan_id)
+      .eq('user_id', user.id)
       .single();
 
-    if (loanError || !loan || loan.user_id !== user.id) {
+    if (loanError || !loan) {
       return new Response(JSON.stringify({ error: 'Access denied' }), {
         status: 403,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    // Get R2 credentials
-    const accessKeyId = Deno.env.get('CLOUDFLARE_R2_ACCESS_KEY_ID');
-    const secretAccessKey = Deno.env.get('CLOUDFLARE_R2_SECRET_ACCESS_KEY');
-    const bucketName = Deno.env.get('CLOUDFLARE_R2_BUCKET_NAME') || 'loan-documents';
-    const accountId = Deno.env.get('CLOUDFLARE_ACCOUNT_ID');
-
-    // Try to download from Cloudflare R2 first
-    if (accessKeyId && secretAccessKey && accountId) {
-      try {
-        const s3Client = new S3Client({
-          region: 'auto',
-          endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
-          credentials: {
-            accessKeyId,
-            secretAccessKey,
-          },
-        });
-
-        const command = new GetObjectCommand({
-          Bucket: bucketName,
-          Key: document.file_path,
-        });
-
-        const response = await s3Client.send(command);
-        
-        if (response.Body) {
-          const bytes = await response.Body.transformToByteArray();
-          
-          return new Response(bytes, {
-            headers: {
-              ...corsHeaders,
-              'Content-Type': response.ContentType || 'application/octet-stream',
-              'Content-Disposition': `attachment; filename="${document.document_name}"`,
-              'Content-Length': bytes.length.toString(),
-            },
-          });
-        }
-      } catch (r2Error) {
-        console.error('R2 download error:', r2Error);
-        console.log('Falling back to Supabase storage...');
-      }
+    if (!docData.file_path) {
+      return new Response(JSON.stringify({ error: 'Document file not found' }), {
+        status: 404,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
-    // Fallback to Supabase storage
-    const { data, error } = await supabase.storage
-      .from('documents')
-      .download(document.file_path);
+    console.log(`Downloading document from Supabase storage: ${docData.file_path}`);
 
-    if (error) {
-      return new Response(JSON.stringify({ error: 'Download failed', details: error }), {
+    // Download from Supabase storage
+    const { data: fileData, error: downloadError } = await supabase.storage
+      .from('documents')
+      .download(docData.file_path);
+
+    if (downloadError) {
+      console.error('Supabase storage download error:', downloadError);
+      return new Response(JSON.stringify({ error: 'Download failed', details: downloadError }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    const bytes = new Uint8Array(await data.arrayBuffer());
-    
-    return new Response(bytes, {
+    console.log('File downloaded successfully from Supabase storage');
+
+    // Return the file as a downloadable response
+    return new Response(fileData, {
       headers: {
         ...corsHeaders,
-        'Content-Type': data.type || 'application/octet-stream',
-        'Content-Disposition': `attachment; filename="${document.document_name}"`,
-        'Content-Length': bytes.length.toString(),
+        'Content-Type': fileData.type || 'application/octet-stream',
+        'Content-Disposition': `attachment; filename="${docData.document_name || 'document'}"`,
+        'Content-Length': fileData.size.toString(),
       },
     });
 

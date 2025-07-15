@@ -1,7 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { S3Client, PutObjectCommand, GetObjectCommand } from "https://esm.sh/@aws-sdk/client-s3@3";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -77,95 +76,11 @@ serve(async (req) => {
       });
     }
 
-    // Get R2 credentials and configuration
-    const accessKeyId = Deno.env.get('CLOUDFLARE_R2_ACCESS_KEY_ID');
-    const secretAccessKey = Deno.env.get('CLOUDFLARE_R2_SECRET_ACCESS_KEY');
-    const bucketName = Deno.env.get('CLOUDFLARE_R2_BUCKET_NAME') || 'loan-documents';
-    const accountId = Deno.env.get('CLOUDFLARE_ACCOUNT_ID');
-
-    console.log('R2 Configuration Check:', {
-      hasAccessKey: !!accessKeyId,
-      hasSecretKey: !!secretAccessKey,
-      bucketName,
-      hasAccountId: !!accountId
-    });
-
-    // Upload file to Cloudflare R2
+    // Create file path for Supabase storage
     const fileName = `documents/${loanId}/${documentType}-${Date.now()}-${file.name}`;
-    console.log(`Uploading document: ${fileName}`);
-
-    if (accessKeyId && secretAccessKey && accountId) {
-      try {
-        console.log('Attempting Cloudflare R2 upload...');
-        
-        // Configure S3Client for Cloudflare R2
-        const s3Client = new S3Client({
-          region: 'auto',
-          endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
-          credentials: {
-            accessKeyId,
-            secretAccessKey,
-          },
-          forcePathStyle: true,
-        });
-
-        // Convert file to buffer
-        const fileBuffer = new Uint8Array(await file.arrayBuffer());
-        console.log('File converted to buffer, size:', fileBuffer.length);
-
-        // Upload to R2
-        const uploadCommand = new PutObjectCommand({
-          Bucket: bucketName,
-          Key: fileName,
-          Body: fileBuffer,
-          ContentType: file.type || 'application/octet-stream',
-          CacheControl: 'max-age=3600',
-        });
-
-        console.log('Sending upload command to R2...');
-        const result = await s3Client.send(uploadCommand);
-        console.log('R2 upload result:', result);
-        console.log('File uploaded successfully to Cloudflare R2:', fileName);
-
-        // Update document record in database
-        const { error: updateError } = await userSupabase
-          .from('loan_documents')
-          .update({
-            status: 'processing',
-            uploaded_at: new Date().toISOString(),
-            file_path: fileName
-          })
-          .eq('loan_id', loanId)
-          .eq('document_type', documentType);
-
-        if (updateError) {
-          console.error('Database update failed:', updateError);
-          return new Response(JSON.stringify({ error: 'Database update failed', details: updateError }), {
-            status: 500,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          });
-        }
-
-        return new Response(JSON.stringify({ 
-          success: true, 
-          message: 'Document uploaded successfully to Cloudflare R2',
-          storage: 'Cloudflare R2',
-          filePath: fileName,
-          bucket: bucketName
-        }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
-
-      } catch (r2Error) {
-        console.error('R2 upload error:', r2Error);
-        // Fallback to Supabase storage
-        console.log('Falling back to Supabase storage...');
-      }
-    }
-
-    // Fallback: Upload to Supabase storage if R2 fails or not configured
-    console.log('Using Supabase storage as fallback');
+    console.log(`Uploading document to Supabase storage: ${fileName}`);
     
+    // Upload to Supabase storage
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('documents')
       .upload(fileName, file, {
@@ -204,7 +119,7 @@ serve(async (req) => {
 
     return new Response(JSON.stringify({ 
       success: true, 
-      message: 'Document uploaded successfully to Supabase Storage (R2 fallback)',
+      message: 'Document uploaded successfully to Supabase Storage',
       storage: 'Supabase Storage',
       filePath: fileName
     }), {
