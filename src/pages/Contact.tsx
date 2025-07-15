@@ -16,9 +16,11 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import ScheduleModal from '@/components/ScheduleModal';
 
 const Contact = () => {
   const { toast } = useToast();
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -336,7 +338,11 @@ const Contact = () => {
                   <p className="text-muted-foreground mb-4">
                     Interested in a meeting? Schedule an online consultation with our experienced staff.
                   </p>
-                  <Button variant="outline" className="w-full">
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => setIsScheduleModalOpen(true)}
+                  >
                     Schedule Appointment
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
@@ -420,6 +426,12 @@ const Contact = () => {
           </Card>
         </div>
       </section>
+
+      {/* Schedule Modal */}
+      <ScheduleModal 
+        open={isScheduleModalOpen} 
+        onOpenChange={setIsScheduleModalOpen} 
+      />
     </div>
   );
 };
