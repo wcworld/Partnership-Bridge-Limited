@@ -1,7 +1,8 @@
-import { Upload, Check, Clock, X, FileText } from 'lucide-react';
+import { Upload, Check, Clock, X, FileText, Eye, Download } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -125,6 +126,25 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
     }
   };
 
+  const handleViewDocument = async (document: Document) => {
+    try {
+      // For now, since we're using simulated file paths, show document info
+      // In a real implementation, you would fetch the actual file from storage
+      console.log('Viewing document:', document);
+      toast({ 
+        title: "Document Info", 
+        description: `${document.name} (${document.document_type}) - ${document.status}` 
+      });
+    } catch (error) {
+      console.error('Error viewing document:', error);
+      toast({
+        title: "Error",
+        description: "Failed to view document",
+        variant: "destructive"
+      });
+    }
+  };
+
   const pendingCount = documents.filter(doc => doc.status === 'missing').length;
   const completedCount = documents.filter(doc => doc.status === 'approved').length;
 
@@ -185,9 +205,15 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
                 )}
 
                 {(document.status === 'processing' || document.status === 'approved') && (
-                  <Button size="sm" variant="ghost">
-                    View
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size="sm" variant="ghost">
+                        <Eye className="h-4 w-4 mr-2" />
+                        View
+                      </Button>
+                    </DialogTrigger>
+                    <DocumentViewDialog document={document} />
+                  </Dialog>
                 )}
               </div>
             </div>
@@ -230,5 +256,96 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
         accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif"
       />
     </Card>
+  );
+}
+
+// Document View Dialog Component
+function DocumentViewDialog({ document }: { document: Document }) {
+  return (
+    <DialogContent className="max-w-2xl">
+      <DialogHeader>
+        <DialogTitle className="flex items-center gap-2">
+          <FileText className="h-5 w-5" />
+          Document Details
+        </DialogTitle>
+      </DialogHeader>
+      
+      <div className="space-y-6">
+        <div className="bg-muted/50 p-4 rounded-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Document Name</label>
+              <p className="font-medium">{document.name}</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Document Type</label>
+              <p className="font-medium">{document.document_type}</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Status</label>
+              <div className="mt-1">
+                <Badge variant={
+                  document.status === 'approved' ? 'default' :
+                  document.status === 'processing' ? 'secondary' :
+                  document.status === 'reupload_needed' ? 'destructive' : 'outline'
+                }>
+                  {document.status === 'approved' ? 'Approved' :
+                   document.status === 'processing' ? 'Processing' :
+                   document.status === 'reupload_needed' ? 'Reupload Needed' :
+                   document.status === 'missing' ? 'Required' : document.status}
+                </Badge>
+              </div>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Upload Date</label>
+              <p className="font-medium">
+                {document.status === 'processing' || document.status === 'approved' ? 
+                  new Date().toLocaleDateString() : 'Not uploaded yet'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t pt-4">
+          <h4 className="font-medium mb-2">Document Actions</h4>
+          <div className="flex gap-2">
+            {(document.status === 'processing' || document.status === 'approved') && (
+              <>
+                <Button size="sm" variant="outline" disabled>
+                  <Download className="h-4 w-4 mr-2" />
+                  Download
+                  <span className="text-xs ml-2">(Coming Soon)</span>
+                </Button>
+                <Button size="sm" variant="outline" disabled>
+                  <Eye className="h-4 w-4 mr-2" />
+                  Preview
+                  <span className="text-xs ml-2">(Coming Soon)</span>
+                </Button>
+              </>
+            )}
+            {document.status === 'missing' && (
+              <p className="text-sm text-muted-foreground">
+                Please upload this document to view its details.
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+          <div className="flex items-start gap-2">
+            <FileText className="h-4 w-4 text-blue-600 mt-0.5" />
+            <div>
+              <h4 className="font-medium text-blue-900 mb-1">Document Status Information</h4>
+              <p className="text-sm text-blue-700">
+                {document.status === 'approved' && 'This document has been reviewed and approved by our team.'}
+                {document.status === 'processing' && 'This document is currently being reviewed by our team.'}
+                {document.status === 'reupload_needed' && 'This document needs to be re-uploaded. Please check the requirements.'}
+                {document.status === 'missing' && 'This document is required for your application.'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </DialogContent>
   );
 }
