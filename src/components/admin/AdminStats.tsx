@@ -241,7 +241,7 @@ export function AdminStats({ onStatsChange }: AdminStatsProps) {
 
         <StatCard
           title="Total Loan Value"
-          value={`£${(stats.totalLoanAmount / 1000000).toFixed(1)}M`}
+          value={`$${(stats.totalLoanAmount / 1000000).toFixed(1)}M`}
           icon={DollarSign}
           color="bg-emerald-500"
           subtitle="Approved loans"

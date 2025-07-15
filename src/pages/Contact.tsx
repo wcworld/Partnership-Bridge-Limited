@@ -105,7 +105,7 @@ const Contact = () => {
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Call Us</h3>
                 <p className="text-primary-foreground/90 mb-3">Speak directly with our advisors</p>
-                <p className="text-lg font-bold">+44 20 7123 4567</p>
+                <p className="text-lg font-bold">+447362055683</p>
                 <p className="text-sm text-primary-foreground/80 mt-2">Mon-Fri: 9am-6pm</p>
               </CardContent>
             </Card>

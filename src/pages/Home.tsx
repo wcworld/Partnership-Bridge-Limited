@@ -31,7 +31,7 @@ const Home = () => {
               </h1>
               <p className="text-xl text-primary-foreground/90 mb-8 leading-relaxed">
                 Partnership Bridge Limited provides expert lending advice and tailored finance solutions 
-                for individuals and businesses across the UK. Let us bridge the gap to your financial goals.
+                for individuals and businesses worldwide. Let us bridge the gap to your financial goals.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <QuoteModal>
@@ -57,7 +57,7 @@ const Home = () => {
                   <div className="h-full bg-primary-foreground/20 rounded-xl flex items-center justify-center">
                     <div className="text-center">
                       <TrendingUp className="w-20 h-20 text-primary-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold text-primary-foreground mb-2">£680M+</h3>
+                      <h3 className="text-2xl font-bold text-primary-foreground mb-2">$680M+</h3>
                       <p className="text-primary-foreground/80">Loans Facilitated</p>
                     </div>
                   </div>
@@ -77,7 +77,7 @@ const Home = () => {
               <div className="text-muted-foreground">Happy Clients</div>
             </div>
             <div className="animate-fade-in">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">£680M+</div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">$680M+</div>
               <div className="text-muted-foreground">Loans Arranged</div>
             </div>
             <div className="animate-fade-in">
@@ -365,7 +365,7 @@ const Home = () => {
               className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20"
             >
               <Phone className="w-5 h-5 mr-2" />
-              Call +44 20 7123 4567
+              Call +447362055683
             </Button>
           </div>
         </div>

@@ -139,7 +139,7 @@ const PrivacyPolicy = () => {
                   <h2 className="text-2xl font-bold">5. Your Rights</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
-                  <p>Under UK GDPR, you have the following rights:</p>
+                  <p>Under GDPR, you have the following rights:</p>
                   <ul className="list-disc list-inside space-y-2 ml-4">
                     <li><strong>Right of Access:</strong> Request a copy of your personal data</li>
                     <li><strong>Right to Rectification:</strong> Correct inaccurate or incomplete information</li>
@@ -166,7 +166,7 @@ const PrivacyPolicy = () => {
                     <p><strong>Partnership Bridge Limited</strong></p>
                     <p>26 Talbot Road, Albrighton, Wolverhampton, England WV7 3HH</p>
                     <p>Email: privacy@partnershipbridge.co.uk</p>
-                    <p>Phone: +44 20 7123 4567</p>
+                    <p>Phone: +447362055683</p>
                   </div>
                   <p>You also have the right to lodge a complaint with the Information Commissioner's Office (ICO) if you believe your data protection rights have been breached.</p>
                 </div>

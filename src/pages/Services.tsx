@@ -71,7 +71,7 @@ const Services = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">£10,000 - £1,000,000 available</span>
+                    <span className="text-sm text-muted-foreground">$10,000 - $1,000,000 available</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
@@ -113,7 +113,7 @@ const Services = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">£5,000 - £100,000 available</span>
+                    <span className="text-sm text-muted-foreground">$5,000 - $100,000 available</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
@@ -196,7 +196,7 @@ const Services = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">£50,000 - £5,000,000</span>
+                    <span className="text-sm text-muted-foreground">$50,000 - $5,000,000</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
@@ -238,7 +238,7 @@ const Services = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">£10,000 - £2,000,000</span>
+                    <span className="text-sm text-muted-foreground">$10,000 - $2,000,000</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
@@ -279,7 +279,7 @@ const Services = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span className="text-sm text-muted-foreground">£25,000 - £10,000,000</span>
+                    <span className="text-sm text-muted-foreground">$25,000 - $10,000,000</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-success" />
@@ -500,7 +500,7 @@ const Services = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Expert Advice</h3>
-                    <p className="text-muted-foreground">Qualified advisors with extensive knowledge of the UK lending market.</p>
+                    <p className="text-muted-foreground">Qualified advisors with extensive knowledge of the global lending market.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -528,7 +528,7 @@ const Services = () => {
                       Call Now
                     </Button>
                     <p className="text-sm text-primary-foreground/80">
-                      +44 20 7123 4567
+                      +447362055683
                     </p>
                   </div>
                 </CardContent>
@@ -557,7 +557,7 @@ const Services = () => {
             </Button>
             <Button variant="outline" size="xl" className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20">
               <Phone className="w-5 h-5 mr-2" />
-              Call +44 20 7123 4567
+              Call +447362055683
             </Button>
           </div>
         </div>

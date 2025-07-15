@@ -51,8 +51,8 @@ const About = () => {
                   often struggled to navigate the intricate landscape of financial services.
                 </p>
                 <p className="text-lg leading-relaxed">
-                  What started as a small advisory firm has grown into one of the UK's most trusted 
-                  financial service providers. We've facilitated over £50 million in loans and helped 
+                  What started as a small advisory firm has grown into one of the world's most trusted 
+                  financial service providers. We've facilitated over $50 million in loans and helped 
                   more than 1,000 clients achieve their financial objectives. Our success is built on 
                   the foundation of trust, expertise, and unwavering commitment to our clients' success.
                 </p>
@@ -72,7 +72,7 @@ const About = () => {
                   </p>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <div className="text-2xl font-bold">£680M+</div>
+                      <div className="text-2xl font-bold">$680M+</div>
                       <div className="text-primary-foreground/80">Loans Facilitated</div>
                     </div>
                     <div>
@@ -119,7 +119,7 @@ const About = () => {
                 </div>
                 <h3 className="text-2xl font-semibold mb-4">Our Vision</h3>
                 <p className="text-muted-foreground">
-                  To be the UK's most trusted financial bridge, connecting dreams with reality through 
+                  To be the world's most trusted financial bridge, connecting dreams with reality through 
                   innovative lending solutions and exceptional client service that sets the industry standard.
                 </p>
               </CardContent>
@@ -367,7 +367,7 @@ const About = () => {
                 <TrendingUp className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Proven Results</h3>
-              <p className="text-muted-foreground">98% success rate with over £680M in loans facilitated</p>
+              <p className="text-muted-foreground">98% success rate with over $680M in loans facilitated</p>
             </div>
 
             <div className="text-center">

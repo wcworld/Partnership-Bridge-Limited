@@ -178,7 +178,7 @@ const QuoteModal = ({ children, serviceType = "" }: QuoteModalProps) => {
               <Label htmlFor="loanAmount">Loan Amount Required *</Label>
               <Input
                 id="loanAmount"
-                placeholder="e.g., £50,000"
+                placeholder="e.g., $50,000"
                 value={formData.loanAmount}
                 onChange={(e) => handleInputChange('loanAmount', e.target.value)}
                 required
@@ -221,7 +221,7 @@ const QuoteModal = ({ children, serviceType = "" }: QuoteModalProps) => {
               <Label htmlFor="annualTurnover">Annual Turnover *</Label>
               <Input
                 id="annualTurnover"
-                placeholder="e.g., £250,000"
+                placeholder="e.g., $250,000"
                 value={formData.annualTurnover}
                 onChange={(e) => handleInputChange('annualTurnover', e.target.value)}
                 required
@@ -300,7 +300,7 @@ const QuoteModal = ({ children, serviceType = "" }: QuoteModalProps) => {
             <div className="flex justify-center space-x-4">
               <div className="flex items-center space-x-1">
                 <Phone className="w-4 h-4" />
-                <span>+44 20 7123 4567</span>
+                <span>+447362055683</span>
               </div>
               <div className="flex items-center space-x-1">
                 <Mail className="w-4 h-4" />

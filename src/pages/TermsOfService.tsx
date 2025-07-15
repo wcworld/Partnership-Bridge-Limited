@@ -103,7 +103,7 @@ const TermsOfService = () => {
                     <li>Conduct business in accordance with FCA regulations</li>
                     <li>Treat customers fairly and with due care and skill</li>
                     <li>Provide clear information about our services and fees</li>
-                    <li>Handle your personal data securely and in compliance with UK GDPR</li>
+                    <li>Handle your personal data securely and in compliance with GDPR</li>
                     <li>Maintain appropriate professional indemnity insurance</li>
                     <li>Act in your best interests when providing advice</li>
                   </ul>
@@ -174,7 +174,7 @@ const TermsOfService = () => {
                   <div className="bg-secondary rounded-lg p-6 space-y-2">
                     <p><strong>Contact Details:</strong></p>
                     <p>Email: complaints@partnershipbridge.co.uk</p>
-                    <p>Phone: +44 20 7123 4567</p>
+                    <p>Phone: +447362055683</p>
                     <p>Address: 26 Talbot Road, Albrighton, Wolverhampton, England WV7 3HH</p>
                   </div>
                 </div>

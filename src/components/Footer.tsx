@@ -19,7 +19,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-primary-foreground/80 text-sm">
-              Providing high-quality lending advice and finance solutions for individuals and businesses across the UK.
+              Providing high-quality lending advice and finance solutions for individuals and businesses worldwide.
             </p>
             <p className="text-primary-foreground/90 text-sm font-medium border border-primary-foreground/20 rounded-lg p-3 bg-primary-foreground/5">
               Partnership Bridge is a broker, not a lender. We will connect you with a lender suitable for your needs.
@@ -89,7 +89,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-primary-foreground/60" />
-                <span className="text-sm text-primary-foreground/80">+44 20 7123 4567</span>
+                <span className="text-sm text-primary-foreground/80">+447362055683</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-primary-foreground/60" />

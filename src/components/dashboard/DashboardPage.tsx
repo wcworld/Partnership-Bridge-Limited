@@ -236,7 +236,7 @@ export default function DashboardPage() {
     };
 
     const getActivityDescription = (app: LoanApplication) => {
-      return `Your £${app.loan_amount.toLocaleString()} ${app.loan_type.toLowerCase()} application (Ref: ${app.reference_number}) ${
+      return `Your $${app.loan_amount.toLocaleString()} ${app.loan_type.toLowerCase()} application (Ref: ${app.reference_number}) ${
         app.status === 'approved' ? 'has been approved' :
         app.status === 'rejected' ? 'has been rejected' :
         app.status === 'funded' ? 'has been funded' :
@@ -410,9 +410,9 @@ export default function DashboardPage() {
                         Approved
                       </Badge>
                     </div>
-                    <div className="text-3xl font-bold text-foreground mb-2">
-                      £{approvedAmount.toLocaleString()}
-                    </div>
+                     <div className="text-3xl font-bold text-foreground mb-2">
+                       ${approvedAmount.toLocaleString()}
+                     </div>
                     <div className="text-sm text-muted-foreground font-medium">Approved Amount</div>
                   </CardContent>
                 </Card>

@@ -108,7 +108,7 @@ export function StartApplicationModal({ onApplicationCreated, trigger }: StartAp
     if (isNaN(number)) return '';
     return new Intl.NumberFormat('en-GB', {
       style: 'currency',
-      currency: 'GBP',
+      currency: 'USD',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(number);
@@ -138,7 +138,7 @@ export function StartApplicationModal({ onApplicationCreated, trigger }: StartAp
             <Label htmlFor="loanAmount">Loan Amount *</Label>
             <Input
               id="loanAmount"
-              placeholder="£100,000"
+              placeholder="$100,000"
               value={formData.loanAmount}
               onChange={(e) => handleAmountChange(e.target.value)}
               required
