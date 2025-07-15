@@ -64,11 +64,13 @@ export function UserManagement({ onStatsUpdate }: UserManagementProps) {
     try {
       setLoading(true);
       
-      // Fetch profiles
+      console.log('Fetching users...');
       const { data: profiles } = await supabase
         .from('profiles')
         .select('*')
         .order('created_at', { ascending: false });
+
+      console.log('Profiles fetched:', profiles?.length, profiles);
 
       if (profiles) {
         // Fetch user roles separately
@@ -201,27 +203,27 @@ export function UserManagement({ onStatsUpdate }: UserManagementProps) {
     }
   };
 
-  const getRoleColor = (role: string) => {
+  const getRoleVariant = (role: string) => {
     switch (role) {
       case 'admin':
-        return 'bg-red-100 text-red-800';
+        return 'destructive';
       case 'client':
-        return 'bg-blue-100 text-blue-800';
+        return 'secondary';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'outline';
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string) => {
     switch (status) {
       case 'active':
-        return 'bg-green-100 text-green-800';
+        return 'default';
       case 'suspended':
-        return 'bg-red-100 text-red-800';
+        return 'destructive';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'outline';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'secondary';
     }
   };
 
@@ -311,10 +313,10 @@ export function UserManagement({ onStatsUpdate }: UserManagementProps) {
                       <span className="font-medium">
                         {user.first_name} {user.last_name}
                       </span>
-                      <Badge className={getRoleColor(user.role || 'client')}>
+                      <Badge variant={getRoleVariant(user.role || 'client') as any}>
                         {user.role || 'client'}
                       </Badge>
-                      <Badge className={getStatusColor(user.status || 'active')}>
+                      <Badge variant={getStatusVariant(user.status || 'active') as any}>
                         {user.status || 'active'}
                       </Badge>
                     </div>
