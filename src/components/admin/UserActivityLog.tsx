@@ -55,48 +55,59 @@ export function UserActivityLog() {
     try {
       setLoading(true);
       
-      // Simulate activity logs from loan applications and document uploads
+      // Fetch applications
       const { data: applications } = await supabase
         .from('loan_applications')
-        .select(`
-          id,
-          user_id,
-          status,
-          created_at,
-          updated_at,
-          last_action,
-          last_action_date,
-          profiles(first_name, last_name, email, avatar_url)
-        `)
+        .select('id, user_id, status, created_at, updated_at, last_action, last_action_date')
         .order('updated_at', { ascending: false })
         .limit(100);
 
+      // Fetch documents  
       const { data: documents } = await supabase
         .from('loan_documents')
-        .select(`
-          id,
-          loan_id,
-          document_name,
-          uploaded_at,
-          updated_at,
-          loan_applications(user_id, profiles(first_name, last_name, email, avatar_url))
-        `)
+        .select('id, loan_id, document_name, uploaded_at, updated_at')
         .order('updated_at', { ascending: false })
         .limit(50);
+
+      // Get unique user IDs from both applications and documents
+      const userIds = new Set<string>();
+      applications?.forEach(app => userIds.add(app.user_id));
+      
+      // Get user IDs from documents via loan applications
+      if (documents?.length) {
+        const loanIds = documents.map(doc => doc.loan_id);
+        const { data: loans } = await supabase
+          .from('loan_applications')
+          .select('id, user_id')
+          .in('id', loanIds);
+        loans?.forEach(loan => userIds.add(loan.user_id));
+      }
+
+      // Fetch profiles for all user IDs
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('user_id, first_name, last_name, email, avatar_url')
+        .in('user_id', Array.from(userIds));
+
+      // Create profile map
+      const profileMap = new Map(
+        profiles?.map(profile => [profile.user_id, profile]) || []
+      );
 
       // Convert to activity logs
       const activityLogs: ActivityLog[] = [];
 
       // Application activities
       applications?.forEach(app => {
-        if (app.profiles && typeof app.profiles === 'object' && !Array.isArray(app.profiles)) {
+        const profile = profileMap.get(app.user_id);
+        if (profile) {
           activityLogs.push({
             id: `app-${app.id}`,
             user_id: app.user_id,
             action: 'application_created',
             description: `Created loan application`,
             timestamp: app.created_at,
-            profile: app.profiles
+            profile: profile
           });
 
           if (app.last_action && app.last_action_date) {
@@ -106,27 +117,40 @@ export function UserActivityLog() {
               action: 'application_updated',
               description: app.last_action,
               timestamp: app.last_action_date,
-              profile: app.profiles
+              profile: profile
             });
           }
         }
       });
 
-      // Document activities
-      documents?.forEach(doc => {
-        if (doc.uploaded_at && doc.loan_applications && 
-            typeof doc.loan_applications.profiles === 'object' && 
-            !Array.isArray(doc.loan_applications.profiles)) {
-          activityLogs.push({
-            id: `doc-${doc.id}`,
-            user_id: doc.loan_applications.user_id,
-            action: 'document_uploaded',
-            description: `Uploaded ${doc.document_name}`,
-            timestamp: doc.uploaded_at,
-            profile: doc.loan_applications.profiles
-          });
-        }
-      });
+      // Document activities  
+      if (documents?.length) {
+        const loanIds = documents.map(doc => doc.loan_id);
+        const { data: loans } = await supabase
+          .from('loan_applications')
+          .select('id, user_id')
+          .in('id', loanIds);
+
+        const loanMap = new Map(loans?.map(loan => [loan.id, loan.user_id]) || []);
+
+        documents.forEach(doc => {
+          if (doc.uploaded_at) {
+            const userId = loanMap.get(doc.loan_id);
+            const profile = userId ? profileMap.get(userId) : null;
+            
+            if (profile && userId) {
+              activityLogs.push({
+                id: `doc-${doc.id}`,
+                user_id: userId,
+                action: 'document_uploaded',
+                description: `Uploaded ${doc.document_name}`,
+                timestamp: doc.uploaded_at,
+                profile: profile
+              });
+            }
+          }
+        });
+      }
 
       // Sort by timestamp
       activityLogs.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
