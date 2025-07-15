@@ -261,6 +261,108 @@ export function DocumentUploader({ documents, loanId, onDocumentUploaded }: Docu
 
 // Document View Dialog Component
 function DocumentViewDialog({ document }: { document: Document }) {
+  const { toast } = useToast();
+
+  const handleDownloadDocument = async (document: Document) => {
+    try {
+      // Get the file path from the database
+      const { data: docData, error } = await supabase
+        .from('loan_documents')
+        .select('file_path')
+        .eq('document_type', document.document_type)
+        .eq('document_name', document.name)
+        .single();
+
+      if (error || !docData?.file_path) {
+        toast({ 
+          title: "Error", 
+          description: "Document file not found", 
+          variant: "destructive" 
+        });
+        return;
+      }
+
+      // Download the file from Supabase storage
+      const { data, error: downloadError } = await supabase.storage
+        .from('documents')
+        .download(docData.file_path);
+
+      if (downloadError) {
+        toast({ 
+          title: "Error", 
+          description: "Failed to download document", 
+          variant: "destructive" 
+        });
+        return;
+      }
+
+      // Create a download link
+      const url = URL.createObjectURL(data);
+      const a = window.document.createElement('a');
+      a.href = url;
+      a.download = document.name;
+      window.document.body.appendChild(a);
+      a.click();
+      window.document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      toast({ 
+        title: "Success", 
+        description: "Document downloaded successfully" 
+      });
+    } catch (error) {
+      console.error('Download error:', error);
+      toast({ 
+        title: "Error", 
+        description: "Failed to download document", 
+        variant: "destructive" 
+      });
+    }
+  };
+
+  const handlePreviewDocument = async (document: Document) => {
+    try {
+      // Get the file path from the database
+      const { data: docData, error } = await supabase
+        .from('loan_documents')
+        .select('file_path')
+        .eq('document_type', document.document_type)
+        .eq('document_name', document.name)
+        .single();
+
+      if (error || !docData?.file_path) {
+        toast({ 
+          title: "Error", 
+          description: "Document file not found", 
+          variant: "destructive" 
+        });
+        return;
+      }
+
+      // Get the public URL for the document
+      const { data } = supabase.storage
+        .from('documents')
+        .getPublicUrl(docData.file_path);
+
+      if (data?.publicUrl) {
+        // Open in new tab for preview
+        window.open(data.publicUrl, '_blank');
+      } else {
+        toast({ 
+          title: "Error", 
+          description: "Failed to generate preview URL", 
+          variant: "destructive" 
+        });
+      }
+    } catch (error) {
+      console.error('Preview error:', error);
+      toast({ 
+        title: "Error", 
+        description: "Failed to preview document", 
+        variant: "destructive" 
+      });
+    }
+  };
   return (
     <DialogContent className="max-w-2xl">
       <DialogHeader>
@@ -311,15 +413,13 @@ function DocumentViewDialog({ document }: { document: Document }) {
           <div className="flex gap-2">
             {(document.status === 'processing' || document.status === 'approved') && (
               <>
-                <Button size="sm" variant="outline" disabled>
+                <Button size="sm" variant="outline" onClick={() => handleDownloadDocument(document)}>
                   <Download className="h-4 w-4 mr-2" />
                   Download
-                  <span className="text-xs ml-2">(Coming Soon)</span>
                 </Button>
-                <Button size="sm" variant="outline" disabled>
+                <Button size="sm" variant="outline" onClick={() => handlePreviewDocument(document)}>
                   <Eye className="h-4 w-4 mr-2" />
                   Preview
-                  <span className="text-xs ml-2">(Coming Soon)</span>
                 </Button>
               </>
             )}
