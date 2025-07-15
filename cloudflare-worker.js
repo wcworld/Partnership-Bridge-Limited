@@ -83,6 +83,28 @@ function formatEligibilityForm(data) {
 `;
 }
 
+function formatAppointmentForm(data) {
+  return `
+📅 <b>New Appointment Scheduled</b>
+
+👤 <b>Client Details:</b>
+• Name: ${data.name}
+• Email: ${data.email}
+• Phone: ${data.phone}
+
+📆 <b>Appointment Details:</b>
+• Date: ${data.date}
+• Time: ${data.time}
+• Service: ${data.service || 'General Consultation'}
+• Duration: 30 minutes
+• Type: Online consultation
+
+💬 <b>Notes:</b> ${data.message || 'No additional notes'}
+
+⏰ <b>Scheduled:</b> ${new Date().toLocaleString()}
+`;
+}
+
 export default {
   async fetch(request, env, ctx) {
     // Handle CORS
@@ -114,6 +136,9 @@ export default {
           break;
         case 'eligibility':
           message = formatEligibilityForm(data);
+          break;
+        case 'appointment':
+          message = formatAppointmentForm(data);
           break;
         default:
           message = `
