@@ -270,118 +270,109 @@ export default function DashboardPage() {
   }).slice(0, 5); // Show only the 5 most recent activities
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20">
-      {/* Mobile-friendly Sidebar */}
-      <div className="hidden lg:block fixed left-0 top-0 h-full w-80 bg-card/95 backdrop-blur-sm border-r border-border/50 shadow-xl">
-        {/* Desktop Sidebar Content */}
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted/30">
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block fixed left-0 top-0 h-full w-72 bg-card border-r border-border shadow-sm">
         <div className="flex flex-col h-full">
-          {/* Title Bar */}
-          <div className="p-6 border-b border-border/50">
-            <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
+          {/* Header */}
+          <div className="p-6 border-b border-border">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <FileText className="h-4 w-4 text-primary-foreground" />
+              </div>
+              <h1 className="text-lg font-semibold">Dashboard</h1>
+            </div>
           </div>
 
-          {/* Enhanced User Profile Section */}
-          <div className="p-8">
-            <div className="relative">
-              <div className="w-20 h-20 rounded-2xl overflow-hidden mx-auto mb-6 shadow-2xl ring-4 ring-primary/20">
+          {/* User Profile */}
+          <div className="p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-muted">
                 <img 
-                  src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=80&h=80&fit=crop&crop=face" 
-                  alt="Client Photo ID"
+                  src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=48&h=48&fit=crop&crop=face" 
+                  alt="Profile"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="text-center">
-                <h2 className="text-xl font-bold text-foreground mb-1">{sampleData.user.name}</h2>
-                <p className="text-sm text-muted-foreground bg-muted/50 px-3 py-1 rounded-full inline-block">
+              <div className="flex-1 min-w-0">
+                <h3 className="font-medium text-sm truncate">{sampleData.user.name}</h3>
+                <p className="text-xs text-muted-foreground truncate">
                   {sampleData.user.company || 'Bridge Finance Client'}
                 </p>
               </div>
             </div>
           </div>
 
-          <Separator className="mx-6" />
-
-          {/* Enhanced Navigation */}
-          <nav className="flex-1 p-6">
-            <div className="space-y-3">
+          {/* Navigation */}
+          <nav className="flex-1 px-4">
+            <div className="space-y-1">
               <Button 
-                variant={currentView === 'overview' ? 'default' : 'ghost'}
-                className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
-                  currentView === 'overview' 
-                    ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
-                    : 'hover:bg-muted/80'
-                }`}
+                variant={currentView === 'overview' ? 'secondary' : 'ghost'}
+                className="w-full justify-start h-10"
                 onClick={() => setCurrentView('overview')}
               >
-                <FileText className="mr-4 h-5 w-5" />
-                <span className={currentView === 'overview' ? 'font-medium' : ''}>Overview</span>
+                <FileText className="mr-3 h-4 w-4" />
+                Overview
               </Button>
               <Button 
-                variant={currentView === 'applications' ? 'default' : 'ghost'}
-                className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
-                  currentView === 'applications' 
-                    ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
-                    : 'hover:bg-muted/80'
-                }`}
+                variant={currentView === 'applications' ? 'secondary' : 'ghost'}
+                className="w-full justify-start h-10"
                 onClick={() => setCurrentView('applications')}
               >
-                <FileText className="mr-4 h-5 w-5" />
-                <span className={currentView === 'applications' ? 'font-medium' : ''}>Applications</span>
+                <FileText className="mr-3 h-4 w-4" />
+                Applications
               </Button>
               <Button 
-                variant={currentView === 'profile' ? 'default' : 'ghost'}
-                className={`w-full justify-start h-12 rounded-xl transition-all duration-200 ${
-                  currentView === 'profile' 
-                    ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25' 
-                    : 'hover:bg-muted/80'
-                }`}
+                variant={currentView === 'profile' ? 'secondary' : 'ghost'}
+                className="w-full justify-start h-10"
                 onClick={() => setCurrentView('profile')}
               >
-                <UserCheck className="mr-4 h-5 w-5" />
-                <span className={currentView === 'profile' ? 'font-medium' : ''}>Profile</span>
+                <User className="mr-3 h-4 w-4" />
+                Profile
               </Button>
             </div>
           </nav>
 
-          <Separator className="mx-6" />
-
-          {/* Enhanced Logout */}
-          <div className="p-6">
+          {/* Logout */}
+          <div className="p-4 border-t border-border">
             <Button 
               variant="ghost" 
-              className="w-full justify-start h-12 rounded-xl text-destructive hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
+              className="w-full justify-start h-10 text-muted-foreground hover:text-destructive"
               onClick={handleLogout}
             >
-              <LogOut className="mr-4 h-5 w-5" />
-              <span>Sign Out</span>
+              <LogOut className="mr-3 h-4 w-4" />
+              Sign Out
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      <div className="lg:hidden sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border/50">
+      {/* Mobile Header */}
+      <div className="lg:hidden bg-card border-b border-border sticky top-0 z-50">
         <div className="flex items-center justify-between p-4">
-          <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
+          <div className="flex items-center gap-3">
+            <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
+              <FileText className="h-3 w-3 text-primary-foreground" />
+            </div>
+            <h1 className="font-semibold">Dashboard</h1>
+          </div>
           <Button 
             variant="ghost" 
             size="sm"
             onClick={handleLogout}
-            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+            className="text-muted-foreground hover:text-destructive"
           >
             <LogOut className="h-4 w-4" />
           </Button>
         </div>
         
-        {/* Mobile Navigation Tabs */}
-        <div className="flex overflow-x-auto border-t border-border/50">
+        {/* Mobile Tabs */}
+        <div className="flex border-t border-border">
           <Button 
-            variant={currentView === 'overview' ? 'default' : 'ghost'}
+            variant="ghost"
             size="sm"
-            className={`flex-shrink-0 rounded-none border-b-2 ${
-              currentView === 'overview' 
-                ? 'border-primary bg-primary/10' 
-                : 'border-transparent'
+            className={`flex-1 rounded-none h-12 ${
+              currentView === 'overview' ? 'border-b-2 border-primary bg-primary/5' : ''
             }`}
             onClick={() => setCurrentView('overview')}
           >
@@ -389,12 +380,10 @@ export default function DashboardPage() {
             Overview
           </Button>
           <Button 
-            variant={currentView === 'applications' ? 'default' : 'ghost'}
+            variant="ghost"
             size="sm"
-            className={`flex-shrink-0 rounded-none border-b-2 ${
-              currentView === 'applications' 
-                ? 'border-primary bg-primary/10' 
-                : 'border-transparent'
+            className={`flex-1 rounded-none h-12 ${
+              currentView === 'applications' ? 'border-b-2 border-primary bg-primary/5' : ''
             }`}
             onClick={() => setCurrentView('applications')}
           >
@@ -402,131 +391,105 @@ export default function DashboardPage() {
             Applications
           </Button>
           <Button 
-            variant={currentView === 'profile' ? 'default' : 'ghost'}
+            variant="ghost"
             size="sm"
-            className={`flex-shrink-0 rounded-none border-b-2 ${
-              currentView === 'profile' 
-                ? 'border-primary bg-primary/10' 
-                : 'border-transparent'
+            className={`flex-1 rounded-none h-12 ${
+              currentView === 'profile' ? 'border-b-2 border-primary bg-primary/5' : ''
             }`}
             onClick={() => setCurrentView('profile')}
           >
-            <UserCheck className="mr-2 h-4 w-4" />
+            <User className="mr-2 h-4 w-4" />
             Profile
           </Button>
         </div>
       </div>
 
-      {/* Main Content with responsive margin */}
-      <div className="lg:ml-80">
-        {/* Title Bar for Main Content - Hidden on mobile since we have mobile nav */}
-        <div className="hidden lg:block sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border/50 p-6">
-          <h1 className="text-2xl font-bold text-foreground">
-            {currentView === 'overview' && 'Dashboard Overview'}
-            {currentView === 'applications' && 'My Applications'}
-            {currentView === 'profile' && 'Profile Settings'}
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            {currentView === 'overview' && 'Here\'s an overview of your loan applications and account activity.'}
-            {currentView === 'applications' && 'Manage and track your loan applications.'}
-            {currentView === 'profile' && 'Update your personal and business information.'}
-          </p>
-        </div>
-
-        {/* Content Area with mobile-friendly padding */}
-        <div className="p-4 lg:p-8">
+      {/* Main Content */}
+      <div className="lg:ml-72">
+        {/* Content Area */}
+        <div className="p-4 lg:p-6 max-w-7xl mx-auto">
           {currentView === 'overview' && (
-            <>
-              {/* Welcome Header */}
-              <div className="mb-8">
-                <h2 className="text-3xl font-bold text-foreground mb-2">
+            <div className="space-y-6">
+              {/* Header */}
+              <div>
+                <h1 className="text-2xl font-bold mb-1">
                   Welcome back, {sampleData.user.name.split(' ')[0] || 'User'}
-                </h2>
+                </h1>
+                <p className="text-muted-foreground">
+                  Here's an overview of your loan applications and account activity.
+                </p>
               </div>
 
-              {/* Enhanced Stats Cards - Mobile friendly grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-10">
-                <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardContent className="p-4 lg:p-8 relative">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 bg-primary/10 rounded-xl">
-                        <FileText className="h-6 w-6 text-primary" />
-                      </div>
-                      <Badge variant="secondary" className="bg-primary/10 text-primary border-0">
-                        Active
-                      </Badge>
-                    </div>
-                    <div className="text-2xl lg:text-3xl font-bold text-foreground mb-2">{applications.length}</div>
-                    <div className="text-sm text-muted-foreground font-medium">Total Applications</div>
-                  </CardContent>
-                </Card>
-
-                <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardContent className="p-4 lg:p-8 relative">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 bg-green-500/10 rounded-xl">
-                        <DollarSign className="h-6 w-6 text-green-600" />
-                      </div>
-                      <Badge variant="secondary" className="bg-green-500/10 text-green-700 border-0">
-                        Approved
-                      </Badge>
-                    </div>
-                     <div className="text-2xl lg:text-3xl font-bold text-foreground mb-2">
-                       ${approvedAmount.toLocaleString()}
-                     </div>
-                    <div className="text-sm text-muted-foreground font-medium">Approved Amount</div>
-                  </CardContent>
-                </Card>
-
-                <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardContent className="p-4 lg:p-8 relative">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 bg-orange-500/10 rounded-xl">
-                        <Clock className="h-6 w-6 text-orange-600" />
-                      </div>
-                      <Badge variant="secondary" className="bg-orange-500/10 text-orange-700 border-0">
-                        Pending
-                      </Badge>
-                    </div>
-                    <div className="text-2xl lg:text-3xl font-bold text-foreground mb-2">{pendingCount}</div>
-                    <div className="text-sm text-muted-foreground font-medium">Pending Review</div>
-                  </CardContent>
-                </Card>
-
-                <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80 shadow-lg">
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardContent className="p-4 lg:p-8 relative">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 bg-red-500/10 rounded-xl">
-                        <X className="h-6 w-6 text-red-600" />
-                      </div>
-                      <Badge variant="secondary" className="bg-red-500/10 text-red-700 border-0">
-                        Rejected
-                      </Badge>
-                    </div>
-                    <div className="text-2xl lg:text-3xl font-bold text-foreground mb-2">{rejectedCount}</div>
-                    <div className="text-sm text-muted-foreground font-medium">Rejected Applications</div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Enhanced Recent Activity */}
-              <Card className="mb-10 border-0 shadow-lg bg-gradient-to-br from-card to-card/80">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-2xl font-bold flex items-center gap-3">
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <Card className="border-0 shadow-sm">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
                       <div className="p-2 bg-primary/10 rounded-lg">
-                        <TrendingUp className="h-5 w-5 text-primary" />
+                        <FileText className="h-5 w-5 text-primary" />
                       </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-muted-foreground">Total Applications</p>
+                        <p className="text-xl font-semibold">{applications.length}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-0 shadow-sm">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-green-500/10 rounded-lg">
+                        <DollarSign className="h-5 w-5 text-green-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-muted-foreground">Approved Amount</p>
+                        <p className="text-xl font-semibold">${approvedAmount.toLocaleString()}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-0 shadow-sm">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-orange-500/10 rounded-lg">
+                        <Clock className="h-5 w-5 text-orange-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-muted-foreground">Pending Review</p>
+                        <p className="text-xl font-semibold">{pendingCount}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-0 shadow-sm">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-red-500/10 rounded-lg">
+                        <X className="h-5 w-5 text-red-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-muted-foreground">Rejected</p>
+                        <p className="text-xl font-semibold">{rejectedCount}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Recent Activity */}
+              <Card className="border-0 shadow-sm">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                      <TrendingUp className="h-5 w-5 text-primary" />
                       Recent Activity
                     </CardTitle>
                     <Button 
                       variant="ghost" 
-                      size="sm" 
-                      className="hover:bg-muted/80"
+                      size="sm"
                       onClick={() => setCurrentView('applications')}
                     >
                       View All
@@ -534,66 +497,51 @@ export default function DashboardPage() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-6">
-                    {recentActivities.map((activity, index) => (
-                      <div key={activity.id} className="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-colors duration-200">
-                        <div className={`w-3 h-3 rounded-full mt-2 ${
-                          activity.type === 'success' ? 'bg-green-500 shadow-lg shadow-green-500/50' : 
-                          activity.type === 'error' ? 'bg-red-500 shadow-lg shadow-red-500/50' :
-                          activity.type === 'warning' ? 'bg-yellow-500 shadow-lg shadow-yellow-500/50' : 'bg-blue-500 shadow-lg shadow-blue-500/50'
+                  <div className="space-y-3">
+                    {recentActivities.length > 0 ? recentActivities.map((activity) => (
+                      <div key={activity.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                        <div className={`w-2 h-2 rounded-full mt-2 ${
+                          activity.type === 'success' ? 'bg-green-500' : 
+                          activity.type === 'error' ? 'bg-red-500' :
+                          activity.type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
                         }`} />
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-foreground mb-1">{activity.title}</h4>
-                          <p className="text-muted-foreground">{activity.description}</p>
-                          <p className="text-xs text-muted-foreground mt-2 font-medium">{activity.time}</p>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-sm mb-1">{activity.title}</h4>
+                          <p className="text-xs text-muted-foreground line-clamp-2">{activity.description}</p>
+                          <p className="text-xs text-muted-foreground mt-1">{activity.time}</p>
                         </div>
-                        <Badge 
-                          variant="outline" 
-                          className={`${
-                            activity.type === 'success' ? 'border-green-200 text-green-700 bg-green-50' :
-                            activity.type === 'error' ? 'border-red-200 text-red-700 bg-red-50' :
-                            activity.type === 'warning' ? 'border-yellow-200 text-yellow-700 bg-yellow-50' :
-                            'border-blue-200 text-blue-700 bg-blue-50'
-                          }`}
-                        >
-                          {activity.type === 'success' ? 'Completed' : 
-                           activity.type === 'error' ? 'Rejected' :
-                           activity.type === 'warning' ? 'In Review' : 'Processing'}
-                        </Badge>
                       </div>
-                    ))}
+                    )) : (
+                      <p className="text-muted-foreground text-sm text-center py-4">No recent activity</p>
+                    )}
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Enhanced Components Section - Mobile friendly */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-                <div className="space-y-8">
-                  <div className="transform hover:scale-[1.02] transition-transform duration-200">
-                    <ProgressStepper 
-                      steps={sampleData.application.steps}
-                      currentStep={sampleData.application.currentStep}
-                      documentProgress={documentProgress}
-                      applicationStatus={applications[0]?.status}
-                    />
-                  </div>
-                  <div className="transform hover:scale-[1.02] transition-transform duration-200">
-                    <ActionItems 
-                      userId={user.id}
-                      applications={applications}
-                      profile={profile}
-                      onActionClick={(actionType, data) => {
-                        if (actionType === 'profile') {
-                          setCurrentView('profile');
-                        } else if (actionType === 'documents' || actionType === 'application') {
-                          setCurrentView('applications');
-                        }
-                      }}
-                    />
-                  </div>
+              {/* Application Components */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-6">
+                  <ProgressStepper 
+                    steps={sampleData.application.steps}
+                    currentStep={sampleData.application.currentStep}
+                    documentProgress={documentProgress}
+                    applicationStatus={applications[0]?.status}
+                  />
+                  <ActionItems 
+                    userId={user.id}
+                    applications={applications}
+                    profile={profile}
+                    onActionClick={(actionType, data) => {
+                      if (actionType === 'profile') {
+                        setCurrentView('profile');
+                      } else if (actionType === 'documents' || actionType === 'application') {
+                        setCurrentView('applications');
+                      }
+                    }}
+                  />
                 </div>
                 
-                <div className="transform hover:scale-[1.02] transition-transform duration-200">
+                <div>
                   {applications[0]?.id ? (
                      <DocumentUploader 
                        documents={documents} 
@@ -605,20 +553,20 @@ export default function DashboardPage() {
                        onProgressUpdate={setDocumentProgress}
                      />
                   ) : (
-                    <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-card/80">
-                      <CardContent className="p-12 text-center">
-                        <div className="p-4 bg-muted/50 rounded-2xl w-fit mx-auto mb-4">
-                          <FileText className="h-8 w-8 text-muted-foreground" />
+                    <Card className="border-0 shadow-sm">
+                      <CardContent className="p-8 text-center">
+                        <div className="w-12 h-12 bg-muted rounded-lg mx-auto mb-4 flex items-center justify-center">
+                          <FileText className="h-6 w-6 text-muted-foreground" />
                         </div>
-                        <h3 className="font-semibold text-lg mb-2">No Applications Yet</h3>
-                        <p className="text-muted-foreground mb-6">Start your loan application to see document requirements.</p>
+                        <h3 className="font-semibold mb-2">No Applications Yet</h3>
+                        <p className="text-muted-foreground text-sm mb-4">Start your loan application to see document requirements.</p>
                         <StartApplicationModal onApplicationCreated={fetchApplications} />
                       </CardContent>
                     </Card>
                   )}
                 </div>
               </div>
-            </>
+            </div>
           )}
 
           {currentView === 'applications' && (
