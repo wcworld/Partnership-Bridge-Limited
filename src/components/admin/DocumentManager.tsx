@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { FileText, Eye, Download, CheckCircle, XCircle, Clock, Upload } from 'lucide-react';
+import { FileText, Eye, Download, CheckCircle, XCircle, Clock, Upload, Trash2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -232,6 +232,51 @@ export default function DocumentManager() {
     }
   };
 
+  const handleDeleteDocument = async (document: DocumentWithApplication) => {
+    try {
+      // Delete the file from storage if it exists
+      if (document.file_path) {
+        const { error: storageError } = await supabase.storage
+          .from('documents')
+          .remove([document.file_path]);
+
+        if (storageError) {
+          console.error('Error deleting file from storage:', storageError);
+          // Continue with database deletion even if file deletion fails
+        }
+      }
+
+      // Delete the document record from database
+      const { error } = await supabase
+        .from('loan_documents')
+        .delete()
+        .eq('id', document.id);
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to delete document",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "Success",
+        description: "Document deleted successfully"
+      });
+
+      fetchDocuments(); // Refresh the list
+    } catch (error) {
+      console.error('Delete error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete document",
+        variant: "destructive"
+      });
+    }
+  };
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'approved':
@@ -376,6 +421,18 @@ export default function DocumentManager() {
                           </div>
                         </DialogContent>
                       </Dialog>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        onClick={() => {
+                          if (confirm(`Are you sure you want to delete "${doc.document_name}"? This action cannot be undone.`)) {
+                            handleDeleteDocument(doc);
+                          }
+                        }}
+                        className="text-destructive hover:text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
