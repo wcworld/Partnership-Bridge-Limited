@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { User, Mail, Phone, Building, MapPin, Edit3, Save, X, Camera } from 'lucide-react';
+import { User, Mail, Phone, Building, Edit3, Save, X, Camera } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface ProfileData {
@@ -14,10 +14,6 @@ interface ProfileData {
   email: string;
   phone: string;
   company: string;
-  address: string;
-  city: string;
-  state: string;
-  zipCode: string;
   avatarUrl: string;
 }
 
@@ -29,15 +25,11 @@ interface ProfileSectionProps {
 export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<ProfileData>({
-    firstName: profile?.first_name || 'John',
-    lastName: profile?.last_name || 'Doe',
-    email: profile?.email || 'john.doe@techsolutions.com',
-    phone: profile?.phone || '+1 (555) 123-4567',
-    company: profile?.company_name || 'Tech Solutions Inc.',
-    address: '123 Business Ave',
-    city: 'New York',
-    state: 'NY',
-    zipCode: '10001',
+    firstName: profile?.first_name || '',
+    lastName: profile?.last_name || '',
+    email: profile?.email || '',
+    phone: profile?.phone || '',
+    company: profile?.company_name || '',
     avatarUrl: profile?.avatar_url || ''
   });
   const { toast } = useToast();
@@ -79,15 +71,11 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
     setIsEditing(false);
     // Reset form data
     setFormData({
-      firstName: profile?.first_name || 'John',
-      lastName: profile?.last_name || 'Doe',
-      email: profile?.email || 'john.doe@techsolutions.com',
-      phone: profile?.phone || '+1 (555) 123-4567',
-      company: profile?.company_name || 'Tech Solutions Inc.',
-      address: '123 Business Ave',
-      city: 'New York',
-      state: 'NY',
-      zipCode: '10001',
+      firstName: profile?.first_name || '',
+      lastName: profile?.last_name || '',
+      email: profile?.email || '',
+      phone: profile?.phone || '',
+      company: profile?.company_name || '',
       avatarUrl: profile?.avatar_url || ''
     });
   };
@@ -176,8 +164,10 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
         <div className="flex items-center gap-4">
           <div className="relative">
             <Avatar className="h-20 w-20">
-              <AvatarImage src={formData.avatarUrl || "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=80&h=80&fit=crop&crop=face"} />
-              <AvatarFallback>{formData.firstName[0]}{formData.lastName[0]}</AvatarFallback>
+              <AvatarImage src={formData.avatarUrl} />
+              <AvatarFallback>
+                {formData.firstName?.[0] || '?'}{formData.lastName?.[0] || ''}
+              </AvatarFallback>
             </Avatar>
             {isEditing && (
               <Button 
@@ -191,8 +181,12 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
             )}
           </div>
           <div>
-            <h3 className="font-semibold text-lg">{formData.firstName} {formData.lastName}</h3>
-            <p className="text-muted-foreground">{formData.company}</p>
+            <h3 className="font-semibold text-lg">
+              {formData.firstName && formData.lastName 
+                ? `${formData.firstName} ${formData.lastName}` 
+                : 'Profile Name'}
+            </h3>
+            <p className="text-muted-foreground">{formData.company || 'Company Name'}</p>
           </div>
         </div>
 
@@ -212,9 +206,9 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
                   value={formData.firstName}
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                 />
-              ) : (
-                <p className="font-medium">{formData.firstName}</p>
-              )}
+               ) : (
+                <p className="font-medium">{formData.firstName || 'Not provided'}</p>
+               )}
             </div>
             
             <div className="space-y-2">
@@ -225,9 +219,9 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                 />
-              ) : (
-                <p className="font-medium">{formData.lastName}</p>
-              )}
+               ) : (
+                <p className="font-medium">{formData.lastName || 'Not provided'}</p>
+               )}
             </div>
           </div>
         </div>
@@ -249,9 +243,9 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
-              ) : (
-                <p className="font-medium">{formData.email}</p>
-              )}
+               ) : (
+                <p className="font-medium">{formData.email || 'Not provided'}</p>
+               )}
             </div>
             
             <div className="space-y-2">
@@ -265,9 +259,9 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 />
-              ) : (
-                <p className="font-medium">{formData.phone}</p>
-              )}
+               ) : (
+                <p className="font-medium">{formData.phone || 'Not provided'}</p>
+               )}
             </div>
           </div>
         </div>
@@ -287,75 +281,12 @@ export function ProfileSection({ profile, onUpdate }: ProfileSectionProps) {
                 value={formData.company}
                 onChange={(e) => setFormData({ ...formData, company: e.target.value })}
               />
-            ) : (
-              <p className="font-medium">{formData.company}</p>
+             ) : (
+              <p className="font-medium">{formData.company || 'Not provided'}</p>
             )}
           </div>
         </div>
 
-        {/* Address Information */}
-        <div className="space-y-4">
-          <h4 className="font-semibold flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            Address Information
-          </h4>
-          
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="address">Street Address</Label>
-              {isEditing ? (
-                <Input
-                  id="address"
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                />
-              ) : (
-                <p className="font-medium">{formData.address}</p>
-              )}
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="city">City</Label>
-                {isEditing ? (
-                  <Input
-                    id="city"
-                    value={formData.city}
-                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  />
-                ) : (
-                  <p className="font-medium">{formData.city}</p>
-                )}
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="state">State</Label>
-                {isEditing ? (
-                  <Input
-                    id="state"
-                    value={formData.state}
-                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                  />
-                ) : (
-                  <p className="font-medium">{formData.state}</p>
-                )}
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="zipCode">ZIP Code</Label>
-                {isEditing ? (
-                  <Input
-                    id="zipCode"
-                    value={formData.zipCode}
-                    onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
-                  />
-                ) : (
-                  <p className="font-medium">{formData.zipCode}</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
       </CardContent>
     </Card>
   );
