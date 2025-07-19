@@ -106,16 +106,23 @@ function formatChatMessage(data: ChatMessage): string {
 }
 
 async function handleTelegramWebhook(webhookData: TelegramWebhook) {
-  console.log('Received Telegram webhook:', webhookData);
+  console.log('Received Telegram webhook:', JSON.stringify(webhookData, null, 2));
+  
+  // Check if this is a message update
+  if (!webhookData.message) {
+    console.log('No message in webhook data, skipping');
+    return;
+  }
   
   const { message } = webhookData;
   
-  // Only process replies to our bot messages
+  // Only process replies to our bot messages that contain text
   if (message.reply_to_message && message.text) {
     const replyText = message.reply_to_message.text;
+    console.log('Processing reply to message:', replyText);
     
-    // Extract session ID from the original message
-    const sessionMatch = replyText.match(/🔗 <b>Session:<\/b> (.+)/);
+    // Extract session ID from the original message using a more flexible regex
+    const sessionMatch = replyText.match(/Session:\s*([^\s\n]+)/);
     if (sessionMatch) {
       const sessionId = sessionMatch[1];
       
@@ -138,7 +145,11 @@ async function handleTelegramWebhook(webhookData: TelegramWebhook) {
       }
       
       console.log('Admin reply stored successfully');
+    } else {
+      console.log('Could not extract session ID from reply');
     }
+  } else {
+    console.log('Message is not a reply with text, skipping');
   }
 }
 
