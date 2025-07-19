@@ -1,4 +1,7 @@
 project_id = "bwrcctrisqeqnhwhbosy"
 
+[functions.telegram-chat]
+verify_jwt = false
+
 [functions.upload-document]
 verify_jwt = true

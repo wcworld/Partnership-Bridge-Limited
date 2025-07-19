@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { LiveChat } from "@/components/LiveChat";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -51,6 +52,7 @@ const App = () => (
               </Routes>
             </main>
             <Footer />
+            <LiveChat />
           </div>
         </AuthProvider>
       </BrowserRouter>
