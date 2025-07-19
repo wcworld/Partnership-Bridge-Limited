@@ -6,12 +6,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface ChatMessage {
   id: string;
-  sender: 'user' | 'system';
+  sender: 'user' | 'admin' | 'system';
   message: string;
   timestamp: Date;
+  senderName?: string;
 }
 
 export const LiveChat = () => {
@@ -38,9 +40,94 @@ export const LiveChat = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Fetch messages from database
+  const fetchMessages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('chat_messages')
+        .select('*')
+        .eq('session_id', sessionId.current)
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching messages:', error);
+        return;
+      }
+
+      if (data && data.length > 0) {
+        const dbMessages: ChatMessage[] = data.map(msg => ({
+          id: msg.id,
+          sender: msg.sender_type as 'user' | 'admin',
+          message: msg.message,
+          timestamp: new Date(msg.created_at),
+          senderName: msg.sender_name
+        }));
+
+        // Only add system message if no messages exist
+        const allMessages = dbMessages.length === 0 ? [
+          {
+            id: '1',
+            sender: 'system' as const,
+            message: 'Hello! How can we help you with your bridge finance needs today?',
+            timestamp: new Date()
+          },
+          ...dbMessages
+        ] : dbMessages;
+
+        setMessages(allMessages);
+      }
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Fetch messages periodically when chat is open and user info is provided
+  useEffect(() => {
+    if (!isOpen || !hasProvidedInfo) return;
+
+    fetchMessages();
+    const interval = setInterval(fetchMessages, 3000); // Poll every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [isOpen, hasProvidedInfo]);
+
+  // Set up real-time subscription for new messages
+  useEffect(() => {
+    if (!hasProvidedInfo) return;
+
+    const channel = supabase
+      .channel('chat-messages')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'chat_messages',
+          filter: `session_id=eq.${sessionId.current}`
+        },
+        (payload) => {
+          console.log('New message received:', payload);
+          const newMessage: ChatMessage = {
+            id: payload.new.id,
+            sender: payload.new.sender_type,
+            message: payload.new.message,
+            timestamp: new Date(payload.new.created_at),
+            senderName: payload.new.sender_name
+          };
+          
+          setMessages(prev => [...prev, newMessage]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [hasProvidedInfo]);
 
   const sendToTelegram = async (message: string) => {
     try {
@@ -82,31 +169,11 @@ export const LiveChat = () => {
     }
 
     setIsLoading(true);
-
-    // Add user message to chat
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      sender: 'user',
-      message: newMessage,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
     const messageToSend = newMessage;
     setNewMessage('');
 
     try {
       await sendToTelegram(messageToSend);
-      
-      // Add confirmation message
-      const confirmMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        sender: 'system',
-        message: 'Message sent! Our team will respond shortly.',
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, confirmMessage]);
       
       toast({
         title: "Message Sent",
@@ -119,9 +186,6 @@ export const LiveChat = () => {
         description: "Failed to send message. Please try again.",
         variant: "destructive",
       });
-      
-      // Remove the user message if sending failed
-      setMessages(prev => prev.filter(msg => msg.id !== userMessage.id));
     } finally {
       setIsLoading(false);
     }
@@ -227,9 +291,16 @@ export const LiveChat = () => {
                       className={`max-w-xs p-2 rounded-lg text-sm ${
                         message.sender === 'user'
                           ? 'bg-primary text-primary-foreground'
+                          : message.sender === 'admin'
+                          ? 'bg-green-100 text-green-800 border border-green-200'
                           : 'bg-muted text-muted-foreground'
                       }`}
                     >
+                      {message.sender === 'admin' && (
+                        <div className="text-xs font-medium mb-1 opacity-70">
+                          {message.senderName || 'Support Team'}
+                        </div>
+                      )}
                       {message.message}
                       <div className="text-xs opacity-70 mt-1">
                         {message.timestamp.toLocaleTimeString([], { 

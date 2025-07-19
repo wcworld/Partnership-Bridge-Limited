@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_messages: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          sender_email: string | null
+          sender_name: string | null
+          sender_type: string
+          session_id: string
+          telegram_message_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          sender_email?: string | null
+          sender_name?: string | null
+          sender_type: string
+          session_id: string
+          telegram_message_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          sender_email?: string | null
+          sender_name?: string | null
+          sender_type?: string
+          session_id?: string
+          telegram_message_id?: number | null
+        }
+        Relationships: []
+      }
       loan_applications: {
         Row: {
           created_at: string

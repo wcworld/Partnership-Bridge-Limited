@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.50.5';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -6,12 +7,36 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
+// Initialize Supabase client
+const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 interface ChatMessage {
   name: string;
   email: string;
   message: string;
   timestamp: string;
   sessionId: string;
+}
+
+interface TelegramWebhook {
+  update_id: number;
+  message: {
+    message_id: number;
+    from: {
+      id: number;
+      first_name: string;
+      username?: string;
+    };
+    chat: {
+      id: number;
+    };
+    text: string;
+    reply_to_message?: {
+      text: string;
+    };
+  };
 }
 
 async function sendToTelegram(message: string) {
@@ -80,12 +105,71 @@ function formatChatMessage(data: ChatMessage): string {
 `;
 }
 
+async function handleTelegramWebhook(webhookData: TelegramWebhook) {
+  console.log('Received Telegram webhook:', webhookData);
+  
+  const { message } = webhookData;
+  
+  // Only process replies to our bot messages
+  if (message.reply_to_message && message.text) {
+    const replyText = message.reply_to_message.text;
+    
+    // Extract session ID from the original message
+    const sessionMatch = replyText.match(/🔗 <b>Session:<\/b> (.+)/);
+    if (sessionMatch) {
+      const sessionId = sessionMatch[1];
+      
+      console.log('Processing admin reply for session:', sessionId);
+      
+      // Store admin reply in database
+      const { error } = await supabase
+        .from('chat_messages')
+        .insert({
+          session_id: sessionId,
+          sender_type: 'admin',
+          sender_name: `${message.from.first_name}${message.from.username ? ` (@${message.from.username})` : ''}`,
+          message: message.text,
+          telegram_message_id: message.message_id
+        });
+      
+      if (error) {
+        console.error('Error storing admin reply:', error);
+        throw error;
+      }
+      
+      console.log('Admin reply stored successfully');
+    }
+  }
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const url = new URL(req.url);
+  
+  // Handle Telegram webhook
+  if (req.method === 'POST' && url.pathname === '/webhook') {
+    try {
+      const webhookData: TelegramWebhook = await req.json();
+      await handleTelegramWebhook(webhookData);
+      
+      return new Response('OK', {
+        status: 200,
+        headers: corsHeaders
+      });
+    } catch (error) {
+      console.error('Error handling Telegram webhook:', error);
+      return new Response('Error', {
+        status: 500,
+        headers: corsHeaders
+      });
+    }
+  }
+
+  // Handle chat message from website
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { 
       status: 405, 
@@ -105,6 +189,22 @@ serve(async (req) => {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         }
       );
+    }
+
+    // Store user message in database
+    const { error: dbError } = await supabase
+      .from('chat_messages')
+      .insert({
+        session_id: data.sessionId,
+        sender_type: 'user',
+        sender_name: data.name,
+        sender_email: data.email,
+        message: data.message
+      });
+
+    if (dbError) {
+      console.error('Error storing message:', dbError);
+      throw dbError;
     }
 
     const message = formatChatMessage(data);
