@@ -153,7 +153,13 @@ serve(async (req) => {
   // Handle Telegram webhook
   if (req.method === 'POST' && url.pathname.endsWith('/webhook')) {
     try {
-      const webhookData: TelegramWebhook = await req.json();
+      console.log('Webhook received, processing...');
+      const body = await req.text();
+      console.log('Webhook body:', body);
+      
+      const webhookData: TelegramWebhook = JSON.parse(body);
+      console.log('Parsed webhook data:', JSON.stringify(webhookData, null, 2));
+      
       await handleTelegramWebhook(webhookData);
       
       return new Response('OK', {
@@ -162,9 +168,9 @@ serve(async (req) => {
       });
     } catch (error) {
       console.error('Error handling Telegram webhook:', error);
-      return new Response('Error', {
-        status: 500,
-        headers: corsHeaders
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
   }
