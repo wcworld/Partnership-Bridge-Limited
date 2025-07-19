@@ -18,29 +18,50 @@ async function sendToTelegram(message: string) {
   const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
   const chatId = Deno.env.get('TELEGRAM_CHAT_ID');
   
+  console.log('Telegram config check:', {
+    hasBotToken: !!botToken,
+    hasChat: !!chatId,
+    chatIdType: typeof chatId,
+    chatIdValue: chatId
+  });
+  
   if (!botToken || !chatId) {
     throw new Error('Telegram configuration missing');
   }
 
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
   
+  const payload = {
+    chat_id: chatId,
+    text: message,
+    parse_mode: 'HTML'
+  };
+
+  console.log('Sending to Telegram:', {
+    url: url.replace(botToken, 'BOT_TOKEN_HIDDEN'),
+    payload: payload
+  });
+  
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: message,
-      parse_mode: 'HTML'
-    })
+    body: JSON.stringify(payload)
+  });
+  
+  const responseText = await response.text();
+  console.log('Telegram response:', {
+    status: response.status,
+    statusText: response.statusText,
+    body: responseText
   });
   
   if (!response.ok) {
-    throw new Error(`Telegram API error: ${response.status}`);
+    throw new Error(`Telegram API error: ${response.status} - ${responseText}`);
   }
   
-  return response.json();
+  return JSON.parse(responseText);
 }
 
 function formatChatMessage(data: ChatMessage): string {
