@@ -31,10 +31,11 @@ async function sendToTelegram(message: string) {
 
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
   
+  // Ensure chat_id is sent as string for Telegram API
   const payload = {
-    chat_id: chatId,
-    text: message,
-    parse_mode: 'HTML'
+    chat_id: String(chatId),
+    text: message.substring(0, 4096), // Telegram message limit
+    parse_mode: 'HTML' as const
   };
 
   console.log('Sending to Telegram:', {
