@@ -151,7 +151,7 @@ serve(async (req) => {
   const url = new URL(req.url);
   
   // Handle Telegram webhook
-  if (req.method === 'POST' && url.pathname === '/webhook') {
+  if (req.method === 'POST' && url.pathname.endsWith('/webhook')) {
     try {
       const webhookData: TelegramWebhook = await req.json();
       await handleTelegramWebhook(webhookData);
