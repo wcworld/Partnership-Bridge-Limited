@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Minimize2 } from 'lucide-react';
+import { MessageCircle, X, Send, Minimize2, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -19,11 +19,12 @@ interface ChatMessage {
 export const LiveChat = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
       sender: 'system',
-      message: 'Hello! How can we help you with your bridge finance needs today?',
+      message: 'Welcome to Partnership Bridge Limited! 👋 We are here to help you with your bridge finance needs. Our team is available to answer any questions you may have about our services.',
       timestamp: new Date()
     }
   ]);
@@ -68,7 +69,7 @@ export const LiveChat = () => {
           {
             id: '1',
             sender: 'system' as const,
-            message: 'Hello! How can we help you with your bridge finance needs today?',
+            message: 'Welcome to Partnership Bridge Limited! 👋 We are here to help you with your bridge finance needs. Our team is available to answer any questions you may have about our services.',
             timestamp: new Date()
           },
           ...dbMessages
@@ -128,6 +129,27 @@ export const LiveChat = () => {
       supabase.removeChannel(channel);
     };
   }, [hasProvidedInfo]);
+
+  // Auto-popup with notification after 2 minutes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isOpen) {
+        setShowNotification(true);
+        toast({
+          title: "Need Help?",
+          description: "Our support team is here to assist you with your bridge finance needs!",
+          duration: 5000,
+        });
+        // Auto-open chat after showing notification
+        setTimeout(() => {
+          setIsOpen(true);
+          setShowNotification(false);
+        }, 1000);
+      }
+    }, 120000); // 2 minutes
+
+    return () => clearTimeout(timer);
+  }, [isOpen]);
 
   const sendToTelegram = async (message: string) => {
     try {
@@ -214,13 +236,27 @@ export const LiveChat = () => {
 
   if (!isOpen) {
     return (
-      <Button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 rounded-full h-14 w-14 shadow-lg hover:shadow-xl transition-shadow"
-        size="icon"
-      >
-        <MessageCircle className="h-6 w-6" />
-      </Button>
+      <div className="fixed bottom-6 right-6 z-50">
+        <Button
+          onClick={() => {
+            setIsOpen(true);
+            setShowNotification(false);
+          }}
+          className={`rounded-full h-14 w-14 shadow-lg hover:shadow-xl transition-all relative ${
+            showNotification 
+              ? 'animate-pulse bg-primary hover:bg-primary/90' 
+              : ''
+          }`}
+          size="icon"
+        >
+          <MessageCircle className="h-6 w-6" />
+          {showNotification && (
+            <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full flex items-center justify-center">
+              <Bell className="h-2 w-2 text-white" />
+            </span>
+          )}
+        </Button>
+      </div>
     );
   }
 
